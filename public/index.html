@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#030407">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PROMEMORY">
+  <title>PROMEMORY — Liquid Glass Executive OS</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="stylesheet" href="/styles.css?v=10">
+</head>
+<body>
+  <a class="skip-link" href="#main-workspace">Salta al contenuto principale</a>
+
+  <!-- ====================================================================
+       ULTRA-COMPACT iOS HEADER (54px) + COLLAPSIBLE VOICE/COMMAND DRAWER
+       ==================================================================== -->
+  <header class="top-bar">
+    <div class="top-bar-upper">
+      <div class="brand-cluster">
+        <img src="/icon.svg" alt="PROMEMORY Logo" width="32" height="32" fetchpriority="high" class="brand-logo">
+        <div>
+          <div class="brand-title-row">
+            <span class="brand-name">PROMEMORY</span>
+            <span class="score-pill-header" id="header-score-pill" title="Indice Performance Oggi">⚡ <strong id="exec-score-val">88</strong>%</span>
+          </div>
+          <p class="brand-subtitle" id="exec-date-label">OGGI</p>
+        </div>
+      </div>
+
+      <div class="telemetry-cluster" aria-label="Comandi e sincronizzazione">
+        <!-- Multi-User Profile & Brain Status Button -->
+        <button type="button" class="user-pill-btn" id="btn-open-user-profile" aria-haspopup="dialog" title="Profilo Utente & Cervello AI">
+          <span class="user-avatar-badge" id="user-avatar-badge">👑</span>
+          <span class="user-name-label" id="user-header-name">Tolo</span>
+        </button>
+
+        <!-- Share with Friends Button -->
+        <button type="button" class="icon-header-btn" id="btn-open-share" aria-haspopup="dialog" title="Condividi con amici">
+          <span aria-hidden="true">🔗</span>
+          <span class="hide-xs">Invita</span>
+        </button>
+
+        <div class="telemetry-pill" id="sync-status-pill" title="Stato sincronizzazione">
+          <span class="status-dot" data-state="online" aria-hidden="true"></span>
+          <span id="sync-status-text" class="hide-xs">Sync Live</span>
+        </div>
+        <button type="button" class="icon-header-btn" id="btn-toggle-cmd-drawer" aria-expanded="false" aria-controls="cmd-drawer" title="Comando vocale o rapido">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+          <span>Comando</span>
+        </button>
+        <button type="button" class="icon-header-btn" id="btn-open-iphone-hub" aria-haspopup="dialog" title="Link iPhone &amp; Backup">
+          <span aria-hidden="true">📲</span>
+          <span class="hide-xs">Link</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Collapsible Command & Quick Action Drawer -->
+    <div class="cmd-drawer" id="cmd-drawer" hidden>
+      <form id="command-form" class="compiler-form">
+        <button type="button" id="voice-orb-btn" class="mic-inline-btn" aria-label="Parla ora" aria-pressed="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+        </button>
+        <label for="command-input" class="sr-only">Scrivi o detta un comando</label>
+        <input
+          type="text"
+          id="command-input"
+          name="command"
+          placeholder="Scrivi o parla: «Ho fumato», «Togli sigaretta», «Spesa 15€ pranzo», «Sveglie 9-10 ogni 5m»..."
+          autocomplete="off"
+        >
+        <button type="submit" class="btn-primary btn-sm">Esegui</button>
+      </form>
+
+      <div class="quick-chips-bar" aria-label="Azioni rapide con 1 tocco">
+        <button type="button" class="quick-chip" data-quick-action="smoke-minus">🚬 −1 Sigaretta</button>
+        <button type="button" class="quick-chip" data-quick-action="smoke">🚬 +1 Sigaretta</button>
+        <button type="button" class="quick-chip" data-quick-action="water">💧 +1 Acqua</button>
+        <button type="button" class="quick-chip" data-quick-action="craving">🛡️ SOS Voglia 3m</button>
+        <button type="button" class="quick-chip" data-quick-action="report">📈 Report 52 Settimane</button>
+        <button type="button" class="quick-chip" data-quick-action="reset-week">🔄 Chiudi/Azzera Settimana</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Floating Glass Toast Notification -->
+  <div class="toast-feedback" id="action-toast" role="status" aria-live="polite" hidden>
+    <span class="toast-check" aria-hidden="true">✓</span>
+    <span id="action-toast-text">Operazione eseguita</span>
+  </div>
+
+  <!-- ====================================================================
+       MAIN WORKSPACE (CLEAN, SEGMENTED, ZERO-CLUTTER)
+       ==================================================================== -->
+  <main id="main-workspace" class="workspace-container">
+
+    <!-- Desktop Navigation Bar (Hidden on iPhone) -->
+    <nav class="module-tabs desktop-tabs" aria-label="Sezioni principali">
+      <button type="button" class="tab-btn active" data-tab="today">
+        <span>🏠</span> Oggi, Settimana &amp; Report 1 Anno
+      </button>
+      <button type="button" class="tab-btn" data-tab="trackers">
+        <span>🚬</span> Contatori &amp; Anti-Fumo
+      </button>
+      <button type="button" class="tab-btn" data-tab="gym">
+        <span>🏋️‍♂️</span> Palestra &amp; Schede
+      </button>
+      <button type="button" class="tab-btn" data-tab="alarms">
+        <span>⏰</span> Sveglie (<span id="tab-alarms-count">0</span>) &amp; Focus
+      </button>
+      <button type="button" class="tab-btn" data-tab="finance">
+        <span>💶</span> Finanze &amp; Obiettivi
+      </button>
+      <button type="button" class="btn-primary btn-sm ml-auto" id="btn-desktop-quick-add">
+        ＋ Aggiungi
+      </button>
+    </nav>
+
+    <!-- ====================================================================
+         TAB 1: 🏠 OGGI, MATRICE 7G & REPORT STORICO 1 ANNO (52 SETTIMANE)
+         ==================================================================== -->
+    <section class="tab-panel active" id="panel-today" aria-label="Oggi, Settimana e Report Storico">
+      <div class="section-header-clean">
+        <div>
+          <p class="eyebrow" id="today-greeting-eyebrow">IL TUO SISTEMA PERSONALE</p>
+          <h1 class="page-title">Oggi &amp; Progressi</h1>
+        </div>
+        <div class="btn-row-wrap">
+          <button type="button" class="btn-secondary btn-xs" id="btn-archive-reset-week" title="Salva i dati della settimana nel Report Annuale e azzera la settimana corrente">
+            🔄 Chiudi &amp; Azzera Settimana
+          </button>
+          <button type="button" class="btn-primary btn-sm" data-open-sheet="habit">＋ Aggiungi</button>
+        </div>
+      </div>
+
+      <!-- iOS Segmented Control (3 Pille Pulite: Oggi | 7 Giorni | Report 1 Anno) -->
+      <div class="ios-segmented ios-segmented-3" role="tablist" aria-label="Vista Oggi, Settimana o Report Annuale">
+        <button type="button" class="seg-btn active" data-seg-group="today" data-seg-target="today-checklist">
+          ✓ Oggi
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="today" data-seg-target="today-matrix">
+          📅 7 Giorni
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="today" data-seg-target="today-report">
+          📈 Report 1 Anno
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 1A: TODAY THUMB-FRIENDLY CHECKLIST + DIRECT CIGARETTE WIDGET -->
+      <div class="seg-view active" id="seg-today-checklist">
+        <!-- Compact 4-KPI Summary Strip -->
+        <div class="kpi-strip-4">
+          <button type="button" class="kpi-tile" data-jump-tab="today">
+            <span class="kpi-tile-lbl">Abitudini</span>
+            <strong class="kpi-tile-val" id="kpi-habits-today">0/4</strong>
+          </button>
+          <button type="button" class="kpi-tile" data-jump-tab="trackers">
+            <span class="kpi-tile-lbl">Sigarette</span>
+            <strong class="kpi-tile-val" id="kpi-smoke-today">3/5</strong>
+          </button>
+          <button type="button" class="kpi-tile" data-jump-tab="alarms" data-jump-seg="alarms-focus">
+            <span class="kpi-tile-lbl">Deep Work</span>
+            <strong class="kpi-tile-val" id="kpi-focus-today">90m</strong>
+          </button>
+          <button type="button" class="kpi-tile" data-jump-tab="finance">
+            <span class="kpi-tile-lbl">Budget Oggi</span>
+            <strong class="kpi-tile-val" id="kpi-budget-left">€11</strong>
+          </button>
+        </div>
+
+        <!-- INSTANT CIGARETTE +/- CONTROL RIGHT ON "OGGI" SCREEN -->
+        <div class="quick-smoke-strip mt-12">
+          <div class="qs-left">
+            <span class="qs-emoji">🚬</span>
+            <div>
+              <strong class="qs-title">Sigarette Oggi: <span id="qs-today-val" class="text-gold">0</span> / <span id="qs-today-limit">5</span></strong>
+              <p class="habit-meta-sub">Settimana: <strong id="qs-week-val">0</strong> sig · Risparmio: <strong class="text-emerald" id="qs-week-saved">€0.00</strong></p>
+            </div>
+          </div>
+          <div class="qs-actions">
+            <button type="button" class="step-btn" id="btn-qs-minus" aria-label="Togli una sigaretta">−</button>
+            <button type="button" class="step-btn step-btn-plus" id="btn-qs-plus" aria-label="Aggiungi una sigaretta">+</button>
+          </div>
+        </div>
+
+        <!-- Today's Habits Thumb Cards -->
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">ROUTINE GIORNALIERA</p>
+              <h2 class="card-title">Abitudini di Oggi</h2>
+            </div>
+            <button type="button" class="btn-ghost btn-xs" id="btn-complete-all-today">✓ Segna tutte fatte</button>
+          </div>
+          <div class="thumb-checklist" id="today-habits-checklist">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+
+        <!-- Today's Priority Tasks -->
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">PRIORITÀ OPERATIVE</p>
+              <h2 class="card-title">To-Do List</h2>
+            </div>
+            <div class="btn-row-wrap">
+              <div class="filter-pills" role="group" aria-label="Filtra attività">
+                <button type="button" class="filter-pill active" data-task-filter="all">Tutte</button>
+                <button type="button" class="filter-pill" data-task-filter="todo">Da fare</button>
+                <button type="button" class="filter-pill" data-task-filter="done">Fatte</button>
+              </div>
+              <button type="button" class="btn-secondary btn-xs" data-open-sheet="task">＋ Task</button>
+            </div>
+          </div>
+          <ul class="item-list" id="tasks-list">
+            <!-- Populated by app.js -->
+          </ul>
+        </div>
+
+        <!-- Today's Timeblocks / Agenda -->
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">AGENDA ORARIA</p>
+              <h2 class="card-title">Impegni di Oggi</h2>
+            </div>
+            <button type="button" class="btn-secondary btn-xs" data-open-sheet="event">＋ Impegno</button>
+          </div>
+          <ol class="timeline-list" id="events-timeline">
+            <!-- Populated by app.js -->
+          </ol>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 1B: 7-DAY HABIT MATRIX & SCHEDULE -->
+      <div class="seg-view" id="seg-today-matrix" hidden>
+        <div class="card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">SETTIMANA CORRENTE (LUN – DOM)</p>
+              <h2 class="card-title">Costanza 7 Giorni (<span id="metric-week-pct" class="text-gold">84%</span>)</h2>
+            </div>
+            <div class="btn-row-wrap">
+              <span class="habit-meta-sub"><strong id="tally-week-done">18</strong>/<span id="tally-week-total">22</span> fatte</span>
+              <button type="button" class="btn-danger-ghost btn-xs" id="btn-reset-matrix-week">🔄 Azzera Settimana</button>
+            </div>
+          </div>
+
+          <div class="meter-track mb-12"><span class="meter-fill" id="meter-week" style="--progress-w: 82%;"></span></div>
+
+          <div class="habit-table-wrapper">
+            <div class="habit-table" role="table" aria-label="Matrice abitudini 7 giorni" id="habit-matrix-container">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+
+          <ul class="habit-legend">
+            <li><span class="cell-mark" data-state="done"></span> Fatta</li>
+            <li><span class="cell-mark" data-state="pending"></span> Da fare</li>
+            <li><span class="cell-mark" data-state="missed"></span> Saltata</li>
+            <li><span class="cell-mark" data-state="unscheduled"></span> Libero</li>
+          </ul>
+        </div>
+
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">GIORNI ATTIVI</p>
+              <h3 class="card-title">Personalizza Giorni Settimanali</h3>
+            </div>
+          </div>
+          <div class="schedule-editor-list" id="habit-schedule-editor">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 1C: 1-YEAR (52 WEEKS) HISTORICAL PROGRESS REPORT -->
+      <div class="seg-view" id="seg-today-report" hidden>
+        <!-- Annual Summary Hero KPIs -->
+        <div class="gym-summary-stats mb-12">
+          <div class="stat-box">
+            <span class="eyebrow">Media Anno</span>
+            <strong id="rep-year-avg-score">86%</strong>
+          </div>
+          <div class="stat-box">
+            <span class="eyebrow">Risparmio Fumo 1 Anno</span>
+            <strong id="rep-year-saved-euros" class="text-emerald">€0.00</strong>
+          </div>
+          <div class="stat-box">
+            <span class="eyebrow">Settimane in Memoria</span>
+            <strong id="rep-year-weeks-count">52 / 52</strong>
+          </div>
+        </div>
+
+        <!-- 52-Week Visual Consistency Grid (1 Full Year Memory) -->
+        <div class="card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">MEMORIA STORICA 52 SETTIMANE (1 ANNO INTERO)</p>
+              <h2 class="card-title">Mappa Annuale dei Progressi</h2>
+            </div>
+            <button type="button" class="btn-primary btn-xs" id="btn-save-week-snapshot">
+              💾 Salva &amp; Chiudi Settimana
+            </button>
+          </div>
+          <p class="habit-meta-sub mb-12">
+            Ogni blocco rappresenta una settimana dell'anno. <strong>Ogni Lunedì</strong> (o quando premi <em>Chiudi &amp; Azzera Settimana</em>) la settimana viene salvata qui in automatico per <strong>oltre 1 anno (52+ settimane)</strong> e i contatori settimanali ripartono da zero.
+          </p>
+
+          <div class="year-52-grid" id="year-52-grid" aria-label="Griglia 52 settimane dell'anno">
+            <!-- Populated by app.js -->
+          </div>
+
+          <div class="habit-legend mt-12">
+            <li><span class="cell-mark" style="background: var(--ob-emerald);"></span> Eccellente (80–100%)</li>
+            <li><span class="cell-mark" style="background: var(--ob-gold);"></span> Buona (60–79%)</li>
+            <li><span class="cell-mark" style="background: var(--ob-danger);"></span> Sotto target (&lt;60%)</li>
+          </div>
+        </div>
+
+        <!-- Week-by-Week Detailed Report Cards -->
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">CRONOLOGIA DETTAGLIATA SETTIMANA PER SETTIMANA</p>
+              <h3 class="card-title">Report Settimanali Archiviati</h3>
+            </div>
+          </div>
+          <div class="weekly-reports-list" id="weekly-reports-list">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: 🚬 CONTATORI & ANTI-FUMO (Segmented: "Contatori" vs "Anti-Fumo")
+         ==================================================================== -->
+    <section class="tab-panel" id="panel-trackers" aria-label="Contatori e Smettere di Fumare" hidden>
+      <div class="section-header-clean">
+        <div>
+          <p class="eyebrow">AGGIUNGI E TOGLI CON − / +</p>
+          <h2 class="page-title">Contatori &amp; Fumo</h2>
+        </div>
+        <div class="btn-row-wrap">
+          <button type="button" class="btn-secondary btn-xs" id="btn-reset-trackers-week">🔄 Nuova Settimana (0)</button>
+          <button type="button" class="btn-primary btn-sm" data-open-sheet="tracker">＋ Contatore</button>
+        </div>
+      </div>
+
+      <!-- iOS Segmented Control -->
+      <div class="ios-segmented" role="tablist" aria-label="Vista Contatori o Anti-Fumo">
+        <button type="button" class="seg-btn active" data-seg-group="trackers" data-seg-target="trackers-list">
+          🔢 I Miei Contatori (− / +)
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="trackers" data-seg-target="trackers-smoke">
+          🚭 Protocollo Anti-Fumo
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 2A: COMPACT LIVE COUNTERS -->
+      <div class="seg-view active" id="seg-trackers-list">
+        <div class="trackers-grid" id="trackers-grid">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 2B: DEDICATED QUIT SMOKING SUITE -->
+      <div class="seg-view" id="seg-trackers-smoke" hidden>
+        <div class="smoke-hero-card" id="smoke-hero-card">
+          <div class="smoke-hero-left">
+            <div class="smoke-badges-row">
+              <span class="tag-emerald">🚭 PROTOCOLLO ANTI-FUMO</span>
+              <button type="button" class="btn-ghost btn-xs" id="btn-open-smoke-settings">⚙️ Configura Limiti &amp; Costo</button>
+            </div>
+            <h3 class="smoke-hero-title">Senza fumare da: <span id="smoke-elapsed-timer">0h 00m</span></h3>
+            <p class="smoke-hero-sub">
+              Prima fumavi <strong id="smoke-baseline-label">15</strong> sig/g · Risparmiati in settimana: <strong class="text-emerald" id="smoke-saved-euros">€0.00</strong> (<span id="smoke-avoided-count">0</span> evitate) · Voglie vinte: <strong class="text-gold" id="smoke-cravings-won">0</strong>
+            </p>
+            <div class="smoke-health-strip">
+              <span class="health-pill" id="smoke-health-milestone">🫀 Pressione e battito in normalizzazione</span>
+            </div>
+          </div>
+
+          <!-- Direct + / - Cigarette Stepper inside Anti-Smoke Tab too -->
+          <div class="tracker-main-display">
+            <div>
+              <span class="eyebrow">SIGARETTE OGGI</span>
+              <div class="tracker-big-number" id="smoke-tab-big-num">3 <span>/ 5</span></div>
+            </div>
+            <div class="tracker-stepper">
+              <button type="button" class="step-btn" id="btn-smoke-tab-minus" aria-label="Togli sigaretta">−</button>
+              <button type="button" class="step-btn step-btn-plus" id="btn-smoke-tab-plus" aria-label="Aggiungi sigaretta">+</button>
+            </div>
+          </div>
+
+          <div class="smoke-hero-actions">
+            <button type="button" class="btn-craving" id="btn-start-craving">
+              🛡️ Ho voglia di fumare (Avvia Scudo 3 min)
+            </button>
+            <div class="craving-active-box" id="craving-active-box" hidden>
+              <div class="craving-breath-orb" id="craving-breath-phase">Inspira (4s)</div>
+              <strong id="craving-countdown">03:00</strong>
+              <span>Segui il respiro 4-7-8. L'impulso svanisce in 180 secondi!</span>
+              <button type="button" class="btn-ghost btn-xs mt-8" id="btn-cancel-craving">Termina e Segna Vittoria ✓</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: 🏋️‍♂️ PALESTRA & SCHEDE (Segmented: "Allenamento" vs "Storico")
+         ==================================================================== -->
+    <section class="tab-panel" id="panel-gym" aria-label="Palestra e Allenamento" hidden>
+      <div class="section-header-clean">
+        <div>
+          <p class="eyebrow">PESI, SERIE &amp; RECUPERO</p>
+          <h2 class="page-title">Palestra Pro</h2>
+        </div>
+        <button type="button" class="btn-primary btn-sm" data-open-sheet="gym">＋ Esercizio</button>
+      </div>
+
+      <!-- Compact Rest Timer Strip -->
+      <div class="gym-rest-compact">
+        <div class="rest-left">
+          <span class="eyebrow">RECUPERO</span>
+          <strong class="rest-clock-sm" id="gym-rest-display">01:30</strong>
+          <span class="rest-status-sm" id="gym-rest-status">Tocca una serie per avviare</span>
+        </div>
+        <div class="rest-pills">
+          <button type="button" class="chip-btn" data-rest-sec="60">60s</button>
+          <button type="button" class="chip-btn active-gold" data-rest-sec="90">90s</button>
+          <button type="button" class="chip-btn" data-rest-sec="120">120s</button>
+          <button type="button" class="chip-btn" id="btn-plus-rest">+15s</button>
+          <button type="button" class="chip-btn danger-text" id="btn-stop-rest">✕</button>
+        </div>
+      </div>
+
+      <!-- iOS Segmented Control -->
+      <div class="ios-segmented mt-12" role="tablist" aria-label="Vista Scheda, Programma o Storico Palestra">
+        <button type="button" class="seg-btn active" data-seg-group="gym" data-seg-target="gym-active">
+          🏋️ Scheda di Oggi
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="gym" data-seg-target="gym-weekly">
+          📅 Programma Settimanale
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="gym" data-seg-target="gym-history">
+          🏆 Schede Pronte &amp; Storico
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 3A: ACTIVE WORKOUT EXERCISES -->
+      <div class="seg-view active" id="seg-gym-active">
+        <div class="gym-summary-bar">
+          <span>Volume oggi: <strong class="text-gold" id="gym-today-volume">0 kg</strong></span>
+          <span>Completate: <strong id="gym-today-sets">0 serie</strong></span>
+          <button type="button" class="btn-ghost btn-xs" id="btn-reset-gym-checks">Azzera spunte</button>
+        </div>
+
+        <div class="gym-exercises-list mt-12" id="gym-exercises-list">
+          <!-- Populated by app.js -->
+        </div>
+
+        <button type="button" class="btn-primary btn-block mt-16" id="btn-finish-workout">
+          ✓ Concludi e Salva Allenamento Odierno
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 3B: DYNAMIC WEEKLY PROGRAM (CUSTOMIZABLE PER-DAY & WEEK-BY-WEEK) -->
+      <div class="seg-view" id="seg-gym-weekly" hidden>
+        <div class="card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">SCHEDA SETTIMANALE ATTIVA</p>
+              <h3 class="card-title" id="gym-current-split-name">Push / Pull / Legs (4 Giorni)</h3>
+            </div>
+            <button type="button" class="btn-secondary btn-xs" id="btn-change-weekly-split">
+              🔄 Cambia Split
+            </button>
+          </div>
+
+          <!-- Horizontal Weekday Selector Bar -->
+          <div class="gym-day-chips-bar" id="gym-weekly-day-bar" role="tablist" aria-label="Giorni della settimana">
+            <button type="button" class="gym-day-chip active" data-gym-day="0">Lun</button>
+            <button type="button" class="gym-day-chip" data-gym-day="1">Mar</button>
+            <button type="button" class="gym-day-chip" data-gym-day="2">Mer</button>
+            <button type="button" class="gym-day-chip" data-gym-day="3">Gio</button>
+            <button type="button" class="gym-day-chip" data-gym-day="4">Ven</button>
+            <button type="button" class="gym-day-chip" data-gym-day="5">Sab</button>
+            <button type="button" class="gym-day-chip" data-gym-day="6">Dom</button>
+          </div>
+
+          <!-- Selected Day Schedule Detail -->
+          <div class="gym-day-detail-box mt-12" id="gym-day-detail-box">
+            <div class="gym-day-detail-header">
+              <div>
+                <h4 class="gym-day-title" id="gym-selected-day-title">Lunedì</h4>
+                <p class="gym-day-focus text-gold" id="gym-selected-day-focus">Push Day — Petto, Spalle, Tricipiti</p>
+              </div>
+              <div class="btn-row-wrap">
+                <button type="button" class="btn-primary btn-xs" id="btn-load-day-into-today" title="Usa questo allenamento oggi">
+                  ⚡ Carica Oggi
+                </button>
+                <button type="button" class="btn-secondary btn-xs" id="btn-add-exercise-to-day">
+                  ＋ Esercizio
+                </button>
+              </div>
+            </div>
+
+            <!-- Exercises for Selected Day -->
+            <div class="gym-day-exercises-container mt-12" id="gym-day-exercises-container">
+              <!-- Populated by app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 3B: PRESET SPLITS & WORKOUT LOG HISTORY -->
+      <div class="seg-view" id="seg-gym-history" hidden>
+        <div class="card">
+          <p class="eyebrow mb-8">CAMBIA SCHEDA RAPIDA (1 TAP)</p>
+          <div class="preset-grid-2">
+            <button type="button" class="preset-card-btn" data-gym-preset="push">
+              <strong>🔥 Push Day</strong>
+              <span>Petto, Spalle, Tricipiti</span>
+            </button>
+            <button type="button" class="preset-card-btn" data-gym-preset="pull">
+              <strong>🦅 Pull Day</strong>
+              <span>Dorso, Rematori, Bicipiti</span>
+            </button>
+            <button type="button" class="preset-card-btn" data-gym-preset="legs">
+              <strong>⚡ Legs &amp; Core</strong>
+              <span>Squat, RDL, Polpacci</span>
+            </button>
+            <button type="button" class="preset-card-btn" data-gym-preset="full">
+              <strong>🏆 Full Body</strong>
+              <span>Total Body Completo</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">ARCHIVIO SESSIONI</p>
+              <h3 class="card-title">Allenamenti Salvati</h3>
+            </div>
+          </div>
+          <ul class="item-list" id="gym-history-list">
+            <!-- Populated by app.js -->
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: ⏰ SVEGLIE & FOCUS TIMER (Segmented: "Sveglie" vs "Focus Timer")
+         ==================================================================== -->
+    <section class="tab-panel" id="panel-alarms" aria-label="Sveglie, Promemoria e Focus Timer" hidden>
+      <div class="section-header-clean">
+        <div>
+          <p class="eyebrow">SVEGLIE A RAFFICA &amp; CONCENTRAZIONE</p>
+          <h2 class="page-title">Sveglie &amp; Focus</h2>
+        </div>
+        <button type="button" class="btn-primary btn-sm" data-open-sheet="alarm">＋ Nuova Sveglia</button>
+      </div>
+
+      <!-- iOS Segmented Control -->
+      <div class="ios-segmented" role="tablist" aria-label="Vista Sveglie o Focus Timer">
+        <button type="button" class="seg-btn active" data-seg-group="alarms" data-seg-target="alarms-list">
+          ⏰ Sveglie &amp; Promemoria
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="alarms" data-seg-target="alarms-focus">
+          ⏱️ Focus Timer (Pomodoro)
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 4A: ALARMS & REMINDERS -->
+      <div class="seg-view active" id="seg-alarms-list">
+        <div class="card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">SVEGLIE CONFIGURATE (<span id="alarms-total-label">0</span>)</p>
+              <h3 class="card-title">Le Tue Sveglie</h3>
+            </div>
+            <div class="btn-row-wrap">
+              <button type="button" class="btn-ghost btn-xs" id="btn-test-alarm-sound">🔔 Test</button>
+              <button type="button" class="btn-ghost btn-xs" id="btn-enable-all-alarms">Tutte ON</button>
+              <button type="button" class="btn-danger-ghost btn-xs" id="btn-clear-all-alarms">Svuota</button>
+            </div>
+          </div>
+
+          <div class="alarms-grid" id="alarms-grid">
+            <!-- Populated by app.js -->
+          </div>
+
+          <div class="alarm-bridge-actions">
+            <button type="button" class="btn-secondary btn-sm" id="btn-trigger-ios-shortcut-alarms">
+              ⚡ Invia ad App Orologio iPhone
+            </button>
+            <button type="button" class="btn-secondary btn-sm" id="btn-export-alarms-ics">
+              📅 Esporta .ICS
+            </button>
+          </div>
+        </div>
+
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">NOTIFICHE E SCADENZE</p>
+              <h3 class="card-title">Promemoria Rapidi</h3>
+            </div>
+            <button type="button" class="btn-secondary btn-xs" data-open-sheet="reminder">＋ Promemoria</button>
+          </div>
+          <ul class="item-list" id="reminders-list">
+            <!-- Populated by app.js -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 4B: POMODORO / DEEP WORK FOCUS TIMER -->
+      <div class="seg-view" id="seg-alarms-focus" hidden>
+        <div class="focus-timer-card">
+          <div class="focus-timer-left">
+            <p class="eyebrow">⏱️ DEEP WORK &amp; POMODORO</p>
+            <strong class="focus-big-clock" id="focus-clock-display">25:00</strong>
+            <p class="focus-task-label" id="focus-active-task-label">Sessione Focus Progetti</p>
+            <p class="habit-meta-sub">Accumulato oggi: <strong class="text-gold" id="focus-total-today">90 min</strong></p>
+          </div>
+          <div class="focus-controls">
+            <button type="button" class="btn-primary" id="btn-toggle-focus">▶ Avvia Focus</button>
+            <button type="button" class="btn-secondary btn-sm" data-focus-min="25">25m</button>
+            <button type="button" class="btn-secondary btn-sm" data-focus-min="50">50m</button>
+            <button type="button" class="btn-secondary btn-sm" data-focus-min="90">90m</button>
+            <button type="button" class="btn-ghost btn-sm" id="btn-focus-ambient">🎧 Brown Noise OFF</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: 💶 FINANZE, OBIETTIVI & CLOUD (Segmented: "Spese" vs "Obiettivi")
+         ==================================================================== -->
+    <section class="tab-panel" id="panel-finance" aria-label="Spese, Obiettivi e Backup" hidden>
+      <div class="section-header-clean">
+        <div>
+          <p class="eyebrow">CASHFLOW, TRAGUARDI &amp; BACKUP</p>
+          <h2 class="page-title">Finanze &amp; Obiettivi</h2>
+        </div>
+        <button type="button" class="btn-primary btn-sm" data-open-sheet="expense">＋ Spesa</button>
+      </div>
+
+      <!-- iOS Segmented Control -->
+      <div class="ios-segmented" role="tablist" aria-label="Vista Spese o Obiettivi">
+        <button type="button" class="seg-btn active" data-seg-group="finance" data-seg-target="finance-expenses">
+          💶 Spese &amp; Budget
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="finance" data-seg-target="finance-goals">
+          🎯 Obiettivi &amp; Backup
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 5A: EXPENSES & DAILY BUDGET -->
+      <div class="seg-view active" id="seg-finance-expenses">
+        <div class="gym-summary-stats mb-12">
+          <div class="stat-box">
+            <span class="eyebrow">Speso Oggi</span>
+            <strong id="exp-stat-today">€0.00</strong>
+          </div>
+          <div class="stat-box">
+            <span class="eyebrow">Rimanente Oggi</span>
+            <strong id="exp-stat-remaining" class="text-emerald">€50.00</strong>
+          </div>
+          <div class="stat-box">
+            <span class="eyebrow">Totale Mese</span>
+            <strong id="exp-stat-month">€0.00</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">MOVIMENTI GIORNALIERI</p>
+              <h3 class="card-title">Registro Spese</h3>
+            </div>
+            <button type="button" class="btn-ghost btn-xs" id="btn-set-daily-budget">
+              ⚙️ Budget: €<span id="daily-budget-label">50</span>/g
+            </button>
+          </div>
+
+          <div class="exp-cat-breakdown mb-12" id="exp-cat-breakdown">
+            <!-- Populated by app.js -->
+          </div>
+
+          <ul class="item-list" id="expenses-list">
+            <!-- Populated by app.js -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 5B: GOALS, MILESTONES & BACKUP -->
+      <div class="seg-view" id="seg-finance-goals" hidden>
+        <div class="card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">TRAGUARDI STRATEGICI</p>
+              <h3 class="card-title">I Tuoi Obiettivi</h3>
+            </div>
+            <button type="button" class="btn-secondary btn-xs" data-open-sheet="goal">＋ Obiettivo</button>
+          </div>
+          <div class="goals-stack" id="goals-list">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">SALVATAGGIO &amp; LINK FISSO</p>
+              <h3 class="card-title">Backup Dati &amp; Link iPhone</h3>
+            </div>
+          </div>
+          <p class="lan-url" id="ios-remote-url">https://follows-rebate-toll-nick.trycloudflare.com</p>
+          <div class="btn-row-wrap mt-12">
+            <button type="button" class="btn-primary btn-sm" id="btn-copy-remote-url">📋 Copia Link iPhone</button>
+            <button type="button" class="btn-secondary btn-sm" id="btn-export-json">⬇ Scarica Backup</button>
+            <label for="input-import-json" class="btn-secondary btn-sm" style="cursor: pointer;">⬆ Ripristina Backup</label>
+            <input type="file" id="input-import-json" accept=".json" class="sr-only">
+          </div>
+          <p class="sr-only"><span id="ios-lan-url"></span><span id="siri-webhook-url"></span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====================================================================
+       NATIVE iOS BOTTOM NAVIGATION BAR WITH CENTER '+' ACTION BUTTON
+       ==================================================================== -->
+  <nav class="mobile-bottom-nav" aria-label="Navigazione principale iPhone">
+    <button type="button" class="m-nav-btn active" data-tab="today">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+      </svg>
+      <span>Oggi &amp; Report</span>
+    </button>
+
+    <button type="button" class="m-nav-btn" data-tab="trackers">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
+      </svg>
+      <span>Contatori</span>
+    </button>
+
+    <!-- Center Elevated '+' Button (Opens Clean Contextual Bottom Sheet) -->
+    <button type="button" class="m-nav-fab" id="btn-mobile-fab" aria-label="Aggiungi elemento">
+      <span>＋</span>
+    </button>
+
+    <button type="button" class="m-nav-btn" data-tab="gym">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+      </svg>
+      <span>Palestra</span>
+    </button>
+
+    <button type="button" class="m-nav-btn" data-tab="alarms">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/>
+      </svg>
+      <span>Sveglie</span>
+    </button>
+
+    <button type="button" class="m-nav-btn" data-tab="finance">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      <span>Finanze</span>
+    </button>
+  </nav>
+
+  <!-- ====================================================================
+       UNIFIED iOS BOTTOM SHEET FOR ALL MANUAL CREATION (ZERO PAGE CLUTTER!)
+       ==================================================================== -->
+  <dialog id="universal-sheet-dialog" closedby="any" aria-labelledby="sheet-main-title" class="nexus-dialog bottom-sheet-dialog">
+    <div class="dialog-inner">
+      <div class="sheet-grabber" aria-hidden="true"></div>
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow" id="sheet-eyebrow">AGGIUNTA RAPIDA</p>
+          <h2 id="sheet-main-title">Cosa vuoi aggiungere?</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+
+      <!-- Sheet Mode Selector Pills -->
+      <div class="sheet-type-pills" role="tablist" aria-label="Scegli cosa creare">
+        <button type="button" class="sheet-pill active" data-sheet-mode="task">✓ Task</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="expense">💶 Spesa</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="alarm">⏰ Sveglia</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="gym">🏋️ Esercizio</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="tracker">🔢 Contatore</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="habit">🔥 Abitudine</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="event">📅 Agenda</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="reminder">🔔 Promemoria</button>
+        <button type="button" class="sheet-pill" data-sheet-mode="goal">🎯 Obiettivo</button>
+      </div>
+
+      <!-- 1. FORM: TASK -->
+      <form id="quick-task-form" class="sheet-form" data-sheet-panel="task">
+        <div class="field-group">
+          <label for="new-task-title">Cosa devi fare?</label>
+          <input type="text" id="new-task-title" placeholder="Es. Chiudere presentazione progetto..." required>
+        </div>
+        <div class="field-group">
+          <label for="new-task-priority">Priorità</label>
+          <select id="new-task-priority">
+            <option value="high">🔥 Alta Priorità</option>
+            <option value="medium" selected>⚡ Media Priorità</option>
+            <option value="low">🌱 Bassa Priorità</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">＋ Aggiungi alla To-Do List</button>
+      </form>
+
+      <!-- 2. FORM: EXPENSE -->
+      <form id="add-expense-form" class="sheet-form" data-sheet-panel="expense" hidden>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="exp-amount">Importo (€)</label>
+            <input type="number" id="exp-amount" placeholder="15.00" step="0.50" min="0.1" required>
+          </div>
+          <div class="field-group">
+            <label for="exp-category">Categoria</label>
+            <select id="exp-category">
+              <option value="Cibo">🍽 Cibo</option>
+              <option value="Trasporti">🚗 Trasporti</option>
+              <option value="Sport">🏋️ Sport</option>
+              <option value="Progetti">💻 Progetti</option>
+              <option value="Altro">📦 Altro</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="exp-title">Descrizione</label>
+          <input type="text" id="exp-title" placeholder="Es. Pranzo fuori, Spesa supermercato..." required>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">💶 Registra Spesa</button>
+      </form>
+
+      <!-- 3. FORM: ALARMS (SINGLE OR SEQUENCE) -->
+      <div class="sheet-form" data-sheet-panel="alarm" hidden>
+        <form id="single-alarm-form" class="stacked-form">
+          <p class="eyebrow">OPZIONE A: SVEGLIA SINGOLA</p>
+          <div class="form-row-2">
+            <div class="field-group">
+              <label for="single-alarm-time">Orario</label>
+              <input type="time" id="single-alarm-time" value="07:00" required>
+            </div>
+            <div class="field-group">
+              <label for="single-alarm-label">Etichetta</label>
+              <input type="text" id="single-alarm-label" placeholder="Es. Sveglia Mattina" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-secondary btn-block">＋ Crea Sveglia Singola</button>
+        </form>
+
+        <hr class="divider-line">
+
+        <form id="alarm-batch-form" class="stacked-form">
+          <p class="eyebrow">OPZIONE B: RAFFICA DI SVEGLIE A INTERVALLI</p>
+          <div class="form-row-3">
+            <div class="field-group">
+              <label for="batch-start">Dalle</label>
+              <input type="time" id="batch-start" value="09:00" required>
+            </div>
+            <div class="field-group">
+              <label for="batch-end">Alle</label>
+              <input type="time" id="batch-end" value="10:00" required>
+            </div>
+            <div class="field-group">
+              <label for="batch-interval">Ogni (min)</label>
+              <input type="number" id="batch-interval" min="1" max="120" value="5" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary btn-block">⏰ Genera Sequenza Sveglie</button>
+        </form>
+      </div>
+
+      <!-- 4. FORM: GYM EXERCISE -->
+      <form id="add-exercise-form" class="sheet-form" data-sheet-panel="gym" hidden>
+        <div class="field-group">
+          <label for="gym-ex-name">Nome Esercizio</label>
+          <input type="text" id="gym-ex-name" placeholder="Es. Panca Piana, Squat, Lat Machine..." required>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="gym-ex-kg">Carico (Kg)</label>
+            <input type="number" id="gym-ex-kg" value="70" min="0" step="0.5" required>
+          </div>
+          <div class="field-group">
+            <label for="gym-ex-reps">Ripetizioni</label>
+            <input type="number" id="gym-ex-reps" value="10" min="1" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">🏋️ Aggiungi alla Scheda</button>
+      </form>
+
+      <!-- 5. FORM: COUNTER / TRACKER -->
+      <form id="create-tracker-form" class="sheet-form" data-sheet-panel="tracker" hidden>
+        <div class="field-group">
+          <label for="trk-name">Nome Contatore</label>
+          <input type="text" id="trk-name" placeholder="Es. Caffè, Bicchieri d'acqua, Piegamenti..." required>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="trk-icon">Emoji</label>
+            <input type="text" id="trk-icon" value="☕" maxlength="4" required>
+          </div>
+          <div class="field-group">
+            <label for="trk-unit">Unità</label>
+            <input type="text" id="trk-unit" value="caffè" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="trk-mode">Tipo</label>
+            <select id="trk-mode">
+              <option value="limit">Limite Max (Meno è meglio)</option>
+              <option value="goal">Obiettivo (Più è meglio)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="trk-target">Target Giornaliero</label>
+            <input type="number" id="trk-target" value="3" min="0" max="10000" required>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="trk-cost">Costo per unità in € (opzionale)</label>
+          <input type="number" id="trk-cost" value="0" step="0.05" min="0">
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">🔢 Crea Contatore</button>
+      </form>
+
+      <!-- 6. FORM: HABIT -->
+      <form id="create-habit-form" class="sheet-form" data-sheet-panel="habit" hidden>
+        <div class="field-group">
+          <label for="hab-name-input">Nome Abitudine</label>
+          <input type="text" id="hab-name-input" placeholder="Es. Zero Fumo, Meditazione, Lettura..." required>
+        </div>
+        <div class="field-group">
+          <label for="hab-cat-input">Area / Categoria</label>
+          <input type="text" id="hab-cat-input" value="Salute &amp; Performance" required>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">🔥 Aggiungi Abitudine</button>
+      </form>
+
+      <!-- 7. FORM: AGENDA EVENT -->
+      <form id="manual-event-form" class="sheet-form" data-sheet-panel="event" hidden>
+        <div class="field-group">
+          <label for="evt-title">Titolo Impegno / Blocco</label>
+          <input type="text" id="evt-title" placeholder="Es. Call Cliente, Allenamento, Deep Work..." required>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="evt-start">Inizio</label>
+            <input type="time" id="evt-start" value="09:00" required>
+          </div>
+          <div class="field-group">
+            <label for="evt-end">Fine</label>
+            <input type="time" id="evt-end" value="10:30" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">📅 Salva in Agenda</button>
+      </form>
+
+      <!-- 8. FORM: REMINDER -->
+      <form id="manual-reminder-form" class="sheet-form" data-sheet-panel="reminder" hidden>
+        <div class="field-group">
+          <label for="new-rem-title">Cosa vuoi ricordarti?</label>
+          <input type="text" id="new-rem-title" placeholder="Es. Chiamare commercialista, Prendere integratori..." required>
+        </div>
+        <div class="field-group">
+          <label for="new-rem-time">Orario Promemoria</label>
+          <input type="time" id="new-rem-time" value="17:30" required>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">🔔 Imposta Promemoria</button>
+      </form>
+
+      <!-- 9. FORM: GOAL -->
+      <form id="manual-goal-form" class="sheet-form" data-sheet-panel="goal" hidden>
+        <div class="field-group">
+          <label for="goal-title-input">Titolo Obiettivo Strategico</label>
+          <input type="text" id="goal-title-input" placeholder="Es. Correre 10km, Risparmiare 5.000€..." required>
+        </div>
+        <div class="field-group">
+          <label for="goal-cat-input">Area</label>
+          <input type="text" id="goal-cat-input" value="Salute &amp; Business" required>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">🎯 Crea Obiettivo</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- MODAL: EDIT PAST DAY OR TARGET OF ANY COUNTER -->
+  <dialog id="edit-tracker-day-dialog" closedby="any" aria-labelledby="edit-trk-day-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow" id="edit-trk-day-eyebrow">MODIFICA CONTATORE</p>
+          <h2 id="edit-trk-day-title">Modifica Valore</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="edit-tracker-day-form" class="stacked-form">
+        <input type="hidden" id="edit-trk-id">
+        <input type="hidden" id="edit-trk-date">
+        <div class="field-group">
+          <label for="edit-trk-val">Valore registrato in questo giorno</label>
+          <input type="number" id="edit-trk-val" min="0" max="99999" required>
+        </div>
+        <div class="field-group">
+          <label for="edit-trk-target">Obiettivo / Limite giornaliero</label>
+          <input type="number" id="edit-trk-target" min="1" max="99999" required>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">Salva Modifiche</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- MODAL: QUIT SMOKING SETTINGS -->
+  <dialog id="smoke-settings-dialog" closedby="any" aria-labelledby="smoke-settings-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">PROTOCOLLO ANTI-FUMO</p>
+          <h2 id="smoke-settings-title">Parametri Smettere di Fumare</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="smoke-settings-form" class="stacked-form">
+        <div class="field-group">
+          <label for="smoke-cfg-baseline">Sigarette fumate al giorno prima di iniziare</label>
+          <input type="number" id="smoke-cfg-baseline" min="1" max="100" value="15" required>
+        </div>
+        <div class="field-group">
+          <label for="smoke-cfg-limit">Limite massimo giornaliero attuale</label>
+          <input type="number" id="smoke-cfg-limit" min="0" max="100" value="5" required>
+        </div>
+        <div class="field-group">
+          <label for="smoke-cfg-cost">Costo per singola sigaretta (€)</label>
+          <input type="number" id="smoke-cfg-cost" min="0.05" max="5" step="0.05" value="0.30" required>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-8">Salva Parametri</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- MODAL: EDIT GYM SET (KG & REPS) -->
+  <dialog id="edit-gym-set-dialog" closedby="any" aria-labelledby="edit-gym-set-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow" id="edit-gym-set-eyebrow">MODIFICA SERIE</p>
+          <h2 id="edit-gym-set-title">Carico &amp; Ripetizioni</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="edit-gym-set-form" class="stacked-form">
+        <input type="hidden" id="edit-gym-ex-id">
+        <input type="hidden" id="edit-gym-set-idx">
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="edit-gym-kg">Carico (Kg)</label>
+            <input type="number" id="edit-gym-kg" min="0" max="1000" step="0.5" required>
+          </div>
+          <div class="field-group">
+            <label for="edit-gym-reps">Ripetizioni</label>
+            <input type="number" id="edit-gym-reps" min="1" max="500" required>
+          </div>
+        </div>
+        <div class="btn-row-wrap mt-8">
+          <button type="submit" class="btn-primary" style="flex: 1;">Aggiorna Serie</button>
+          <button type="button" class="btn-danger-ghost" id="btn-delete-gym-set">Elimina</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- MODAL: ACTIVE ALARM RINGING OVERLAY -->
+  <dialog id="alarm-ring-dialog" closedby="none" aria-labelledby="alarm-ring-title" class="nexus-dialog alarm-modal">
+    <div class="dialog-inner">
+      <p class="eyebrow">⏰ SVEGLIA IN CORSO</p>
+      <h2 id="alarm-ring-title" class="alarm-ring-time">09:00</h2>
+      <p id="alarm-ring-label" class="alarm-ring-desc">Sveglia</p>
+      <div class="dialog-actions mt-16">
+        <button type="button" id="btn-dismiss-alarm" class="btn-primary">Ferma Sveglia</button>
+        <button type="button" id="btn-snooze-alarm" class="btn-secondary">Posponi (+5 min)</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- MODAL: IPHONE LINK MODAL -->
+  <dialog id="iphone-hub-dialog" closedby="any" aria-labelledby="iphone-dialog-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">SINCRONIZZAZIONE CLOUD</p>
+          <h2 id="iphone-dialog-title">Link Permanente iPhone</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <div class="dialog-body">
+        <p class="section-desc">
+          Il tuo link rimane sempre fisso: ti basta fare <strong>pull-to-refresh (ricaricare la pagina)</strong> su Safari per vedere qualsiasi aggiornamento.
+        </p>
+        <code class="code-pill" id="modal-remote-url">https://very-property-worth-grain.trycloudflare.com</code>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: MULTI-USER AUTH (GOOGLE & EMAIL)
+       ==================================================================== -->
+  <dialog id="auth-modal-dialog" closedby="any" aria-labelledby="auth-modal-title" class="nexus-dialog auth-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">ACCESSO MULTI-UTENTE</p>
+          <h2 id="auth-modal-title">Il Tuo Account PROMEMORY</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <div class="dialog-body">
+        <p class="section-desc mb-16">
+          Ogni utente ha il proprio <strong>Cervello AI isolato</strong>, le proprie schede palestra personalizzate e i propri tracker indipendenti.
+        </p>
+
+        <!-- Google 1-Click Authentication -->
+        <button type="button" class="btn-google-auth" id="btn-google-login">
+          <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.14z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.17 0 9.97 0 12s.45 3.83 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span>Accedi con Google</span>
+        </button>
+
+        <div class="auth-divider">
+          <span>oppure con credenziali</span>
+        </div>
+
+        <!-- Auth Tabs: Login vs Register -->
+        <div class="ios-segmented mb-14" role="tablist">
+          <button type="button" class="seg-btn active" id="auth-tab-btn-login">Accedi</button>
+          <button type="button" class="seg-btn" id="auth-tab-btn-register">Nuovo Account</button>
+        </div>
+
+        <form id="auth-credential-form" class="stacked-form">
+          <div class="field-group" id="auth-name-group" hidden>
+            <label for="auth-input-name">Nome Completo</label>
+            <input type="text" id="auth-input-name" placeholder="es. Marco">
+          </div>
+          <div class="field-group">
+            <label for="auth-input-email">Email</label>
+            <input type="email" id="auth-input-email" required placeholder="tua@email.com">
+          </div>
+          <div class="field-group">
+            <label for="auth-input-password">Password</label>
+            <input type="password" id="auth-input-password" required placeholder="••••••••">
+          </div>
+          <div id="auth-error-container" class="auth-error-box" hidden></div>
+          <button type="submit" class="btn-primary btn-block mt-12" id="btn-auth-submit-btn">
+            Entra in PROMEMORY
+          </button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: ONBOARDING WIZARD (INTERNAL BRAIN SYNTHESIS QUESTIONNAIRE)
+       ==================================================================== -->
+  <dialog id="onboarding-wizard-dialog" closedby="none" aria-labelledby="wizard-modal-title" class="nexus-dialog wizard-dialog">
+    <div class="dialog-inner wizard-inner">
+      <div class="wizard-header">
+        <div class="wizard-header-top">
+          <div class="brand-cluster-sm">
+            <img src="/icon.svg" alt="PROMEMORY" width="24" height="24" class="brand-logo-sm">
+            <span class="eyebrow-gold">CERVELLO PROMEMORY</span>
+          </div>
+          <span class="wizard-step-counter" id="wizard-step-counter">Passo 1 di 8</span>
+        </div>
+        <h2 id="wizard-modal-title" class="wizard-title">Personalizzazione Totale</h2>
+        <div class="wizard-progress-track">
+          <div class="wizard-progress-bar" id="wizard-progress-bar" style="width: 12.5%;"></div>
+        </div>
+      </div>
+
+      <div class="wizard-body">
+        <!-- STEP 1: IDENTITY & MAIN GOAL -->
+        <div class="wizard-step active" data-step="1">
+          <p class="wizard-step-eyebrow">PASSO 1: IDENTITÀ &amp; VISIONE</p>
+          <h3 class="wizard-step-title">Come ti chiami e qual è il tuo obiettivo primario?</h3>
+          <p class="section-desc">Il Cervello PROMEMORY modellerà l'intera interfaccia, le notifiche e la pianificazione sul tuo traguardo.</p>
+          
+          <div class="stacked-form mt-14">
+            <div class="field-group">
+              <label for="wiz-name">Il tuo Nome</label>
+              <input type="text" id="wiz-name" placeholder="es. Tolo, Marco, Sara..." required>
+            </div>
+            <div class="field-group">
+              <label for="wiz-goal">Obiettivo / Visione Principale</label>
+              <input type="text" id="wiz-goal" placeholder="es. Massima produttività, disciplina, rimettermi in forma e scalare i miei progetti">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: SMOKING & NICOTINE HABITS -->
+        <div class="wizard-step" data-step="2" hidden>
+          <p class="wizard-step-eyebrow">PASSO 2: SALUTE &amp; ABITUDINI</p>
+          <h3 class="wizard-step-title">Fumi attualmente o vuoi monitorare il fumo?</h3>
+          <p class="section-desc">Se non fumi, escludiamo subito il modulo per lasciarti un'interfaccia 100% pulita e focalizzata.</p>
+
+          <div class="choice-cards-grid mt-14" role="radiogroup">
+            <button type="button" class="choice-card active" data-choice-group="smokes" data-choice-val="yes">
+              <span class="choice-icon">🚬</span>
+              <strong>Sì, fumo</strong>
+              <span>Voglio contare le sigarette, ridurre e risparmiare soldi</span>
+            </button>
+            <button type="button" class="choice-card" data-choice-group="smokes" data-choice-val="no">
+              <span class="choice-icon">🌱</span>
+              <strong>No, non fumo</strong>
+              <span>Non mostrarmi contatori di fumo, concentriamoci su fitness e lavoro</span>
+            </button>
+          </div>
+
+          <div class="stacked-form mt-14" id="wiz-smoking-details">
+            <div class="form-row-2">
+              <div class="field-group">
+                <label for="wiz-smoke-baseline">Quante ne fumi oggi (media/giorno)?</label>
+                <input type="number" id="wiz-smoke-baseline" min="1" max="80" value="15">
+              </div>
+              <div class="field-group">
+                <label for="wiz-smoke-target">Limite massimo desiderato al giorno</label>
+                <input type="number" id="wiz-smoke-target" min="0" max="50" value="5">
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="wiz-pack-cost">Costo medio di un pacchetto (€)</label>
+              <input type="number" id="wiz-pack-cost" min="1" max="20" step="0.10" value="6.00">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: HYDRATION & DAILY HABITS -->
+        <div class="wizard-step" data-step="3" hidden>
+          <p class="wizard-step-eyebrow">PASSO 3: BENESSERE FISICO</p>
+          <h3 class="wizard-step-title">Idratazione e monitoraggio sostanze</h3>
+          <p class="section-desc">Definisci l'acqua giornaliera e scegli se monitorare altre abitudini.</p>
+
+          <div class="stacked-form mt-14">
+            <div class="field-group">
+              <label for="wiz-water-glasses">Obiettivo Idratazione (Bicchieri d'acqua al giorno)</label>
+              <input type="number" id="wiz-water-glasses" min="4" max="25" value="8">
+            </div>
+            <div class="choice-toggle-row">
+              <div>
+                <strong>Tracciare consumo alcolici? 🍷</strong>
+                <p class="text-muted text-xs">Aggiunge un contatore con limite a 0 e risparmio economico</p>
+              </div>
+              <input type="checkbox" id="wiz-track-alcohol" class="ios-switch">
+            </div>
+            <div class="choice-toggle-row mt-10">
+              <div>
+                <strong>Monitorare tazzine di caffè? ☕</strong>
+                <p class="text-muted text-xs">Consiglia un tetto massimo di 3 al giorno</p>
+              </div>
+              <input type="checkbox" id="wiz-track-coffee" class="ios-switch">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: SLEEP & SMART ALARMS -->
+        <div class="wizard-step" data-step="4" hidden>
+          <p class="wizard-step-eyebrow">PASSO 4: CICLO CIRCADIANO &amp; SVEGLIA</p>
+          <h3 class="wizard-step-title">A che ora vuoi svegliarti e dormire?</h3>
+          <p class="section-desc">Configuriamo le sveglie intelligenti sincronizzate anche per iPhone.</p>
+
+          <div class="stacked-form mt-14">
+            <div class="form-row-2">
+              <div class="field-group">
+                <label for="wiz-wake-time">Orario Sveglia Target</label>
+                <input type="time" id="wiz-wake-time" value="06:30">
+              </div>
+              <div class="field-group">
+                <label for="wiz-sleep-time">Orario Sonno Target</label>
+                <input type="time" id="wiz-sleep-time" value="23:00">
+              </div>
+            </div>
+            <div class="choice-toggle-row mt-8">
+              <div>
+                <strong>Sveglie a Raffica Anti-Sonno (+5m / +10m) ⏰</strong>
+                <p class="text-muted text-xs">Crea automaticamente 3 sveglie progressive per non riaddormentarti mai</p>
+              </div>
+              <input type="checkbox" id="wiz-smart-alarms" class="ios-switch" checked>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5: DEEP WORK & HIGH PERFORMANCE -->
+        <div class="wizard-step" data-step="5" hidden>
+          <p class="wizard-step-eyebrow">PASSO 5: CONCENTRAZIONE MASSIMA</p>
+          <h3 class="wizard-step-title">Quante ore di Deep Work punti a fare ogni giorno?</h3>
+          <p class="section-desc">Il timer Pomodoro con Brown Noise ti aiuterà a raggiungere questo monte ore senza distrazioni.</p>
+
+          <div class="choice-chips-wrap mt-14" id="wiz-deepwork-chips">
+            <button type="button" class="chip-choice-btn" data-hours="2">2 Ore</button>
+            <button type="button" class="chip-choice-btn" data-hours="3">3 Ore</button>
+            <button type="button" class="chip-choice-btn active" data-hours="4">4 Ore (Consigliato)</button>
+            <button type="button" class="chip-choice-btn" data-hours="5">5 Ore</button>
+            <button type="button" class="chip-choice-btn" data-hours="6">6+ Ore</button>
+          </div>
+          <input type="hidden" id="wiz-deepwork-val" value="4">
+        </div>
+
+        <!-- STEP 6: DAILY BUDGET & CASHFLOW -->
+        <div class="wizard-step" data-step="6" hidden>
+          <p class="wizard-step-eyebrow">PASSO 6: BUDGET GIORNALIERO</p>
+          <h3 class="wizard-step-title">Qual è il tuo budget di spesa ideale per giorno?</h3>
+          <p class="section-desc">Per tenere traccia delle uscite e del risparmio accumulato giorno dopo giorno.</p>
+
+          <div class="stacked-form mt-14">
+            <div class="field-group">
+              <label for="wiz-budget">Budget Giornaliero (€)</label>
+              <input type="number" id="wiz-budget" min="5" max="1000" value="50">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 7: WORKOUT SPLIT & WEEKLY GYM -->
+        <div class="wizard-step" data-step="7" hidden>
+          <p class="wizard-step-eyebrow">PASSO 7: SCHEDA PALESTRA SETTIMANALE</p>
+          <h3 class="wizard-step-title">Come vuoi strutturare il tuo allenamento?</h3>
+          <p class="section-desc">Genereremo la tua scheda completa giorno per giorno. Potrai cambiarla o modificarla ogni settimana senza alcun limite!</p>
+
+          <div class="choice-cards-grid mt-14" id="wiz-gym-split-grid">
+            <button type="button" class="choice-card active" data-gym-split="push_pull_legs">
+              <span class="choice-icon">⚡</span>
+              <strong>Push / Pull / Legs</strong>
+              <span>Spinta, Tirata e Gambe con carichi progressivi</span>
+            </button>
+            <button type="button" class="choice-card" data-gym-split="upper_lower">
+              <span class="choice-icon">🏛️</span>
+              <strong>Upper / Lower</strong>
+              <span>Parte superiore e inferiore alternate (4 giorni)</span>
+            </button>
+            <button type="button" class="choice-card" data-gym-split="full_body">
+              <span class="choice-icon">🏆</span>
+              <strong>Full Body</strong>
+              <span>Tutto il corpo in ogni sessione (3 giorni)</span>
+            </button>
+            <button type="button" class="choice-card" data-gym-split="calisthenics_cardio">
+              <span class="choice-icon">🔥</span>
+              <strong>Calisthenics &amp; Cardio</strong>
+              <span>Corpo libero, resistenza e core</span>
+            </button>
+          </div>
+          <input type="hidden" id="wiz-gym-split-val" value="push_pull_legs">
+
+          <div class="field-group mt-14">
+            <label for="wiz-gym-days">Quanti giorni a settimana vuoi allenarti?</label>
+            <select id="wiz-gym-days" class="select-field">
+              <option value="2">2 Giorni a settimana</option>
+              <option value="3">3 Giorni a settimana</option>
+              <option value="4" selected>4 Giorni a settimana (Ideale)</option>
+              <option value="5">5 Giorni a settimana</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 8: BRAIN SYNTHESIS CONFIRMATION -->
+        <div class="wizard-step" data-step="8" hidden>
+          <p class="wizard-step-eyebrow">PASSO 8: SINTESI CERVELLO AI</p>
+          <h3 class="wizard-step-title">Tutto pronto per inizializzare il tuo OS</h3>
+          <p class="section-desc">Il motore interno ha raccolto tutte le risposte e calibrato l'intero sistema operativo PROMEMORY su misura per te.</p>
+
+          <div class="wizard-summary-card mt-14" id="wizard-summary-card">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Wizard Navigation Footer -->
+      <div class="wizard-footer">
+        <button type="button" class="btn-ghost btn-sm" id="btn-wiz-prev" disabled>Indietro</button>
+        <button type="button" class="btn-primary" id="btn-wiz-next">Continua</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: USER PROFILE, SHARING & FOUNDER MONETIZATION SWITCH
+       ==================================================================== -->
+  <dialog id="user-profile-dialog" closedby="any" aria-labelledby="user-profile-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">IL TUO SPAZIO PERSONALE</p>
+          <h2 id="user-profile-title">Profilo &amp; Condivisione</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+
+      <div class="dialog-body">
+        <!-- User Info Card -->
+        <div class="profile-meta-card">
+          <div class="profile-avatar-circle" id="profile-avatar-display">👑</div>
+          <div class="profile-details">
+            <h3 class="profile-name" id="profile-name-display">Tolo</h3>
+            <p class="profile-email text-muted" id="profile-email-display">tolo@promemory.os</p>
+            <span class="badge-role" id="profile-role-badge">Fondatore</span>
+          </div>
+        </div>
+
+        <!-- Share with Friends Section -->
+        <div class="card mt-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">INVITA I TUOI AMICI</p>
+              <h3 class="card-title">Condividi PROMEMORY</h3>
+            </div>
+            <span class="badge-gold">Accesso Gratuito</span>
+          </div>
+          <p class="section-desc">
+            Invia questo link ai tuoi amici. Ognuno potrà registrarsi, rispondere al questionario e avere la propria app personalizzata con scheda palestra e statistiche separate!
+          </p>
+          <div class="share-link-box mt-10">
+            <input type="text" id="share-link-input" readonly value="">
+            <button type="button" class="btn-primary btn-sm" id="btn-copy-share-link">Copia Link</button>
+          </div>
+          <button type="button" class="btn-secondary btn-block mt-8" id="btn-share-whatsapp">
+            📲 Invia Invito su WhatsApp
+          </button>
+        </div>
+
+        <!-- Founder Monetization Control (Visible only to Founder) -->
+        <div class="card mt-14 founder-panel" id="founder-monetization-panel" hidden>
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">PANNELLO FONDATORE</p>
+              <h3 class="card-title">Monetizzazione &amp; Abbonamento 50€/Mese</h3>
+            </div>
+            <span class="badge-gold">Master Control</span>
+          </div>
+          <p class="section-desc">
+            Attiva o disattiva l'avviso di pagamento (50€/mese) per tutti gli altri utenti. Quando attivo, chiunque eccetto te vedrà la richiesta di abbonamento.
+          </p>
+          <div class="choice-toggle-row mt-12">
+            <div>
+              <strong>Paywall Abbonamento (50€ / mese)</strong>
+              <p class="text-muted text-xs" id="paywall-status-text">Attualmente: DISATTIVATO (Accesso libero)</p>
+            </div>
+            <input type="checkbox" id="switch-paywall-active" class="ios-switch">
+          </div>
+          <button type="button" class="btn-ghost btn-xs mt-8" id="btn-preview-paywall">
+            👁️ Anteprima Schermata di Pagamento
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-row-wrap mt-16">
+          <button type="button" class="btn-secondary" id="btn-reopen-questionnaire" style="flex: 1;">
+            🧠 Ricalibra Cervello AI
+          </button>
+          <button type="button" class="btn-danger-ghost" id="btn-logout-account">
+            Esci
+          </button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: PAYWALL SUBSCRIPTION NOTICE (50€/MESE)
+       ==================================================================== -->
+  <dialog id="paywall-notice-dialog" closedby="any" aria-labelledby="paywall-notice-title" class="nexus-dialog paywall-modal">
+    <div class="dialog-inner">
+      <div class="paywall-seal">👑</div>
+      <p class="eyebrow-gold">PROMEMORY EXECUTIVE ACCESS</p>
+      <h2 id="paywall-notice-title" class="paywall-title">Abbonamento Premium</h2>
+      <div class="paywall-price-wrap">
+        <span class="paywall-currency">€</span>
+        <span class="paywall-amount">50</span>
+        <span class="paywall-period">/ mese</span>
+      </div>
+      <p class="paywall-desc">
+        Il periodo promozionale è terminato o il Founder ha attivato l'accesso esclusivo riservato.
+      </p>
+
+      <ul class="paywall-benefits">
+        <li>✓ Cervello AI con memoria continua persistente</li>
+        <li>✓ Schede Palestra Dinamiche giorno per giorno</li>
+        <li>✓ Tracciamento Fumo, Nicotina &amp; Risparmio Economico</li>
+        <li>✓ Allarmi intelligenti antisonno &amp; Focus Pomodoro</li>
+        <li>✓ Accesso permanente ovunque dal tuo iPhone via HTTPS</li>
+      </ul>
+
+      <div class="dialog-actions mt-16">
+        <button type="button" class="btn-primary btn-block" id="btn-paywall-contact-founder">
+          Contatta il Fondatore per Attivazione
+        </button>
+        <form method="dialog" class="w-full">
+          <button type="submit" class="btn-ghost btn-sm btn-block mt-8">Continua in Modalità Limitata</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: ADD EXERCISE TO WEEKLY PROGRAM DAY
+       ==================================================================== -->
+  <dialog id="gym-add-routine-ex-dialog" closedby="any" aria-labelledby="gym-add-routine-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow" id="gym-add-routine-eyebrow">AGGIUNGI ESERCIZIO</p>
+          <h2 id="gym-add-routine-title">Nuovo Esercizio al Programma</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="gym-add-routine-form" class="stacked-form">
+        <div class="field-group">
+          <label for="routine-ex-name">Nome Esercizio</label>
+          <input type="text" id="routine-ex-name" required placeholder="es. Panca Inclinata Manubri">
+        </div>
+        <div class="form-row-3">
+          <div class="field-group">
+            <label for="routine-ex-sets">Serie</label>
+            <input type="number" id="routine-ex-sets" min="1" max="15" value="3" required>
+          </div>
+          <div class="field-group">
+            <label for="routine-ex-reps">Reps Target</label>
+            <input type="number" id="routine-ex-reps" min="1" max="100" value="10" required>
+          </div>
+          <div class="field-group">
+            <label for="routine-ex-kg">Kg Target</label>
+            <input type="number" id="routine-ex-kg" min="0" max="600" step="0.5" value="20" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-12">Aggiungi al Giorno</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="/app.js?v=10" defer></script>
+</body>
+</html>

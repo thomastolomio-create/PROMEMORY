@@ -1,0 +1,1470 @@
+{
+  "systemSettings": {
+    "appName": "PROMEMORY",
+    "paywallActive": false,
+    "monthlyPriceEuro": 50,
+    "trialDays": 14,
+    "founderId": "usr_tolo_master"
+  },
+  "users": {
+    "usr_tolo_master": {
+      "id": "usr_tolo_master",
+      "token": "tok_tolo_master_founder",
+      "name": "Tolo",
+      "email": "tolo@promemory.os",
+      "role": "founder",
+      "authProvider": "local",
+      "onboardingCompleted": true,
+      "createdAt": "2026-10-21T15:04:17.418Z",
+      "state": {
+        "profile": {
+          "name": "Tolo",
+          "role": "Founder & Creator",
+          "focusVision": "Diventare ultra-produttivo, scalare i progetti chiave e mantenere costanza negli allenamenti.",
+          "maxDailyDeepWorkHours": 5,
+          "wakeUpTarget": "06:30",
+          "sleepTarget": "23:00",
+          "proactiveMode": true,
+          "voiceEnabled": true,
+          "macosBridgeEnabled": true,
+          "llmProvider": "auto",
+          "geminiApiKey": "",
+          "openaiApiKey": ""
+        },
+        "memories": [
+          {
+            "id": "mem-1",
+            "text": "Preferisce sessioni di Deep Work al mattino tra le 08:30 e le 12:30.",
+            "category": "Preferenze",
+            "createdAt": "2026-10-20"
+          },
+          {
+            "id": "mem-2",
+            "text": "Allenamento in palestra 4 volte a settimana (Lun, Mer, Ven, Sab) alle 18:00.",
+            "category": "Fitness",
+            "createdAt": "2026-10-20"
+          },
+          {
+            "id": "mem-3",
+            "text": "Evitare più di 3 task ad alta priorità nella stessa giornata per prevenire sovraccarico.",
+            "category": "Regole AI",
+            "createdAt": "2026-10-20"
+          },
+          {
+            "id": "mem-4",
+            "text": "Usa iPhone e Mac in sincronia; ama sequenze di sveglie ravvicinate quando deve svegliarsi presto.",
+            "category": "Sistema",
+            "createdAt": "2026-10-20"
+          }
+        ],
+        "alarms": [
+          {
+            "id": "alm-1",
+            "time": "06:30",
+            "label": "Sveglia Primaria — Luce & Idratazione",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
+            "group": "Morning Protocol",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-2",
+            "time": "06:35",
+            "label": "Check-in Mentale — Niente Social",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
+            "group": "Morning Protocol",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-3",
+            "time": "08:30",
+            "label": "Inizio Blocco Deep Work #1",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
+            "group": "Deep Work",
+            "sound": "chime"
+          },
+          {
+            "id": "alm-1792539838703-1",
+            "time": "09:00",
+            "label": "Sveglia #1 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-1792539838703-2",
+            "time": "09:05",
+            "label": "Sveglia #2 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-1792539838703-3",
+            "time": "09:10",
+            "label": "Sveglia #3 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-1792539838703-4",
+            "time": "09:15",
+            "label": "Sveglia #4 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-1792539838703-5",
+            "time": "09:20",
+            "label": "Sveglia #5 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-1792539838703-6",
+            "time": "09:25",
+            "label": "Sveglia #6 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-1792539838703-7",
+            "time": "09:30",
+            "label": "Sveglia #7 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-1792539838703-8",
+            "time": "09:35",
+            "label": "Sveglia #8 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-1792539838703-9",
+            "time": "09:40",
+            "label": "Sveglia #9 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-1792539838703-10",
+            "time": "09:45",
+            "label": "Sveglia #10 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-1792539838703-11",
+            "time": "09:50",
+            "label": "Sveglia #11 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-1792539838703-12",
+            "time": "09:55",
+            "label": "Sveglia #12 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-1792539838703-13",
+            "time": "10:00",
+            "label": "Sveglia #13 (Sequenza 09:00–10:00 (5m))",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Sequenza 09:00–10:00 (5m)",
+            "sound": "cascade"
+          }
+        ],
+        "reminders": [
+          {
+            "id": "rem-1",
+            "title": "Bere 500ml di acqua + Elettroliti",
+            "dueTime": "07:00",
+            "completed": true,
+            "priority": "medium",
+            "syncedNative": false
+          },
+          {
+            "id": "rem-2",
+            "title": "Revisione architettura NEXUS AI",
+            "dueTime": "11:30",
+            "completed": false,
+            "priority": "high",
+            "syncedNative": false
+          },
+          {
+            "id": "rem-3",
+            "title": "Pre-workout & borsa palestra",
+            "dueTime": "17:30",
+            "completed": false,
+            "priority": "medium",
+            "syncedNative": false
+          }
+        ],
+        "habits": [
+          {
+            "id": "hab-1",
+            "name": "Sveglia entro le 06:30",
+            "category": "Energia",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat"
+            ],
+            "targetPerWeek": 6,
+            "streak": 12,
+            "history": {
+              "2026-10-18": "done",
+              "2026-10-19": "done",
+              "2026-10-20": "done",
+              "2026-10-21": "done",
+              "2026-10-22": "done"
+            },
+            "scheduleChangedAt": null
+          },
+          {
+            "id": "hab-2",
+            "name": "Deep Work (90+ min zero distrazioni)",
+            "category": "Produttività",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
+            "targetPerWeek": 5,
+            "streak": 8,
+            "history": {
+              "2026-10-18": "pending",
+              "2026-10-19": "done",
+              "2026-10-20": "done",
+              "2026-10-21": "missed",
+              "2026-10-22": "done"
+            },
+            "scheduleChangedAt": null
+          },
+          {
+            "id": "hab-3",
+            "name": "Allenamento / Palestra",
+            "category": "Fitness",
+            "schedule": [
+              "Mon",
+              "Wed",
+              "Fri",
+              "Sat"
+            ],
+            "targetPerWeek": 4,
+            "streak": 15,
+            "history": {
+              "2026-10-18": "done",
+              "2026-10-19": "unscheduled",
+              "2026-10-20": "done",
+              "2026-10-21": "unscheduled",
+              "2026-10-22": "done"
+            },
+            "scheduleChangedAt": "Aggiunto Sabato (Storico preservato)"
+          },
+          {
+            "id": "hab-4",
+            "name": "Lettura strategica (15 pagine)",
+            "category": "Crescita",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "targetPerWeek": 7,
+            "streak": 6,
+            "history": {
+              "2026-10-18": "done",
+              "2026-10-19": "done",
+              "2026-10-20": "done",
+              "2026-10-21": "done",
+              "2026-10-22": "done"
+            },
+            "scheduleChangedAt": null
+          },
+          {
+            "id": "hab-5",
+            "name": "Zero zuccheri raffinati & schermi post 22:30",
+            "category": "Biohacking",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "targetPerWeek": 7,
+            "streak": 4,
+            "history": {
+              "2026-10-18": "done",
+              "2026-10-19": "missed",
+              "2026-10-20": "done",
+              "2026-10-21": "done",
+              "2026-10-22": "done"
+            },
+            "scheduleChangedAt": null
+          }
+        ],
+        "tasks": [
+          {
+            "id": "tsk-1792541280142",
+            "title": "Finire sitoweb esteticabarbi",
+            "project": "Generale",
+            "priority": "medium",
+            "durationMin": 30,
+            "status": "todo",
+            "scheduledTime": "10:00",
+            "energy": "medium"
+          },
+          {
+            "id": "tsk-1",
+            "title": "Lanciare NEXUS AI v1.0 su Mac e iPhone",
+            "project": "NEXUS AI",
+            "priority": "high",
+            "durationMin": 90,
+            "status": "in_progress",
+            "scheduledTime": "09:00",
+            "energy": "high"
+          },
+          {
+            "id": "tsk-2",
+            "title": "Strutturare piano allenamenti Ipertrofia + Cardio",
+            "project": "Salute & Fitness",
+            "priority": "high",
+            "durationMin": 45,
+            "status": "todo",
+            "scheduledTime": "14:30",
+            "energy": "medium"
+          },
+          {
+            "id": "tsk-3",
+            "title": "Configurare comando vocale Siri \"Parla con NEXUS\"",
+            "project": "Automazione",
+            "priority": "medium",
+            "durationMin": 20,
+            "status": "todo",
+            "scheduledTime": "16:00",
+            "energy": "low"
+          },
+          {
+            "id": "tsk-4",
+            "title": "Review settimanale metriche & pulizia inbox",
+            "project": "Operatività",
+            "priority": "low",
+            "durationMin": 30,
+            "status": "done",
+            "scheduledTime": "08:00",
+            "energy": "low"
+          }
+        ],
+        "events": [
+          {
+            "id": "evt-1",
+            "title": "Blocco Deep Work — Progetti Core",
+            "date": "2026-10-20",
+            "startTime": "09:00",
+            "endTime": "11:00",
+            "category": "Deep Work",
+            "location": "Studio Mac"
+          },
+          {
+            "id": "evt-2",
+            "title": "Pranzo & Camminata decompressiva",
+            "date": "2026-10-20",
+            "startTime": "13:00",
+            "endTime": "14:00",
+            "category": "Recupero",
+            "location": "Outdoor"
+          },
+          {
+            "id": "evt-3",
+            "title": "Sessione Palestra (Upper Body + Core)",
+            "date": "2026-10-20",
+            "startTime": "18:00",
+            "endTime": "19:30",
+            "category": "Fitness",
+            "location": "Gym"
+          }
+        ],
+        "goals": [
+          {
+            "id": "gol-smoke-1792542018999",
+            "title": "Smettere di Fumare — Riduzione Progressiva",
+            "category": "Salute",
+            "deadline": "2026-12-01",
+            "progress": 50,
+            "milestones": [
+              {
+                "id": "m-1792542018999-1",
+                "title": "Restare sotto 5 sigarette al giorno",
+                "done": false
+              },
+              {
+                "id": "m-1792542018999-2",
+                "title": "Dimezzare il limite settimanale",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "gol-1",
+            "title": "Costruire e lanciare il mio ecosistema di produttività AI",
+            "category": "Professionale",
+            "deadline": "2026-12-31",
+            "progress": 65,
+            "milestones": [
+              {
+                "id": "m-1",
+                "title": "Analisi APEX e progettazione architettura",
+                "done": true
+              },
+              {
+                "id": "m-2",
+                "title": "Motore vocale e Action Engine per sveglie/task",
+                "done": true
+              },
+              {
+                "id": "m-3",
+                "title": "Integrazione iPhone Siri Shortcuts & Apple Calendar",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "gol-2",
+            "title": "Ricomposizione corporea & Energia costante tutto il giorno",
+            "category": "Salute & Fitness",
+            "deadline": "2026-11-30",
+            "progress": 78,
+            "milestones": [
+              {
+                "id": "m-4",
+                "title": "4 allenamenti a settimana per 4 settimane consecutive",
+                "done": true
+              },
+              {
+                "id": "m-5",
+                "title": "Media sonno 7.5h con sveglia fissa 06:30",
+                "done": true
+              },
+              {
+                "id": "m-6",
+                "title": "Zero cali glicemici pomeridiani",
+                "done": false
+              }
+            ]
+          }
+        ],
+        "automations": [
+          {
+            "id": "aut-1",
+            "name": "Protocollo Sveglia Raffica (Anti-Snooze)",
+            "trigger": "Comando vocale: \"Attiva raffica sveglie [Ora Inizio] - [Ora Fine]\"",
+            "actions": [
+              "Genera sveglie ogni N minuti",
+              "Sincronizza avvisi sonori WebAudio",
+              "Prepara pacchetto nativa iOS/ICS"
+            ],
+            "active": true,
+            "lastRun": "Pronto"
+          },
+          {
+            "id": "aut-2",
+            "name": "Protezione Sovraccarico Giornaliero",
+            "trigger": "Quando i task ad alta priorità superano 3 o > 6h di Deep Work",
+            "actions": [
+              "Avviso proattivo di NEXUS",
+              "Riprogrammazione automatica task secondari al giorno successivo"
+            ],
+            "active": true,
+            "lastRun": "Attivo in tempo reale"
+          },
+          {
+            "id": "aut-3",
+            "name": "Modalità Allenamento & Focus",
+            "trigger": "Quando dici \"Organizza allenamenti e progetti\"",
+            "actions": [
+              "Crea abitudine Palestra flessibile",
+              "Blocca slot calendario 18:00",
+              "Imposta promemoria pre-workout"
+            ],
+            "active": true,
+            "lastRun": "Pronto"
+          }
+        ],
+        "conversation": [
+          {
+            "id": "msg-welcome",
+            "role": "assistant",
+            "timestamp": "2026-10-20T23:43:48.290Z",
+            "text": "Ciao Tolo. Sono **NEXUS AI**, il tuo sistema operativo personale. A differenza di un normale tracker passivo, posso **eseguire azioni reali** sul tuo sistema.\n\nProva a chiedermi con la voce o scrivendo:\n- *«Impostami una sequenza di sveglie dalle 9 alle 10, ogni cinque minuti»*\n- *«Voglio diventare più produttivo, lavorare sui miei progetti e organizzare meglio gli allenamenti»*\n- *«Analizza la mia settimana e dimmi dove sto perdendo costanza»*",
+            "actionsExecuted": []
+          },
+          {
+            "id": "msg-1792539838815-u",
+            "role": "user",
+            "timestamp": "2026-10-20T23:43:58.815Z",
+            "text": "Impostami una sequenza di sveglie dalle 9 alle 10, ogni cinque minuti",
+            "sourceDevice": "Test Esecutivo"
+          },
+          {
+            "id": "msg-1792539838815-a",
+            "role": "assistant",
+            "timestamp": "2026-10-20T23:43:58.815Z",
+            "text": "Ho eseguito la tua richiesta: ho generato e attivato una **sequenza di 13 sveglie** dalle **09:00** alle **10:00** a intervalli di **5 minuti** (`09:00`, `09:05`, `09:10`, `09:15`, `09:20`, `09:25`, `09:30`, `09:35`, `09:40`, `09:45`, `09:50`, `09:55`, `10:00`).\n\n- **Su questo dispositivo**: il motore sonoro di NEXUS AI è armato e verificherà ogni secondo le scadenze.\n- **Su iPhone (iOS Nativo)**: poiché iOS non permette a una pagina web di scrivere silenziosamente nell'app Orologio senza conferma, ho già preparato qui sotto il pulsante **«Invia Raffica a Sveglie iPhone (Siri Shortcut)»** e il pacchetto **.ICS con avvisi sonori**.",
+            "actionsExecuted": [
+              {
+                "type": "ALARM_SEQUENCE_CREATED",
+                "title": "Create 13 sveglie (09:00 → 10:00, ogni 5 min)",
+                "count": 13,
+                "times": [
+                  "09:00",
+                  "09:05",
+                  "09:10",
+                  "09:15",
+                  "09:20",
+                  "09:25",
+                  "09:30",
+                  "09:35",
+                  "09:40",
+                  "09:45",
+                  "09:50",
+                  "09:55",
+                  "10:00"
+                ],
+                "intervalMin": 5,
+                "start": "09:00",
+                "end": "10:00",
+                "nativeStatus": "Notifica macOS inviata + Audio Engine pronto",
+                "iosBatchAction": true
+              }
+            ]
+          },
+          {
+            "id": "msg-1792539894218-u",
+            "role": "user",
+            "timestamp": "2026-10-20T23:44:54.218Z",
+            "text": "voglio smettere di fumare",
+            "sourceDevice": "Input Diretto"
+          },
+          {
+            "id": "msg-1792539894218-a",
+            "role": "assistant",
+            "timestamp": "2026-10-20T23:44:54.218Z",
+            "text": "Ho ricevuto la tua richiesta (*\"voglio smettere di fumare\"*). Posso trasformarla immediatamente in azioni concrete nel tuo sistema.\n\nEcco cosa posso eseguire in questo istante per te:\n- **Sveglie a sequenza**: dimmi *\"Impostami una sequenza di sveglie dalle 9 alle 10, ogni cinque minuti\"*.\n- **Pianificazione completa**: dimmi *\"Voglio diventare più produttivo, lavorare sui miei progetti e organizzare meglio gli allenamenti\"*.\n- **Promemoria & Task**: dimmi *\"Ricordami di inviare il report alle 16:30\"* o *\"Aggiungi task: Preparare scheda palestra\"*.\n- **Memoria**: dimmi *\"Ricorda che il giovedì pomeriggio non voglio riunioni\"*.",
+            "actionsExecuted": []
+          },
+          {
+            "id": "msg-1792540459601-u",
+            "role": "user",
+            "timestamp": "2026-10-20T23:54:19.601Z",
+            "text": "Voglio smettere di fumare aggiungi qualcosa per contare le sigarette ogni giorno",
+            "sourceDevice": "Input Diretto"
+          },
+          {
+            "id": "msg-1792540459601-a",
+            "role": "assistant",
+            "timestamp": "2026-10-20T23:54:19.601Z",
+            "text": "Ho ricevuto la tua richiesta (*\"Voglio smettere di fumare aggiungi qualcosa per contare le sigarette ogni giorno\"*). Posso trasformarla immediatamente in azioni concrete nel tuo sistema.\n\nEcco cosa posso eseguire in questo istante per te:\n- **Sveglie a sequenza**: dimmi *\"Impostami una sequenza di sveglie dalle 9 alle 10, ogni cinque minuti\"*.\n- **Pianificazione completa**: dimmi *\"Voglio diventare più produttivo, lavorare sui miei progetti e organizzare meglio gli allenamenti\"*.\n- **Promemoria & Task**: dimmi *\"Ricordami di inviare il report alle 16:30\"* o *\"Aggiungi task: Preparare scheda palestra\"*.\n- **Memoria**: dimmi *\"Ricorda che il giovedì pomeriggio non voglio riunioni\"*.",
+            "actionsExecuted": []
+          },
+          {
+            "id": "msg-1792541131985-u",
+            "role": "user",
+            "timestamp": "2026-10-21T00:05:31.985Z",
+            "text": "Impostami una sequenza di sveglie dalle 09:00 alle 10:00, ogni 5 minuti",
+            "sourceDevice": "Generatore Sveglie"
+          },
+          {
+            "id": "msg-1792541131985-a",
+            "role": "assistant",
+            "timestamp": "2026-10-21T00:05:31.985Z",
+            "text": "Ho eseguito la tua richiesta: ho generato e attivato una **sequenza di 0 sveglie** dalle **09:00** alle **10:00** a intervalli di **5 minuti** (``).\n\n- **Su questo dispositivo**: il motore sonoro di NEXUS AI è armato e verificherà ogni secondo le scadenze.\n- **Su iPhone (iOS Nativo)**: poiché iOS non permette a una pagina web di scrivere silenziosamente nell'app Orologio senza conferma, ho già preparato qui sotto il pulsante **«Invia Raffica a Sveglie iPhone (Siri Shortcut)»** e il pacchetto **.ICS con avvisi sonori**.",
+            "actionsExecuted": [
+              {
+                "type": "ALARM_SEQUENCE_CREATED",
+                "title": "Create 0 sveglie (09:00 → 10:00, ogni 5 min)",
+                "count": 0,
+                "times": [],
+                "intervalMin": 5,
+                "start": "09:00",
+                "end": "10:00",
+                "nativeStatus": "Notifica macOS inviata + Audio Engine pronto",
+                "iosBatchAction": true
+              }
+            ]
+          }
+        ],
+        "trackers": [
+          {
+            "id": "trk-cig",
+            "name": "Sigarette Fumate Oggi",
+            "icon": "🚬",
+            "unit": "sigarette",
+            "mode": "limit",
+            "dailyTarget": 5,
+            "step": 1,
+            "costPerUnit": 0.3,
+            "history": {
+              "2026-10-19": 8,
+              "2026-10-20": 7,
+              "2026-10-21": 0,
+              "2026-10-22": 5
+            },
+            "logs": []
+          },
+          {
+            "id": "trk-water",
+            "name": "Idratazione Quotidiana",
+            "icon": "💧",
+            "unit": "bicchieri",
+            "mode": "goal",
+            "dailyTarget": 8,
+            "step": 1,
+            "costPerUnit": 0,
+            "history": {
+              "2026-10-19": 8,
+              "2026-10-20": 7,
+              "2026-10-21": 4,
+              "2026-10-22": 6
+            },
+            "logs": []
+          }
+        ],
+        "actionLog": [
+          {
+            "id": "act-1792542019000",
+            "timestamp": "2026-10-21T00:20:19.000Z",
+            "command": "6 sigarette oggi",
+            "summary": "Attivato modulo «Smettere di Fumare»: Contatore Sigarette in prima posizione + Obiettivo Salute",
+            "targetTab": "overview"
+          },
+          {
+            "id": "act-init",
+            "timestamp": "2026-10-21T00:10:57.136Z",
+            "command": "Sistema Inizializzato",
+            "summary": "Contatore Sigarette, Matrice Abitudini, Generatore Sveglie e Controlli Manuali pronti.",
+            "targetTab": "overview"
+          }
+        ]
+      },
+      "extraState": {
+        "smokingBaselinePerDay": 15,
+        "smokingCostPerUnit": 0.3,
+        "cravingsWonCount": 5,
+        "dailyBudgetEuro": 50,
+        "focusMinutesToday": 90
+      },
+      "questionnaire": {
+        "name": "Tolo",
+        "mainGoal": "Diventare ultra-produttivo, scalare i progetti chiave e mantenere costanza negli allenamenti.",
+        "smokes": "yes",
+        "smokeBaseline": 15,
+        "smokeTarget": 5,
+        "waterGlasses": 8,
+        "wakeUpTime": "06:30",
+        "sleepTime": "23:00",
+        "deepWorkHours": 5,
+        "gymSplit": "push_pull_legs",
+        "gymDaysCount": 4
+      }
+    },
+    "usr_1792595061654_rbv5c": {
+      "id": "usr_1792595061654_rbv5c",
+      "token": "tok_g91n7xsm3d_1792595061654",
+      "name": "Marco",
+      "email": "marco@test.com",
+      "role": "member",
+      "authProvider": "email",
+      "onboardingCompleted": true,
+      "createdAt": "2026-10-21T15:04:21.654Z",
+      "passwordHash": "password123",
+      "state": {
+        "profile": {
+          "name": "Marco",
+          "role": "PRO Member",
+          "focusVision": "Aumentare massa muscolare e focus",
+          "maxDailyDeepWorkHours": 5,
+          "wakeUpTarget": "06:00",
+          "sleepTarget": "22:30",
+          "proactiveMode": true,
+          "voiceEnabled": true,
+          "macosBridgeEnabled": true,
+          "llmProvider": "auto",
+          "geminiApiKey": "",
+          "openaiApiKey": ""
+        },
+        "trackers": [
+          {
+            "id": "trk-water",
+            "name": "Idratazione Quotidiana",
+            "icon": "💧",
+            "unit": "bicchieri",
+            "mode": "goal",
+            "dailyTarget": 10,
+            "step": 1,
+            "costPerUnit": 0,
+            "history": {
+              "2026-10-21": 0
+            },
+            "logs": []
+          },
+          {
+            "id": "trk-alcohol",
+            "name": "Controllo Alcol",
+            "icon": "🍷",
+            "unit": "bevande",
+            "mode": "limit",
+            "dailyTarget": 0,
+            "step": 1,
+            "costPerUnit": 5,
+            "history": {
+              "2026-10-21": 0
+            },
+            "logs": []
+          },
+          {
+            "id": "trk-coffee",
+            "name": "Caffè Giornalieri",
+            "icon": "☕",
+            "unit": "tazzine",
+            "mode": "limit",
+            "dailyTarget": 3,
+            "step": 1,
+            "costPerUnit": 1.2,
+            "history": {
+              "2026-10-21": 0
+            },
+            "logs": []
+          }
+        ],
+        "habits": [
+          {
+            "id": "hab-focus",
+            "name": "Deep Work (5h)",
+            "category": "Focus",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri"
+            ],
+            "targetPerWeek": 5,
+            "streak": 0,
+            "history": {
+              "2026-10-21": "pending"
+            },
+            "scheduleChangedAt": null
+          },
+          {
+            "id": "hab-gym",
+            "name": "Allenamento in Palestra",
+            "category": "Fitness",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Thu",
+              "Fri"
+            ],
+            "targetPerWeek": 4,
+            "streak": 0,
+            "history": {
+              "2026-10-21": "pending"
+            },
+            "scheduleChangedAt": null
+          },
+          {
+            "id": "hab-wake",
+            "name": "Sveglia e Routine (06:00)",
+            "category": "Salute",
+            "schedule": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "targetPerWeek": 7,
+            "streak": 0,
+            "history": {
+              "2026-10-21": "pending"
+            },
+            "scheduleChangedAt": null
+          }
+        ],
+        "alarms": [
+          {
+            "id": "alm-primary-1792595673999",
+            "time": "06:00",
+            "label": "Sveglia Principale PROMEMORY",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Mattina",
+            "sound": "cascade"
+          },
+          {
+            "id": "alm-seq1-1792595673999",
+            "time": "06:05",
+            "label": "Sequenza #2 (+5 min)",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Mattina",
+            "sound": "pulse"
+          },
+          {
+            "id": "alm-seq2-1792595673999",
+            "time": "06:10",
+            "label": "Sequenza #3 (+10 min) In Piedi!",
+            "enabled": true,
+            "repeat": [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+            "group": "Mattina",
+            "sound": "cascade"
+          }
+        ],
+        "reminders": [
+          {
+            "id": "rem-1",
+            "title": "Bere 500ml acqua appena sveglio",
+            "dueTime": "06:35",
+            "completed": false,
+            "priority": "high",
+            "syncedNative": false
+          }
+        ],
+        "tasks": [
+          {
+            "id": "tsk-1",
+            "title": "Completare il blocco di lavoro prioritario",
+            "project": "Progetti",
+            "priority": "high",
+            "durationMin": 60,
+            "status": "todo",
+            "scheduledTime": "09:00"
+          }
+        ],
+        "events": [
+          {
+            "id": "evt-1",
+            "title": "Blocco Deep Work",
+            "date": "2026-10-21",
+            "startTime": "09:00",
+            "endTime": "11:00",
+            "category": "Deep Work",
+            "location": "Studio"
+          }
+        ],
+        "goals": [
+          {
+            "id": "gol-1",
+            "title": "Costanza & Focus nei Progetti Chiave",
+            "category": "Personale",
+            "deadline": "2026-12-31",
+            "progress": 10,
+            "milestones": [
+              {
+                "id": "m-1",
+                "title": "Configurazione sistema PROMEMORY completata",
+                "done": true
+              },
+              {
+                "id": "m-2",
+                "title": "Completare prima settimana a punteggio >80%",
+                "done": false
+              }
+            ]
+          }
+        ],
+        "memories": [
+          {
+            "id": "mem-brain-1792595673999",
+            "text": "Cervello sintonizzato per Marco. Obiettivo: «Aumentare massa muscolare e focus». Allenamento: upper_lower (4g/sett). Sveglia: 06:00.",
+            "category": "Cervello AI",
+            "createdAt": "2026-10-21"
+          },
+          {
+            "id": "mem-1",
+            "text": "Profilo creato per Marco Test.",
+            "category": "Sistema",
+            "createdAt": "2026-10-21"
+          }
+        ],
+        "actionLog": [
+          {
+            "id": "act-1792595673999",
+            "timestamp": "2026-10-21T15:14:33.999Z",
+            "command": "Sintesi Cervello Eseguita",
+            "summary": "Configurato profilo su misura per Marco: target fumo Non fumatore, idratazione 10 bicchieri, sveglia 06:00.",
+            "targetTab": "today"
+          },
+          {
+            "id": "act-1792595061655",
+            "timestamp": "2026-10-21T15:04:21.655Z",
+            "command": "Configurazione Iniziale",
+            "summary": "Cervello PROMEMORY inizializzato.",
+            "targetTab": "today"
+          }
+        ]
+      },
+      "extraState": {
+        "smokingBaselinePerDay": 15,
+        "smokingCostPerUnit": 0.3,
+        "cravingsWonCount": 0,
+        "dailyBudgetEuro": 40,
+        "focusMinutesToday": 0,
+        "weeklyGymProgram": {
+          "splitName": "UPPER LOWER",
+          "createdAt": "2026-10-21",
+          "weekStartDate": "2026-10-21",
+          "schedule": [
+            {
+              "dayLabel": "Giorno 1 — Upper Body (Forza)",
+              "exercises": [
+                {
+                  "id": "ex-ul-1",
+                  "name": "Panca Piana Bilanciere",
+                  "sets": [
+                    {
+                      "kg": 75,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 75,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 75,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 70,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-2",
+                  "name": "Rematore con Bilanciere",
+                  "sets": [
+                    {
+                      "kg": 65,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 65,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 65,
+                      "reps": 8,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-3",
+                  "name": "Military Press con Manubri",
+                  "sets": [
+                    {
+                      "kg": 22,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 22,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 22,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-4",
+                  "name": "Bicipiti Curl + Pushdown Tricipiti",
+                  "sets": [
+                    {
+                      "kg": 14,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 14,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 14,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Giorno 2 — Lower Body (Quad & Glutei)",
+              "exercises": [
+                {
+                  "id": "ex-ul-5",
+                  "name": "Squat con Bilanciere",
+                  "sets": [
+                    {
+                      "kg": 90,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 90,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 90,
+                      "reps": 8,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-6",
+                  "name": "Leg Press 45°",
+                  "sets": [
+                    {
+                      "kg": 140,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 140,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 140,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-7",
+                  "name": "Stacco Rumeno (RDL)",
+                  "sets": [
+                    {
+                      "kg": 80,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 80,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 80,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-8",
+                  "name": "Calf Raise + Crunch al Cavo",
+                  "sets": [
+                    {
+                      "kg": 45,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 45,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 45,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Giorno 3 — Upper Body (Ipertrofia & Volume)",
+              "exercises": [
+                {
+                  "id": "ex-ul-9",
+                  "name": "Spinte Panca Inclinata Manubri",
+                  "sets": [
+                    {
+                      "kg": 26,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 26,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 26,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-10",
+                  "name": "Lat Machine Presa Larga",
+                  "sets": [
+                    {
+                      "kg": 65,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 65,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 65,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-ul-11",
+                  "name": "Alzate Laterali Manubri",
+                  "sets": [
+                    {
+                      "kg": 12,
+                      "reps": 14,
+                      "done": false
+                    },
+                    {
+                      "kg": 12,
+                      "reps": 14,
+                      "done": false
+                    },
+                    {
+                      "kg": 12,
+                      "reps": 14,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gymExercises": [
+          {
+            "id": "ex-ul-1",
+            "name": "Panca Piana Bilanciere",
+            "sets": [
+              {
+                "kg": 75,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 75,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 75,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 70,
+                "reps": 10,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-ul-2",
+            "name": "Rematore con Bilanciere",
+            "sets": [
+              {
+                "kg": 65,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 65,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 65,
+                "reps": 8,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-ul-3",
+            "name": "Military Press con Manubri",
+            "sets": [
+              {
+                "kg": 22,
+                "reps": 10,
+                "done": false
+              },
+              {
+                "kg": 22,
+                "reps": 10,
+                "done": false
+              },
+              {
+                "kg": 22,
+                "reps": 10,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-ul-4",
+            "name": "Bicipiti Curl + Pushdown Tricipiti",
+            "sets": [
+              {
+                "kg": 14,
+                "reps": 12,
+                "done": false
+              },
+              {
+                "kg": 14,
+                "reps": 12,
+                "done": false
+              },
+              {
+                "kg": 14,
+                "reps": 12,
+                "done": false
+              }
+            ]
+          }
+        ]
+      },
+      "questionnaire": {
+        "name": "Marco",
+        "mainGoal": "Aumentare massa muscolare e focus",
+        "smokes": "no",
+        "waterGlasses": 10,
+        "trackAlcohol": "yes",
+        "trackCoffee": "yes",
+        "wakeUpTime": "06:00",
+        "sleepTime": "22:30",
+        "smartAlarmSequence": "yes",
+        "deepWorkHours": 5,
+        "dailyBudgetEuro": 40,
+        "gymSplit": "upper_lower",
+        "gymDaysCount": 4
+      }
+    }
+  }
+}
