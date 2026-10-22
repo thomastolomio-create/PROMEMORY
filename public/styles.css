@@ -3003,6 +3003,43 @@ body {
   color: var(--pm-gold-bright);
 }
 
+/* Real-Day Gym Adaptation Cards */
+.gym-active-day-card {
+  background: linear-gradient(135deg, rgba(223, 177, 91, 0.16) 0%, rgba(13, 17, 26, 0.95) 100%);
+  border: 1px solid rgba(250, 232, 162, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.today-gym-summary-card {
+  background: linear-gradient(135deg, rgba(223, 177, 91, 0.12) 0%, rgba(15, 20, 30, 0.9) 100%);
+  border: 1px solid rgba(250, 232, 162, 0.28);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.today-gym-summary-card:hover {
+  border-color: rgba(250, 232, 162, 0.5);
+  transform: translateY(-1px);
+}
+
+.gym-day-chip.chip-today-real {
+  border: 1px solid rgba(250, 232, 162, 0.6);
+  position: relative;
+  font-weight: 800;
+}
+
+.gym-day-chip.chip-today-real::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--pm-gold-bright);
+  box-shadow: 0 0 6px var(--pm-gold-bright);
+}
+
 /* Exercise Card Progression Sub-line & Buttons */
 .ex-progression-sub {
   display: flex;

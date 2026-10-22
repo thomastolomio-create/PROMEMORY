@@ -217,6 +217,26 @@
           </div>
         </div>
 
+        <!-- Today's Gym Workout Widget on "Oggi" Screen -->
+        <div class="card mt-14 today-gym-summary-card" id="today-gym-summary-card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow-gold" id="today-gym-eyebrow">🥊 ALLENAMENTO DI OGGI</p>
+              <h2 class="card-title" id="today-gym-summary-title">Scheda del Giorno</h2>
+              <p class="habit-meta-sub" id="today-gym-summary-sub">Caricamento scheda in tempo reale...</p>
+            </div>
+            <button type="button" class="btn-primary btn-xs" id="btn-today-open-gym">
+              Apri Scheda ➔
+            </button>
+          </div>
+          <div class="today-gym-progress-row mt-10" style="display: flex; align-items: center; gap: 10px;">
+            <div class="progress-bar-wrap" style="flex: 1; height: 7px; background: rgba(255,255,255,0.08); border-radius: var(--radius-pill); overflow: hidden;">
+              <div class="progress-bar-fill" id="today-gym-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--pm-gold), var(--pm-gold-bright)); transition: width 0.3s ease;"></div>
+            </div>
+            <span class="gym-progress-text" id="today-gym-progress-text" style="font-size: 11px; font-weight: 700; color: var(--pm-gold-bright); white-space: nowrap;">0/0 serie</span>
+          </div>
+        </div>
+
         <!-- Today's Priority Tasks -->
         <div class="card mt-14">
           <div class="card-header-compact">
@@ -463,6 +483,25 @@
           </div>
           <div class="progression-banner-right">
             <span class="guardia-badge">🛡️ Guardia sempre alta</span>
+          </div>
+        </div>
+
+        <!-- Active Day Real Header Card (Adapts to real day) -->
+        <div class="card mb-12 gym-active-day-card" id="gym-active-day-card">
+          <div class="card-header-compact">
+            <div>
+              <span class="badge-gold" id="gym-active-day-badge">🥊 SCHEDA DI OGGI: GIOVEDÌ</span>
+              <h3 class="card-title mt-4" id="gym-active-day-title">Kickboxing Completo</h3>
+              <p class="habit-meta-sub text-gold" id="gym-active-day-focus">Tecnica, Schivate, Focus Footwork — Regola: Guardia sempre alta</p>
+            </div>
+            <div class="btn-row-wrap">
+              <button type="button" class="btn-secondary btn-xs" id="btn-gym-jump-weekly">
+                📅 Altri Giorni
+              </button>
+              <button type="button" class="btn-ghost btn-xs" id="btn-gym-reload-today-real" title="Ricarica la scheda programmata per il giorno reale">
+                🔄 Ricarica Giorno Reale
+              </button>
+            </div>
           </div>
         </div>
 

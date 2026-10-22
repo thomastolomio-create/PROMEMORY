@@ -292,19 +292,29 @@
     ]
   };
 
-  function getWeekDates() {
-    const now = new Date();
+  function getLocalDateStr(date = new Date()) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  function getWeekDates(refDate = new Date()) {
+    const now = new Date(refDate);
     const day = now.getDay();
-    const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-    const monday = new Date(now.setDate(diff));
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMonday);
     const dates = [];
     for (let i = 0; i < 7; i++) {
-      const d = new Date(monday);
-      d.setDate(monday.getDate() + i);
-      dates.push(d.toISOString().split('T')[0]);
+      const d = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
+      dates.push(getLocalDateStr(d));
     }
     return dates;
   }
+
+  const todayDayIdxInit = (new Date().getDay() + 6) % 7;
+  const initialRoutineToday = FIGHTER_BOXING_ROUTINE[todayDayIdxInit] || FIGHTER_BOXING_ROUTINE[0];
+  const todayStrInit = getLocalDateStr();
 
   const DEFAULT_EXTRA = {
     smokingBaselinePerDay: 15,
@@ -348,10 +358,21 @@
       ]
     },
     warmupChecks: {},
-    gymExercises: JSON.parse(JSON.stringify(FIGHTER_BOXING_ROUTINE[0].exercises)),
+    gymActiveDate: todayStrInit,
+    activeGymDayIdx: todayDayIdxInit,
+    dailyGymSessions: {
+      [todayStrInit]: {
+        date: todayStrInit,
+        dayIdx: todayDayIdxInit,
+        dayName: initialRoutineToday.day,
+        focus: initialRoutineToday.focus,
+        exercises: JSON.parse(JSON.stringify(initialRoutineToday.exercises))
+      }
+    },
+    gymExercises: JSON.parse(JSON.stringify(initialRoutineToday.exercises)),
     expenses: [
-      { id: 'exp-1', title: 'Pranzo proteico', amount: 14.50, category: 'Cibo', date: new Date().toISOString().split('T')[0] },
-      { id: 'exp-2', title: 'Integrazione Magnesio & Omega 3', amount: 24.00, category: 'Sport', date: new Date().toISOString().split('T')[0] }
+      { id: 'exp-1', title: 'Pranzo proteico', amount: 14.50, category: 'Cibo', date: todayStrInit },
+      { id: 'exp-2', title: 'Integrazione Magnesio & Omega 3', amount: 24.00, category: 'Sport', date: todayStrInit }
     ],
     weeklyGymProgram: {
       splitName: '🥊 FIGHTER BOXING & STRENGTH (7 Giorni)',
@@ -453,7 +474,7 @@
   let currentUser = null;
   let systemSettings = null;
   let currentWizardStep = 1;
-  let selectedGymDayIdx = 0;
+  let selectedGymDayIdx = (new Date().getDay() + 6) % 7;
 
   function getAuthHeaders() {
     return {
@@ -2324,7 +2345,60 @@
     container.appendChild(table);
   }
 
+  function ensureTodayGymExercises(forceReload = false) {
+    const now = new Date();
+    const todayStr = getLocalDateStr(now);
+    const todayIdx = (now.getDay() + 6) % 7;
+
+    if (!extraState.weeklyGymProgram || !Array.isArray(extraState.weeklyGymProgram.schedule)) {
+      return;
+    }
+
+    extraState.dailyGymSessions = extraState.dailyGymSessions || {};
+
+    if (!forceReload && extraState.gymActiveDate === todayStr && Array.isArray(extraState.gymExercises) && extraState.gymExercises.length > 0) {
+      return;
+    }
+
+    if (!forceReload && extraState.dailyGymSessions[todayStr] && Array.isArray(extraState.dailyGymSessions[todayStr].exercises)) {
+      extraState.gymExercises = extraState.dailyGymSessions[todayStr].exercises;
+      extraState.gymActiveDate = todayStr;
+      extraState.activeGymDayIdx = extraState.dailyGymSessions[todayStr].dayIdx ?? todayIdx;
+      return;
+    }
+
+    const scheduledDay = extraState.weeklyGymProgram.schedule[todayIdx] || extraState.weeklyGymProgram.schedule[0];
+    if (scheduledDay && Array.isArray(scheduledDay.exercises)) {
+      extraState.gymExercises = scheduledDay.exercises.map((ex, idx) => ({
+        id: `ex-today-${todayStr}-${idx}`,
+        name: ex.name,
+        sets: Array.isArray(ex.sets)
+          ? ex.sets.map((s) => ({ kg: s.kg || 0, reps: s.reps || 10, done: false }))
+          : Array.from({ length: ex.sets || 3 }, () => ({
+              kg: ex.kg || 20,
+              reps: ex.reps || 10,
+              done: false
+            }))
+      }));
+    } else {
+      extraState.gymExercises = [];
+    }
+
+    extraState.gymActiveDate = todayStr;
+    extraState.activeGymDayIdx = todayIdx;
+    extraState.dailyGymSessions[todayStr] = {
+      date: todayStr,
+      dayIdx: todayIdx,
+      dayName: scheduledDay?.day || DAY_LABELS_IT[todayIdx],
+      focus: scheduledDay?.focus || 'Allenamento Odierno',
+      exercises: extraState.gymExercises
+    };
+    saveExtraState();
+    syncWeeklyGymProgram();
+  }
+
   function renderGymModule() {
+    ensureTodayGymExercises();
     const exList = document.getElementById('gym-exercises-list');
     const histList = document.getElementById('gym-history-list');
     if (!exList || !histList) return;
@@ -2496,6 +2570,52 @@
     document.getElementById('gym-today-volume').textContent = `${totalVolume} kg`;
     document.getElementById('gym-today-sets').textContent = `${totalDoneSets} serie`;
 
+    // Update Active Workout Banner in Gym Tab
+    const realTodayIdx = (new Date().getDay() + 6) % 7;
+    const activeDayIdx = extraState.activeGymDayIdx ?? realTodayIdx;
+    const activeRoutine = extraState.weeklyGymProgram?.schedule?.[activeDayIdx] || {
+      day: DAY_LABELS_IT[activeDayIdx] || 'Oggi',
+      focus: 'Allenamento Odierno'
+    };
+
+    const badgeEl = document.getElementById('gym-active-day-badge');
+    if (badgeEl) {
+      const isActuallyToday = activeDayIdx === realTodayIdx;
+      badgeEl.textContent = `🥊 SCHEDA: ${activeRoutine.day.toUpperCase()} ${isActuallyToday ? '(OGGI)' : '(PERSONALIZZATA)'}`;
+    }
+    const titleEl = document.getElementById('gym-active-day-title');
+    if (titleEl) {
+      titleEl.textContent = activeRoutine.focus ? activeRoutine.focus.split('(')[0].trim() : activeRoutine.day;
+    }
+    const focusEl = document.getElementById('gym-active-day-focus');
+    if (focusEl) {
+      focusEl.textContent = activeRoutine.focus || 'Allenamento completo e disciplina';
+    }
+
+    // Update Today Gym Summary Card on "Oggi" Screen
+    const todayGymTitle = document.getElementById('today-gym-summary-title');
+    const todayGymSub = document.getElementById('today-gym-summary-sub');
+    const todayGymBar = document.getElementById('today-gym-progress-bar');
+    const todayGymProgressText = document.getElementById('today-gym-progress-text');
+    if (todayGymTitle) {
+      todayGymTitle.textContent = `${activeRoutine.day}: ${activeRoutine.focus ? activeRoutine.focus.split('(')[0].trim() : 'Sessione'}`;
+    }
+    if (todayGymSub) {
+      const totalExCount = (extraState.gymExercises || []).length;
+      todayGymSub.textContent = `${totalExCount} esercizi previsti · ${activeRoutine.focus || 'Fighter Boxing & Pesi'}`;
+    }
+    let totalSetsPlanned = 0;
+    (extraState.gymExercises || []).forEach((ex) => {
+      totalSetsPlanned += (ex.sets || []).length;
+    });
+    const pct = totalSetsPlanned > 0 ? Math.min(100, Math.round((totalDoneSets / totalSetsPlanned) * 100)) : 0;
+    if (todayGymBar) {
+      todayGymBar.style.width = `${pct}%`;
+    }
+    if (todayGymProgressText) {
+      todayGymProgressText.textContent = `${totalDoneSets}/${totalSetsPlanned} serie (${pct}%)`;
+    }
+
     (extraState.gymHistory || []).forEach((gh) => {
       const li = document.createElement('li');
       li.className = 'list-row';
@@ -2542,10 +2662,15 @@
 
     splitNameEl.textContent = extraState.weeklyGymProgram.splitName || 'Programma Settimanale';
 
-    // Highlight active day chip
+    // Highlight active day chip and clearly label the real current day
+    const todayRealIdx = (new Date().getDay() + 6) % 7;
     dayBarEl.querySelectorAll('.gym-day-chip').forEach((chip) => {
       const dayIdx = parseInt(chip.dataset.gymDay, 10);
       chip.classList.toggle('active', dayIdx === selectedGymDayIdx);
+      const isTodayReal = dayIdx === todayRealIdx;
+      chip.classList.toggle('chip-today-real', isTodayReal);
+      const baseLabel = DAY_LABELS_IT[dayIdx] || 'Giorno';
+      chip.textContent = isTodayReal ? `${baseLabel} (Oggi)` : baseLabel;
     });
 
     const dayRoutine = extraState.weeklyGymProgram.schedule[selectedGymDayIdx] || {
@@ -3060,18 +3185,22 @@
     scheduleEditor.replaceChildren();
 
     const weekDates = getWeekDates();
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = getLocalDateStr();
     const todayIdx = (new Date().getDay() + 6) % 7;
     const todayCode = DAY_CODES[todayIdx];
 
     // 1. Render Thumb-Friendly Today Checklist
     if (todayChecklist) {
       (habits || []).forEach((habit) => {
+        const isScheduledToday = (habit.schedule || []).includes(todayCode);
         const currentSt = getHabitDayState(habit, todayStr, todayCode);
         const isDoneToday = currentSt === 'done';
         const item = document.createElement('div');
         item.className = 'thumb-habit-item';
         item.dataset.done = String(isDoneToday);
+        if (!isScheduledToday) {
+          item.style.opacity = '0.78';
+        }
 
         const left = document.createElement('div');
         left.style.flex = '1';
@@ -3080,7 +3209,11 @@
         t.textContent = habit.name;
         const sub = document.createElement('p');
         sub.className = 'habit-meta-sub';
-        sub.textContent = `${habit.category} · 🔥 Serie: ${habit.streak || 0} giorni`;
+        if (!isScheduledToday) {
+          sub.innerHTML = `${habit.category} · <span style="color: var(--pm-text-2);">🌴 Riposo Oggi (Prevista: ${habit.schedule.join(', ')})</span>`;
+        } else {
+          sub.innerHTML = `${habit.category} · 🔥 Serie: ${habit.streak || 0}g · <span style="color: var(--pm-gold-bright); font-weight:700;">🎯 Prevista Oggi</span>`;
+        }
         left.appendChild(t);
         left.appendChild(sub);
 
@@ -3149,10 +3282,12 @@
       const col = document.createElement('div');
       col.className = 'habit-col-head';
       col.setAttribute('role', 'columnheader');
-      col.textContent = label;
-      if (weekDates[idx] === todayStr) {
-        col.style.color = 'var(--ob-gold-bright)';
-        col.style.fontWeight = '700';
+      const isTodayCol = weekDates[idx] === todayStr;
+      col.textContent = isTodayCol ? `${label} (Oggi)` : label;
+      if (isTodayCol) {
+        col.style.color = 'var(--pm-gold-bright)';
+        col.style.fontWeight = '800';
+        col.style.textShadow = '0 0 6px rgba(250, 232, 162, 0.4)';
       }
       headerRow.appendChild(col);
     });
@@ -3191,6 +3326,10 @@
         const cellWrap = document.createElement('div');
         cellWrap.className = 'habit-day-cell';
         cellWrap.setAttribute('role', 'cell');
+        if (dateStr === todayStr) {
+          cellWrap.style.background = 'rgba(223, 177, 91, 0.08)';
+          cellWrap.style.borderRadius = 'var(--radius-xs)';
+        }
 
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -3685,6 +3824,7 @@
     if (!state) return;
     currentState = state;
     saveOfflineState(state);
+    ensureTodayGymExercises();
     checkAutoWeeklyRollover();
 
     renderHeaderAndKpis(state);
@@ -4188,7 +4328,7 @@
     mutateState('ADD_SINGLE_ALARM', { time: `${hh}:${mm}`, label: 'Snooze +5m' });
   });
 
-  let lastSeenDayStr = new Date().toISOString().split('T')[0];
+  let lastSeenDayStr = getLocalDateStr();
 
   function tickClockAndAlarms() {
     const now = new Date();
@@ -4235,10 +4375,12 @@
       }
     }
 
-    // Midnight Auto-Rollover Detection
-    const currentDayStr = now.toISOString().split('T')[0];
+    // Midnight Auto-Rollover Detection (Adapts Gym Routine, Habits, Trackers to the new real day)
+    const currentDayStr = getLocalDateStr(now);
     if (currentDayStr !== lastSeenDayStr) {
       lastSeenDayStr = currentDayStr;
+      selectedGymDayIdx = (now.getDay() + 6) % 7;
+      ensureTodayGymExercises(true);
       checkAutoWeeklyRollover();
       if (currentState) {
         renderAll(currentState);
@@ -4276,6 +4418,9 @@
       return;
     }
     playAlarmChime('pulse');
+    const todayStr = getLocalDateStr();
+    extraState.activeGymDayIdx = selectedGymDayIdx;
+    extraState.gymActiveDate = todayStr;
     extraState.gymExercises = dayRoutine.exercises.map((ex, idx) => ({
       id: `ex-loaded-${Date.now()}-${idx}`,
       name: ex.name,
@@ -4287,7 +4432,16 @@
             done: false
           }))
     }));
+    extraState.dailyGymSessions = extraState.dailyGymSessions || {};
+    extraState.dailyGymSessions[todayStr] = {
+      date: todayStr,
+      dayIdx: selectedGymDayIdx,
+      dayName: dayRoutine.day,
+      focus: dayRoutine.focus,
+      exercises: extraState.gymExercises
+    };
     saveExtraState();
+    syncWeeklyGymProgram();
     renderGymModule();
 
     // Switch to active workout tab
@@ -4298,6 +4452,22 @@
     if (activeView) activeView.hidden = false;
 
     showActionToast(`⚡ Scheda di ${dayRoutine.day} caricata per oggi!`);
+  });
+
+  document.getElementById('btn-today-open-gym')?.addEventListener('click', () => {
+    activateTab('gym');
+    activateSegment('gym', 'gym-active');
+  });
+
+  document.getElementById('btn-gym-jump-weekly')?.addEventListener('click', () => {
+    activateSegment('gym', 'gym-weekly');
+  });
+
+  document.getElementById('btn-gym-reload-today-real')?.addEventListener('click', () => {
+    playUiTick(800);
+    ensureTodayGymExercises(true);
+    renderGymModule();
+    showActionToast('🔄 Scheda del giorno reale ricaricata con successo!');
   });
 
   document.getElementById('btn-add-exercise-to-day')?.addEventListener('click', () => {
