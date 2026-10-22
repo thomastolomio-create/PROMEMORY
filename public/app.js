@@ -1202,7 +1202,8 @@
       month: 'short'
     });
     const dateLbl = document.getElementById('exec-date-label');
-    if (dateLbl) dateLbl.textContent = dateFormatted.toUpperCase();
+    const liveDateEl = document.getElementById('live-italian-date');
+    if (dateLbl && !liveDateEl) dateLbl.textContent = dateFormatted.toUpperCase();
 
     const dayIdx = (new Date().getDay() + 6) % 7;
     const todayCode = DAY_CODES[dayIdx];
@@ -4187,19 +4188,60 @@
     mutateState('ADD_SINGLE_ALARM', { time: `${hh}:${mm}`, label: 'Snooze +5m' });
   });
 
+  let lastSeenDayStr = new Date().toISOString().split('T')[0];
+
   function tickClockAndAlarms() {
     const now = new Date();
     const hh = String(now.getHours()).padStart(2, '0');
     const mm = String(now.getMinutes()).padStart(2, '0');
     const ss = String(now.getSeconds()).padStart(2, '0');
     const currentHM = `${hh}:${mm}`;
+    const timeFull = `${hh}:${mm}:${ss}`;
 
+    // Italian Date Formatting (Giorno della settimana, Giorno del mese, Mese, Anno)
+    const rawWeekday = now.toLocaleDateString('it-IT', { weekday: 'long' });
+    const capWeekday = rawWeekday.charAt(0).toUpperCase() + rawWeekday.slice(1);
+    const dayNum = now.getDate();
+    const rawMonth = now.toLocaleDateString('it-IT', { month: 'long' });
+    const capMonth = rawMonth.charAt(0).toUpperCase() + rawMonth.slice(1);
+    const year = now.getFullYear();
+
+    const dateFullStr = `${capWeekday} ${dayNum} ${capMonth} ${year}`;
+    const dateCompactStr = `${capWeekday.slice(0, 3)} ${dayNum} ${capMonth.slice(0, 3)}`;
+
+    // Update Header Live Date & Live Monospace Clock Badge
+    const liveDateEl = document.getElementById('live-italian-date');
+    const liveClockEl = document.getElementById('live-italian-clock');
+    if (liveDateEl) {
+      liveDateEl.textContent = window.innerWidth < 480 ? dateCompactStr : dateFullStr;
+    }
+    if (liveClockEl) {
+      liveClockEl.textContent = timeFull;
+    }
+
+    // Update Eyebrow on "Oggi" Tab
+    const greetingEyebrow = document.getElementById('today-greeting-eyebrow');
+    if (greetingEyebrow) {
+      greetingEyebrow.textContent = `📅 ${capWeekday.toUpperCase()} ${dayNum} ${capMonth.toUpperCase()} ${year} · ${timeFull}`;
+    }
+
+    // Check Alarms trigger at ss === '00'
     if (ss === '00' && currentState?.alarms) {
       const matchingAlarm = currentState.alarms.find((a) => a.enabled && a.time === currentHM);
       const triggerKey = `${now.toDateString()}-${currentHM}`;
       if (matchingAlarm && !triggeredMinuteCache.has(triggerKey)) {
         triggeredMinuteCache.add(triggerKey);
         triggerLiveAlarmModal(matchingAlarm);
+      }
+    }
+
+    // Midnight Auto-Rollover Detection
+    const currentDayStr = now.toISOString().split('T')[0];
+    if (currentDayStr !== lastSeenDayStr) {
+      lastSeenDayStr = currentDayStr;
+      checkAutoWeeklyRollover();
+      if (currentState) {
+        renderAll(currentState);
       }
     }
   }
@@ -4737,44 +4779,6 @@
     if (activeAlarmInterval) clearInterval(activeAlarmInterval);
     alarmRingDialog?.close();
   });
-
-  document.getElementById('btn-snooze-alarm')?.addEventListener('click', () => {
-    if (activeAlarmInterval) clearInterval(activeAlarmInterval);
-    alarmRingDialog?.close();
-    const snoozeDate = new Date(Date.now() + 5 * 60000);
-    const hh = String(snoozeDate.getHours()).padStart(2, '0');
-    const mm = String(snoozeDate.getMinutes()).padStart(2, '0');
-    mutateState('ADD_SINGLE_ALARM', { time: `${hh}:${mm}`, label: 'Snooze +5m' });
-  });
-
-  function tickClockAndAlarms() {
-    const now = new Date();
-    const hh = String(now.getHours()).padStart(2, '0');
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    const ss = String(now.getSeconds()).padStart(2, '0');
-    const currentHM = `${hh}:${mm}`;
-
-    if (ss === '00' && currentState?.alarms) {
-      const matchingAlarm = currentState.alarms.find((a) => a.enabled && a.time === currentHM);
-      const triggerKey = `${now.toDateString()}-${currentHM}`;
-      if (matchingAlarm && !triggeredMinuteCache.has(triggerKey)) {
-        triggeredMinuteCache.add(triggerKey);
-        triggerLiveAlarmModal(matchingAlarm);
-      }
-    }
-  }
-
-  function triggerLiveAlarmModal(alarm) {
-    document.getElementById('alarm-ring-title').textContent = alarm.time;
-    document.getElementById('alarm-ring-label').textContent = alarm.label;
-    if (!alarmRingDialog.open) alarmRingDialog.showModal();
-    playAlarmChime(alarm.sound || 'cascade');
-    if (activeAlarmInterval) clearInterval(activeAlarmInterval);
-    activeAlarmInterval = setInterval(() => playAlarmChime(alarm.sound || 'cascade'), 2800);
-  }
-
-  setInterval(tickClockAndAlarms, 1000);
-  tickClockAndAlarms();
 
   // Real-time WebSocket Sync with Token
   function connectWebSocket() {
