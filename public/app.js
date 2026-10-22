@@ -33,7 +33,108 @@
   const DAY_LABELS_IT = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
   const DAY_SHORT_IT = ['L', 'M', 'M', 'G', 'V', 'S', 'D'];
 
+  const FIGHTER_BOXING_ROUTINE = [
+    {
+      day: 'Lunedì',
+      focus: 'Upper Body & KO Power (Pesi, Finisher Corda, Collo, KO Core)',
+      exercises: [
+        { id: 'ex-fb-1', name: 'Panca Piana Bilanciere', sets: [{ kg: 75, reps: 6, done: false }, { kg: 75, reps: 6, done: false }, { kg: 75, reps: 6, done: false }, { kg: 75, reps: 6, done: false }] },
+        { id: 'ex-fb-2', name: 'Trazioni alla Sbarra', sets: [{ kg: 0, reps: 6, done: false }, { kg: 0, reps: 6, done: false }, { kg: 0, reps: 6, done: false }, { kg: 0, reps: 6, done: false }] },
+        { id: 'ex-fb-3', name: 'Military Press con Bilanciere/Manubri', sets: [{ kg: 40, reps: 6, done: false }, { kg: 40, reps: 6, done: false }, { kg: 40, reps: 6, done: false }] },
+        { id: 'ex-fb-4', name: 'Rematore con Bilanciere', sets: [{ kg: 60, reps: 8, done: false }, { kg: 60, reps: 8, done: false }, { kg: 60, reps: 8, done: false }] },
+        { id: 'ex-fb-5', name: 'Bicipiti Curl con Manubri', sets: [{ kg: 14, reps: 10, done: false }, { kg: 14, reps: 10, done: false }] },
+        { id: 'ex-fb-6', name: 'Pushdown Tricipiti Corda', sets: [{ kg: 25, reps: 10, done: false }, { kg: 25, reps: 10, done: false }] },
+        { id: 'ex-fb-7', name: 'Finisher Corda (30s ON / 30s OFF)', sets: [{ kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }] },
+        { id: 'ex-fb-8', name: 'Collo: Neck Raises Avanti', sets: [{ kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }] },
+        { id: 'ex-fb-9', name: 'Collo: Neck Raises Dietro', sets: [{ kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }] },
+        { id: 'ex-fb-10', name: 'Collo: Neck Raises Laterali', sets: [{ kg: 0, reps: 12, done: false }, { kg: 0, reps: 12, done: false }] },
+        { id: 'ex-fb-11', name: 'KO Power: Russian Twist con Peso', sets: [{ kg: 10, reps: 20, done: false }, { kg: 10, reps: 20, done: false }, { kg: 10, reps: 20, done: false }] },
+        { id: 'ex-fb-12', name: 'KO Power: Woodchopper al Cavo/Manubrio', sets: [{ kg: 15, reps: 12, done: false }, { kg: 15, reps: 12, done: false }, { kg: 15, reps: 12, done: false }] },
+        { id: 'ex-fb-13', name: 'KO Power: Shadowboxing Massima Potenza', sets: [{ kg: 2, reps: 20, done: false }, { kg: 2, reps: 20, done: false }, { kg: 2, reps: 20, done: false }] },
+        { id: 'ex-fb-14', name: 'KO Power: Plank Rotazione Bacino', sets: [{ kg: 0, reps: 16, done: false }, { kg: 0, reps: 16, done: false }, { kg: 0, reps: 16, done: false }] },
+        { id: 'ex-fb-15', name: 'Finisher KO: Shadowboxing Forza & Frequenza (30s ON/OFF)', sets: [{ kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }] }
+      ]
+    },
+    {
+      day: 'Martedì',
+      focus: 'Kickboxing (Tecnica, Sacco, Sparring) + Extra Guardia Alta',
+      exercises: [
+        { id: 'ex-fb-16', name: 'Kickboxing: Riscaldamento Tecnico & Corda', sets: [{ kg: 0, reps: 10, done: false }] },
+        { id: 'ex-fb-17', name: 'Kickboxing: Combinazioni al Sacco / Pao', sets: [{ kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }] },
+        { id: 'ex-fb-18', name: 'Kickboxing: Sparring & Footwork Drills', sets: [{ kg: 0, reps: 20, done: false }] },
+        { id: 'ex-fb-19', name: 'Extra Guardia: Tenuta Guardia Serrata Ferma (40s)', sets: [{ kg: 0, reps: 40, done: false }, { kg: 0, reps: 40, done: false }] }
+      ]
+    },
+    {
+      day: 'Mercoledì',
+      focus: 'Gambe Esplosive (120s squat/stacco, 60-90s resto) + Finisher Jump Squat & Sprint',
+      exercises: [
+        { id: 'ex-fb-20', name: 'Squat con Bilanciere', sets: [{ kg: 95, reps: 6, done: false }, { kg: 95, reps: 6, done: false }, { kg: 95, reps: 6, done: false }, { kg: 95, reps: 6, done: false }] },
+        { id: 'ex-fb-21', name: 'Stacco Rumeno con Bilanciere (RDL)', sets: [{ kg: 80, reps: 8, done: false }, { kg: 80, reps: 8, done: false }, { kg: 80, reps: 8, done: false }] },
+        { id: 'ex-fb-22', name: 'Affondi Camminati con Manubri', sets: [{ kg: 18, reps: 10, done: false }, { kg: 18, reps: 10, done: false }, { kg: 18, reps: 10, done: false }] },
+        { id: 'ex-fb-23', name: 'Leg Curl Macchinario', sets: [{ kg: 45, reps: 12, done: false }, { kg: 45, reps: 12, done: false }] },
+        { id: 'ex-fb-24', name: 'Calf Raise in Piedi', sets: [{ kg: 60, reps: 15, done: false }, { kg: 60, reps: 15, done: false }, { kg: 60, reps: 15, done: false }, { kg: 60, reps: 15, done: false }] },
+        { id: 'ex-fb-25', name: 'Plank Isometrico con Tenuta', sets: [{ kg: 0, reps: 40, done: false }, { kg: 0, reps: 40, done: false }, { kg: 0, reps: 40, done: false }] },
+        { id: 'ex-fb-26', name: 'Finisher: Jump Squat Esplosivi', sets: [{ kg: 0, reps: 10, done: false }, { kg: 0, reps: 10, done: false }, { kg: 0, reps: 10, done: false }] },
+        { id: 'ex-fb-27', name: 'Finisher: Sprint / Navette Veloci (20s)', sets: [{ kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }] }
+      ]
+    },
+    {
+      day: 'Giovedì',
+      focus: 'Kickboxing Completo (Tecnica, Schivate, Focus Footwork) — Regola: Guardia sempre alta',
+      exercises: [
+        { id: 'ex-fb-28', name: 'Kickboxing: Riscaldamento & Corda Veloce', sets: [{ kg: 0, reps: 10, done: false }] },
+        { id: 'ex-fb-29', name: 'Kickboxing: Combinazioni 3-4 Colpi & Uscite', sets: [{ kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }] },
+        { id: 'ex-fb-30', name: 'Kickboxing: Sparring Tecnico & Disciplina Difensiva', sets: [{ kg: 0, reps: 20, done: false }] }
+      ]
+    },
+    {
+      day: 'Venerdì',
+      focus: 'Full Body Potenza (Recupero 90s) + Finisher Burpees + Rotazioni Leggere',
+      exercises: [
+        { id: 'ex-fb-31', name: 'Stacco da Terra Convenzionale', sets: [{ kg: 110, reps: 4, done: false }, { kg: 110, reps: 4, done: false }, { kg: 110, reps: 4, done: false }] },
+        { id: 'ex-fb-32', name: 'Panca Inclinata con Manubri', sets: [{ kg: 26, reps: 8, done: false }, { kg: 26, reps: 8, done: false }, { kg: 26, reps: 8, done: false }] },
+        { id: 'ex-fb-33', name: 'Pull Ups (Trazioni Prone)', sets: [{ kg: 0, reps: 6, done: false }, { kg: 0, reps: 6, done: false }, { kg: 0, reps: 6, done: false }] },
+        { id: 'ex-fb-34', name: 'Alzate Laterali con Manubri', sets: [{ kg: 12, reps: 12, done: false }, { kg: 12, reps: 12, done: false }, { kg: 12, reps: 12, done: false }] },
+        { id: 'ex-fb-35', name: 'Farmer Walk con Manubri Pesanti', sets: [{ kg: 26, reps: 30, done: false }, { kg: 26, reps: 30, done: false }, { kg: 26, reps: 30, done: false }] },
+        { id: 'ex-fb-36', name: 'Addome alla Sbarra / Leg Raise', sets: [{ kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }] },
+        { id: 'ex-fb-37', name: 'Finisher: Burpees Esplosivi (30s ON / 30s OFF)', sets: [{ kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }, { kg: 0, reps: 30, done: false }] },
+        { id: 'ex-fb-38', name: 'Rotazioni: Russian Twist Leggero', sets: [{ kg: 5, reps: 15, done: false }, { kg: 5, reps: 15, done: false }] },
+        { id: 'ex-fb-39', name: 'Rotazioni: Woodchopper Dinamico', sets: [{ kg: 10, reps: 10, done: false }, { kg: 10, reps: 10, done: false }] },
+        { id: 'ex-fb-40', name: 'Rotazioni: Shadowboxing Ritmo Medio', sets: [{ kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }] }
+      ]
+    },
+    {
+      day: 'Sabato',
+      focus: 'Home Routine + Circuito Guardia Speciale (3 Giri, rec. 1m) + Finisher Guardia',
+      exercises: [
+        { id: 'ex-fb-41', name: 'Corda Continua (Home)', sets: [{ kg: 0, reps: 5, done: false }] },
+        { id: 'ex-fb-42', name: 'Push Ups a Terra (Massime Reps)', sets: [{ kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }] },
+        { id: 'ex-fb-43', name: 'Squat con Manubri', sets: [{ kg: 20, reps: 12, done: false }, { kg: 20, reps: 12, done: false }, { kg: 20, reps: 12, done: false }, { kg: 20, reps: 12, done: false }] },
+        { id: 'ex-fb-44', name: 'Elastici Trazioni Schiena', sets: [{ kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }] },
+        { id: 'ex-fb-45', name: 'Core Circuit Completo (Home)', sets: [{ kg: 0, reps: 10, done: false }] },
+        { id: 'ex-fb-46', name: 'Guardia: Shadowboxing Attivo (2m)', sets: [{ kg: 0, reps: 120, done: false }, { kg: 0, reps: 120, done: false }, { kg: 0, reps: 120, done: false }] },
+        { id: 'ex-fb-47', name: 'Guardia: Tenuta Ferma Gomiti Stretti (40s)', sets: [{ kg: 0, reps: 40, done: false }, { kg: 0, reps: 40, done: false }, { kg: 0, reps: 40, done: false }] },
+        { id: 'ex-fb-48', name: 'Guardia: Alzate Frontali Lente', sets: [{ kg: 8, reps: 12, done: false }, { kg: 8, reps: 12, done: false }, { kg: 8, reps: 12, done: false }] },
+        { id: 'ex-fb-49', name: 'Guardia: Alzate Laterali Lente', sets: [{ kg: 8, reps: 15, done: false }, { kg: 8, reps: 15, done: false }, { kg: 8, reps: 15, done: false }] },
+        { id: 'ex-fb-50', name: 'Guardia: Pugni Diretti con Elastico', sets: [{ kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }, { kg: 0, reps: 15, done: false }] },
+        { id: 'ex-fb-51', name: 'Guardia: Plank con Tocco Spalle', sets: [{ kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }, { kg: 0, reps: 20, done: false }] },
+        { id: 'ex-fb-52', name: 'Finisher Guardia: Tenuta Alta 1m + Shadowboxing 1m (x2)', sets: [{ kg: 0, reps: 120, done: false }, { kg: 0, reps: 120, done: false }] }
+      ]
+    },
+    {
+      day: 'Domenica',
+      focus: 'Recupero Attivo, Stretching Globale, Mobilità Articolare & Relax',
+      exercises: [
+        { id: 'ex-fb-53', name: 'Stretching Globale Catena Posteriore (15 min)', sets: [{ kg: 0, reps: 15, done: false }] },
+        { id: 'ex-fb-54', name: 'Mobilità Anche, Spalle & Bacino (10 min)', sets: [{ kg: 0, reps: 10, done: false }] },
+        { id: 'ex-fb-55', name: 'Respirazione Diaframmatica & Rilassamento', sets: [{ kg: 0, reps: 10, done: false }] }
+      ]
+    }
+  ];
+
   const GYM_PRESETS = {
+    fighter_boxing: FIGHTER_BOXING_ROUTINE[0].exercises,
     push: [
       {
         id: 'ex-push-1',
@@ -257,103 +358,47 @@
     trackerHistoryOverrides: {},
     habitHistoryOverrides: {}, // { [habitId]: { [dateStr]: state } }
     milestoneOverrides: {},
-    gymExercises: [
-      {
-        id: 'ex-1',
-        name: 'Panca Piana Bilanciere',
-        sets: [
-          { kg: 70, reps: 10, done: true },
-          { kg: 75, reps: 8, done: true },
-          { kg: 75, reps: 8, done: false },
-          { kg: 75, reps: 8, done: false }
-        ]
-      },
-      {
-        id: 'ex-2',
-        name: 'Lat Machine Presa Larga',
-        sets: [
-          { kg: 60, reps: 10, done: true },
-          { kg: 65, reps: 10, done: false },
-          { kg: 65, reps: 10, done: false }
-        ]
-      },
-      {
-        id: 'ex-3',
-        name: 'Alzate Laterali Manubri',
-        sets: [
-          { kg: 12, reps: 12, done: false },
-          { kg: 12, reps: 12, done: false },
-          { kg: 12, reps: 12, done: false }
-        ]
-      }
-    ],
+    exercisePRs: {
+      'Panca Piana Bilanciere': { kg: 75, reps: 6, date: '19 Ott' },
+      'Squat con Bilanciere': { kg: 95, reps: 6, date: '14 Ott' },
+      'Stacco da Terra Convenzionale': { kg: 110, reps: 4, date: '16 Ott' },
+      'Military Press con Bilanciere/Manubri': { kg: 40, reps: 6, date: '19 Ott' },
+      'Rematore con Bilanciere': { kg: 60, reps: 8, date: '19 Ott' },
+      'Stacco Rumeno con Bilanciere (RDL)': { kg: 80, reps: 8, date: '14 Ott' },
+      'Panca Inclinata con Manubri': { kg: 26, reps: 8, date: '16 Ott' },
+      'Trazioni alla Sbarra': { kg: 0, reps: 6, date: '19 Ott' },
+      'Russian Twist con Peso': { kg: 10, reps: 20, date: '19 Ott' },
+      'Woodchopper al Cavo/Manubrio': { kg: 15, reps: 12, date: '19 Ott' }
+    },
+    exerciseHistory: {
+      'Panca Piana Bilanciere': [
+        { date: '12 Ott', kg: 72.5, reps: 6, setNum: 1 },
+        { date: '12 Ott', kg: 72.5, reps: 6, setNum: 2 },
+        { date: '19 Ott', kg: 75, reps: 6, setNum: 1 },
+        { date: '19 Ott', kg: 75, reps: 6, setNum: 2 }
+      ],
+      'Squat con Bilanciere': [
+        { date: '07 Ott', kg: 92.5, reps: 6, setNum: 1 },
+        { date: '14 Ott', kg: 95, reps: 6, setNum: 1 }
+      ],
+      'Stacco da Terra Convenzionale': [
+        { date: '09 Ott', kg: 105, reps: 4, setNum: 1 },
+        { date: '16 Ott', kg: 110, reps: 4, setNum: 1 }
+      ]
+    },
+    warmupChecks: {},
+    gymExercises: JSON.parse(JSON.stringify(FIGHTER_BOXING_ROUTINE[0].exercises)),
     gymHistory: [
-      { id: 'gh-1', date: 'Lun', title: 'Sessione Upper Body', volumeKg: 4250, setsCount: 14 },
-      { id: 'gh-2', date: 'Mer', title: 'Sessione Lower Body & Core', volumeKg: 5120, setsCount: 16 }
+      { id: 'gh-1', date: 'Lun', title: 'Fighter Upper + KO Power', volumeKg: 4250, setsCount: 15 },
+      { id: 'gh-2', date: 'Mer', title: 'Gambe Esplosive & Potenza', volumeKg: 5120, setsCount: 16 }
     ],
     expenses: [
       { id: 'exp-1', title: 'Pranzo proteico', amount: 14.50, category: 'Cibo', date: new Date().toISOString().split('T')[0] },
       { id: 'exp-2', title: 'Integrazione Magnesio & Omega 3', amount: 24.00, category: 'Sport', date: new Date().toISOString().split('T')[0] }
     ],
     weeklyGymProgram: {
-      splitName: 'PUSH PULL LEGS (4 Giorni/sett)',
-      schedule: [
-        {
-          day: 'Lunedì',
-          focus: 'Push Day (Petto, Spalle, Tricipiti)',
-          exercises: [
-            { id: 'ex-w1', name: 'Panca Piana Bilanciere', sets: 4, reps: 8, kg: 75 },
-            { id: 'ex-w2', name: 'Military Press / Spinte Manubri', sets: 3, reps: 10, kg: 24 },
-            { id: 'ex-w3', name: 'Alzate Laterali Manubri', sets: 3, reps: 12, kg: 12 },
-            { id: 'ex-w4', name: 'Pushdown Tricipiti Corda', sets: 3, reps: 12, kg: 25 }
-          ]
-        },
-        {
-          day: 'Martedì',
-          focus: 'Pull Day (Dorso, Bicipiti, Deltoidi Post.)',
-          exercises: [
-            { id: 'ex-w5', name: 'Lat Machine Presa Larga', sets: 4, reps: 10, kg: 65 },
-            { id: 'ex-w6', name: 'Rematore Manubrio Singolo', sets: 3, reps: 10, kg: 28 },
-            { id: 'ex-w7', name: 'Face Pull Cavi', sets: 3, reps: 15, kg: 20 },
-            { id: 'ex-w8', name: 'Curl Manubri Inclinata', sets: 3, reps: 12, kg: 14 }
-          ]
-        },
-        {
-          day: 'Mercoledì',
-          focus: 'Riposo & Camminata Attiva 5km',
-          exercises: []
-        },
-        {
-          day: 'Giovedì',
-          focus: 'Legs & Core (Quadricipiti, Femorali, Addome)',
-          exercises: [
-            { id: 'ex-w9', name: 'Squat Bilanciere / Pressa 45°', sets: 4, reps: 8, kg: 100 },
-            { id: 'ex-w10', name: 'Leg Curl Seduto', sets: 3, reps: 12, kg: 45 },
-            { id: 'ex-w11', name: 'Affondi Manubri Camminati', sets: 3, reps: 10, kg: 18 },
-            { id: 'ex-w12', name: 'Plank Sovraccarico', sets: 3, reps: 60, kg: 10 }
-          ]
-        },
-        {
-          day: 'Venerdì',
-          focus: 'Upper Body Pump / Braccia & Spalle',
-          exercises: [
-            { id: 'ex-w13', name: 'Spinte Manubri Panca 30°', sets: 3, reps: 10, kg: 26 },
-            { id: 'ex-w14', name: 'Pulley Basso Presa Stretta', sets: 3, reps: 10, kg: 55 },
-            { id: 'ex-w15', name: 'Dip alle Parallele', sets: 3, reps: 10, kg: 0 },
-            { id: 'ex-w16', name: 'Curl Bilanciere Sagomato EZ', sets: 3, reps: 10, kg: 30 }
-          ]
-        },
-        {
-          day: 'Sabato',
-          focus: 'Riposo & Allungamento Funzionale',
-          exercises: []
-        },
-        {
-          day: 'Domenica',
-          focus: 'Riposo Totale & Ricarica Mentale',
-          exercises: []
-        }
-      ]
+      splitName: '🥊 FIGHTER BOXING & STRENGTH (7 Giorni)',
+      schedule: FIGHTER_BOXING_ROUTINE
     }
   };
 
@@ -369,6 +414,9 @@
             ? parsed.weeklyArchive52
             : DEFAULT_EXTRA.weeklyArchive52,
           weeklyGymProgram: parsed.weeklyGymProgram || DEFAULT_EXTRA.weeklyGymProgram,
+          exercisePRs: parsed.exercisePRs || DEFAULT_EXTRA.exercisePRs,
+          exerciseHistory: parsed.exerciseHistory || DEFAULT_EXTRA.exerciseHistory,
+          warmupChecks: parsed.warmupChecks || {},
           trackerHistoryOverrides: parsed.trackerHistoryOverrides || {},
           habitHistoryOverrides: parsed.habitHistoryOverrides || {},
           milestoneOverrides: parsed.milestoneOverrides || {}
@@ -1705,6 +1753,20 @@
   document.querySelectorAll('[data-gym-preset]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.gymPreset;
+      if (key === 'fighter_boxing') {
+        playUiTick(800);
+        extraState.weeklyGymProgram = {
+          splitName: '🥊 FIGHTER BOXING & STRENGTH (7 Giorni)',
+          schedule: FIGHTER_BOXING_ROUTINE
+        };
+        extraState.gymExercises = JSON.parse(JSON.stringify(GYM_PRESETS.fighter_boxing));
+        saveExtraState();
+        syncWeeklyGymProgram();
+        renderGymModule();
+        activateSegment('gym', 'gym-active');
+        showActionToast('🥊 Scheda Fighter Boxing Attivata!');
+        return;
+      }
       const preset = GYM_PRESETS[key];
       if (preset) {
         playUiTick(750);
@@ -1726,6 +1788,33 @@
     showActionToast('Spunte serie azzerate');
   });
 
+  function recordExerciseSetLog(exName, kg, reps, setNum = 1) {
+    if (!exName || kg <= 0) return;
+    extraState.exerciseHistory = extraState.exerciseHistory || {};
+    extraState.exerciseHistory[exName] = extraState.exerciseHistory[exName] || [];
+
+    const today = new Date().toLocaleDateString('it-IT', { day: '2-digit', month: 'short' });
+    extraState.exerciseHistory[exName].unshift({
+      date: today,
+      kg,
+      reps,
+      setNum
+    });
+    if (extraState.exerciseHistory[exName].length > 20) {
+      extraState.exerciseHistory[exName].pop();
+    }
+
+    extraState.exercisePRs = extraState.exercisePRs || {};
+    const curPr = extraState.exercisePRs[exName];
+    const isNewPr = !curPr || kg > curPr.kg || (kg === curPr.kg && reps > curPr.reps);
+
+    if (isNewPr) {
+      extraState.exercisePRs[exName] = { kg, reps, date: today };
+      playAlarmChime('pulse');
+      showActionToast(`🔥 RECORD PERSONALE! ${exName}: ${kg} kg × ${reps} reps!`);
+    }
+  }
+
   const editGymSetDialog = document.getElementById('edit-gym-set-dialog');
   function openEditGymSetModal(ex, setIdx) {
     if (!editGymSetDialog) return;
@@ -1736,9 +1825,36 @@
     document.getElementById('edit-gym-set-eyebrow').textContent = `${ex.name.toUpperCase()} — SERIE #${setIdx + 1}`;
     document.getElementById('edit-gym-kg').value = String(targetSet.kg);
     document.getElementById('edit-gym-reps').value = String(targetSet.reps);
+
+    const prBadge = document.getElementById('edit-set-current-pr-badge');
+    const pr = (extraState.exercisePRs && extraState.exercisePRs[ex.name]) || null;
+    if (prBadge) {
+      prBadge.textContent = pr ? `Record Attuale: ${pr.kg} kg × ${pr.reps} reps` : 'Nessun record precedente';
+    }
+
+    const histContainer = document.getElementById('past-history-mini-list');
+    if (histContainer) {
+      histContainer.replaceChildren();
+      const exHistory = (extraState.exerciseHistory && extraState.exerciseHistory[ex.name]) || [];
+      if (exHistory.length === 0) {
+        const p = document.createElement('p');
+        p.className = 'text-muted text-xs';
+        p.textContent = 'Nessun carico registrato in precedenza.';
+        histContainer.appendChild(p);
+      } else {
+        exHistory.slice(0, 5).forEach((h) => {
+          const row = document.createElement('div');
+          row.className = 'past-log-row';
+          row.innerHTML = `<span class="date">${h.date} (S${h.setNum || 1})</span><strong>${h.kg} kg × ${h.reps} reps</strong>`;
+          histContainer.appendChild(row);
+        });
+      }
+    }
+
     editGymSetDialog.showModal();
   }
 
+  // Edit Set Form submit
   document.getElementById('edit-gym-set-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const exId = document.getElementById('edit-gym-ex-id').value;
@@ -1750,11 +1866,39 @@
     if (ex && ex.sets[setIdx]) {
       ex.sets[setIdx].kg = kg;
       ex.sets[setIdx].reps = reps;
+      if (kg > 0) {
+        recordExerciseSetLog(ex.name, kg, reps, setIdx + 1);
+      }
       saveExtraState();
       renderGymModule();
       showActionToast(`S${setIdx + 1}: ${kg}kg × ${reps}`);
     }
     editGymSetDialog.close();
+  });
+
+  // Modal Stepper Chips (-2.5, +2.5, +5, +10 kg / -1, +1 reps)
+  document.querySelectorAll('[data-step-kg]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      playUiTick(650);
+      const input = document.getElementById('edit-gym-kg');
+      if (input) {
+        const cur = Number(input.value) || 0;
+        const delta = Number(btn.dataset.stepKg) || 0;
+        input.value = String(Math.max(0, cur + delta));
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-step-reps]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      playUiTick(650);
+      const input = document.getElementById('edit-gym-reps');
+      if (input) {
+        const cur = Number(input.value) || 0;
+        const delta = Number(btn.dataset.stepReps) || 0;
+        input.value = String(Math.max(1, cur + delta));
+      }
+    });
   });
 
   document.getElementById('btn-delete-gym-set')?.addEventListener('click', () => {
@@ -1769,6 +1913,92 @@
     editGymSetDialog.close();
   });
 
+  function renderFighterPrsTable() {
+    const container = document.getElementById('gym-prs-table-container');
+    if (!container) return;
+    container.replaceChildren();
+
+    const prs = extraState.exercisePRs || {};
+    const exercises = [
+      'Panca Piana Bilanciere',
+      'Squat con Bilanciere',
+      'Stacco da Terra Convenzionale',
+      'Military Press con Bilanciere/Manubri',
+      'Rematore con Bilanciere',
+      'Stacco Rumeno con Bilanciere (RDL)',
+      'Panca Inclinata con Manubri',
+      'Trazioni alla Sbarra',
+      'Russian Twist con Peso',
+      'Woodchopper al Cavo/Manubrio'
+    ];
+
+    const table = document.createElement('div');
+    table.className = 'fighter-pr-table';
+
+    const header = document.createElement('div');
+    header.className = 'pr-table-header';
+    header.innerHTML = `
+      <span class="col-name">Esercizio</span>
+      <span class="col-pr">Record (PR)</span>
+      <span class="col-target">Obiettivo Settimana (+2.5kg)</span>
+      <span class="col-action">Azione Rapida</span>
+    `;
+    table.appendChild(header);
+
+    exercises.forEach((name) => {
+      const pr = prs[name] || { kg: 0, reps: 0, date: '—' };
+      const nextKg = (pr.kg || 0) + (pr.kg > 0 ? 2.5 : 5);
+      const row = document.createElement('div');
+      row.className = 'pr-table-row';
+
+      const colName = document.createElement('div');
+      colName.className = 'col-name';
+      colName.innerHTML = `<strong>${name}</strong><small class="text-muted">Aggiornato: ${pr.date || 'Recente'}</small>`;
+
+      const colPr = document.createElement('div');
+      colPr.className = 'col-pr';
+      colPr.innerHTML = `<span class="pr-badge-gold">${pr.kg} kg × ${pr.reps} reps</span>`;
+
+      const colTarget = document.createElement('div');
+      colTarget.className = 'col-target';
+      colTarget.innerHTML = `<span class="target-val-chip">+2.5kg → <strong>${nextKg} kg</strong></span>`;
+
+      const colAction = document.createElement('div');
+      colAction.className = 'col-action';
+      const bumpBtn = document.createElement('button');
+      bumpBtn.type = 'button';
+      bumpBtn.className = 'btn-secondary btn-xs';
+      bumpBtn.textContent = '＋2.5kg';
+      bumpBtn.title = `Applica +2.5 kg a ${name} nella scheda di oggi`;
+      bumpBtn.addEventListener('click', () => {
+        playUiTick(750);
+        let found = false;
+        (extraState.gymExercises || []).forEach((ex) => {
+          if (ex.name.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(ex.name.toLowerCase())) {
+            ex.sets.forEach((s) => { s.kg = (Number(s.kg) || 0) + 2.5; });
+            found = true;
+          }
+        });
+        if (found) {
+          saveExtraState();
+          renderGymModule();
+          showActionToast(`🎯 ${name}: +2.5 kg applicato oggi!`);
+        } else {
+          showActionToast(`Carica prima la sessione con «${name}»!`);
+        }
+      });
+      colAction.appendChild(bumpBtn);
+
+      row.appendChild(colName);
+      row.appendChild(colPr);
+      row.appendChild(colTarget);
+      row.appendChild(colAction);
+      table.appendChild(row);
+    });
+
+    container.appendChild(table);
+  }
+
   function renderGymModule() {
     const exList = document.getElementById('gym-exercises-list');
     const histList = document.getElementById('gym-history-list');
@@ -1777,6 +2007,34 @@
     exList.replaceChildren();
     histList.replaceChildren();
 
+    // Wire Warmup Strip Controls
+    const btnToggleWarmup = document.getElementById('btn-toggle-warmup');
+    const warmupStrip = document.getElementById('gym-warmup-strip');
+    if (btnToggleWarmup && warmupStrip) {
+      btnToggleWarmup.onclick = () => {
+        warmupStrip.hidden = !warmupStrip.hidden;
+        btnToggleWarmup.textContent = warmupStrip.hidden ? '▼ Mostra Riscaldamento (10 min)' : '▲ Nascondi Riscaldamento';
+      };
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    extraState.warmupChecks = extraState.warmupChecks || {};
+    extraState.warmupChecks[todayStr] = extraState.warmupChecks[todayStr] || {};
+    document.querySelectorAll('#gym-warmup-strip input[type="checkbox"]').forEach((cb) => {
+      const id = cb.id;
+      cb.checked = Boolean(extraState.warmupChecks[todayStr][id]);
+      cb.onchange = () => {
+        playUiTick(cb.checked ? 800 : 500);
+        extraState.warmupChecks[todayStr][id] = cb.checked;
+        saveExtraState();
+        const allDone = ['w-corda', 'w-squat', 'w-pushup', 'w-spalle', 'w-hip', 'w-plank'].every(k => extraState.warmupChecks[todayStr][k]);
+        if (allDone) {
+          playAlarmChime('cascade');
+          showActionToast('🥊 Riscaldamento completato! Sei pronto al combattimento!');
+        }
+      };
+    });
+
     let totalVolume = 0;
     let totalDoneSets = 0;
 
@@ -1784,14 +2042,53 @@
       const card = document.createElement('div');
       card.className = 'exercise-card';
 
+      const pr = (extraState.exercisePRs && extraState.exercisePRs[ex.name]) || null;
+
       const head = document.createElement('div');
       head.className = 'exercise-head';
+
+      const titleWrap = document.createElement('div');
       const title = document.createElement('strong');
-      title.textContent = `🏋️‍♂️ ${ex.name}`;
+      title.textContent = `🥊 ${ex.name}`;
+      const subMeta = document.createElement('p');
+      subMeta.className = 'habit-meta-sub';
+      subMeta.textContent = pr
+        ? `🏆 Record: ${pr.kg}kg × ${pr.reps} · Target: +2.5kg (${pr.kg + 2.5}kg)`
+        : `Target: +2.5kg o +1 rep a settimana`;
+      titleWrap.appendChild(title);
+      titleWrap.appendChild(subMeta);
 
       const rightBtns = document.createElement('div');
       rightBtns.style.display = 'flex';
       rightBtns.style.gap = '6px';
+      rightBtns.style.alignItems = 'center';
+
+      // Quick 1-tap progression buttons (+2.5 kg, +1 rep)
+      const plusKgBtn = document.createElement('button');
+      plusKgBtn.type = 'button';
+      plusKgBtn.className = 'chip-stepper-btn highlight-gold';
+      plusKgBtn.textContent = '+2.5kg';
+      plusKgBtn.title = 'Aumenta tutti i set di 2.5 kg';
+      plusKgBtn.addEventListener('click', () => {
+        playUiTick(720);
+        ex.sets.forEach((s) => { s.kg = (Number(s.kg) || 0) + 2.5; });
+        saveExtraState();
+        renderGymModule();
+        showActionToast(`📈 ${ex.name}: +2.5 kg applicato a tutte le serie!`);
+      });
+
+      const plusRepBtn = document.createElement('button');
+      plusRepBtn.type = 'button';
+      plusRepBtn.className = 'chip-stepper-btn';
+      plusRepBtn.textContent = '+1 rep';
+      plusRepBtn.title = 'Aumenta tutti i set di 1 rep';
+      plusRepBtn.addEventListener('click', () => {
+        playUiTick(700);
+        ex.sets.forEach((s) => { s.reps = (Number(s.reps) || 0) + 1; });
+        saveExtraState();
+        renderGymModule();
+        showActionToast(`⚡ ${ex.name}: +1 rep applicata a tutte le serie!`);
+      });
 
       const addSetBtn = document.createElement('button');
       addSetBtn.type = 'button';
@@ -1814,9 +2111,12 @@
         renderGymModule();
       });
 
+      rightBtns.appendChild(plusKgBtn);
+      rightBtns.appendChild(plusRepBtn);
       rightBtns.appendChild(addSetBtn);
       rightBtns.appendChild(delExBtn);
-      head.appendChild(title);
+
+      head.appendChild(titleWrap);
       head.appendChild(rightBtns);
 
       const setsRow = document.createElement('div');
@@ -1838,6 +2138,9 @@
         pill.addEventListener('click', () => {
           playUiTick(s.done ? 500 : 840);
           s.done = !s.done;
+          if (s.done && Number(s.kg) > 0) {
+            recordExerciseSetLog(ex.name, Number(s.kg), Number(s.reps), idx + 1);
+          }
           saveExtraState();
           renderGymModule();
           if (s.done) {
@@ -1850,6 +2153,7 @@
         editBtn.type = 'button';
         editBtn.className = 'set-edit-btn';
         editBtn.textContent = '✎';
+        editBtn.title = 'Modifica carico / ripetizioni con stepper';
         editBtn.addEventListener('click', () => {
           openEditGymSetModal(ex, idx);
         });
@@ -1895,6 +2199,7 @@
     });
 
     renderWeeklyGymProgram();
+    renderFighterPrsTable();
   }
 
   function renderWeeklyGymProgram() {
@@ -2001,6 +2306,8 @@
 
   function buildDefaultGymRoutinesClient(splitKey = 'push_pull_legs') {
     switch (splitKey) {
+      case 'fighter_boxing':
+        return FIGHTER_BOXING_ROUTINE;
       case 'upper_lower':
         return [
           {
@@ -3419,11 +3726,13 @@
     extraState.gymExercises = dayRoutine.exercises.map((ex, idx) => ({
       id: `ex-loaded-${Date.now()}-${idx}`,
       name: ex.name,
-      sets: Array.from({ length: ex.sets || 3 }, () => ({
-        kg: ex.kg || 50,
-        reps: ex.reps || 10,
-        done: false
-      }))
+      sets: Array.isArray(ex.sets)
+        ? ex.sets.map((s) => ({ kg: s.kg || 0, reps: s.reps || 10, done: false }))
+        : Array.from({ length: ex.sets || 3 }, () => ({
+            kg: ex.kg || 50,
+            reps: ex.reps || 10,
+            done: false
+          }))
     }));
     saveExtraState();
     renderGymModule();
@@ -3473,8 +3782,9 @@
   });
 
   document.getElementById('btn-change-weekly-split')?.addEventListener('click', () => {
-    const splits = ['push_pull_legs', 'upper_lower', 'full_body', 'calisthenics_cardio'];
+    const splits = ['fighter_boxing', 'push_pull_legs', 'upper_lower', 'full_body', 'calisthenics_cardio'];
     const splitNames = {
+      fighter_boxing: '🥊 Fighter Boxing & Strength (7 Giorni)',
       push_pull_legs: 'Push / Pull / Legs (4 Giorni)',
       upper_lower: 'Upper / Lower (4 Giorni)',
       full_body: 'Full Body (3 Giorni)',
@@ -3794,6 +4104,7 @@
     const gymDays = document.getElementById('wiz-gym-days')?.value || 4;
 
     const splitNames = {
+      fighter_boxing: '🥊 Fighter Boxing & Strength (7 Giorni)',
       push_pull_legs: 'Push / Pull / Legs',
       upper_lower: 'Upper / Lower',
       full_body: 'Full Body',

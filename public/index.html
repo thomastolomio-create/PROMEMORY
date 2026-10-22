@@ -467,6 +467,37 @@
 
       <!-- SUB-VIEW 3A: ACTIVE WORKOUT EXERCISES -->
       <div class="seg-view active" id="seg-gym-active">
+        <!-- Collapsible Warm-Up (10 MIN - SEMPRE UGUALE) -->
+        <div class="card mb-12 gym-warmup-strip">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow-gold">🔥 WARM-UP (10 MIN – SEMPRE UGUALE)</p>
+              <h4 class="card-title-sm">Fai SEMPRE questo prima di ogni allenamento</h4>
+            </div>
+            <button type="button" class="btn-ghost btn-xs" id="btn-toggle-warmup">Mostra ▾</button>
+          </div>
+          <div id="gym-warmup-details" class="warmup-grid mt-10" hidden>
+            <div class="warmup-chip"><span>⚡ Corda</span><strong>2 min</strong></div>
+            <div class="warmup-chip"><span>🦵 Jump squat</span><strong>2×10</strong></div>
+            <div class="warmup-chip"><span>💪 Push up</span><strong>2×10</strong></div>
+            <div class="warmup-chip"><span>🥋 Elastico spalle</span><strong>2×15</strong></div>
+            <div class="warmup-chip"><span>🔄 Hip opener</span><strong>2×10 per lato</strong></div>
+            <div class="warmup-chip"><span>⏱️ Plank</span><strong>30 sec</strong></div>
+          </div>
+        </div>
+
+        <!-- Fighter Progression Banner (+2.5 kg / +1 rep) -->
+        <div class="fighter-progression-banner mb-12">
+          <div class="progression-banner-left">
+            <span class="badge-gold">📈 PROGRESSIONE FIGHTER</span>
+            <strong class="progression-rule-title">Ogni settimana: +2.5 kg oppure +1 rep</strong>
+            <p class="progression-rule-sub">Inserisci il carico sollevato per vedere i miglioramenti e superare i tuoi record.</p>
+          </div>
+          <div class="progression-banner-right">
+            <span class="guardia-badge">🛡️ Guardia sempre alta</span>
+          </div>
+        </div>
+
         <div class="gym-summary-bar">
           <span>Volume oggi: <strong class="text-gold" id="gym-today-volume">0 kg</strong></span>
           <span>Completate: <strong id="gym-today-sets">0 serie</strong></span>
@@ -531,11 +562,50 @@
         </div>
       </div>
 
-      <!-- SUB-VIEW 3B: PRESET SPLITS & WORKOUT LOG HISTORY -->
+      <!-- SUB-VIEW 3C: PRESET SPLITS, PROGRESSION & WORKOUT LOG HISTORY -->
       <div class="seg-view" id="seg-gym-history" hidden>
+        <!-- PR Record Tracker & Load Progression -->
+        <div class="card mb-14">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow-gold">📈 PROGRESSIONE CARICHI &amp; RECORD PERSONALI</p>
+              <h3 class="card-title">I Tuoi Miglioramenti (Fighter PR)</h3>
+            </div>
+            <span class="badge-gold">+2.5 kg / rep Target</span>
+          </div>
+          <p class="section-desc mb-12">
+            Ogni volta che completi una serie con un nuovo carico o ripetizione, il sistema calcola automaticamente il tuo miglioramento.
+          </p>
+          <div class="gym-prs-table-wrap" id="gym-prs-table-container">
+            <!-- Populated by app.js -->
+          </div>
+        </div>
+
+        <!-- Fighter Fundamental Rules -->
+        <div class="card mb-14 fighter-rules-card">
+          <div class="card-header-compact">
+            <div>
+              <p class="eyebrow">🧠 REGOLE FONDAMENTALI</p>
+              <h3 class="card-title">I 5 Comandamenti del Fighter</h3>
+            </div>
+            <span class="badge-role">Zero Deviazioni</span>
+          </div>
+          <ul class="fighter-rules-list mt-10">
+            <li><span class="rule-num">1</span> <strong>Segui l'ordine</strong> — Esegui gli esercizi esattamente nella sequenza indicata.</li>
+            <li><span class="rule-num">2</span> <strong>Non saltare mai le gambe</strong> — La potenza del pugno nasce dalle gambe e dai piedi.</li>
+            <li><span class="rule-num">3</span> <strong>Se sei stanco → togli EXTRA</strong> — Salva le energie per i pesi base e il recupero.</li>
+            <li><span class="rule-num">4</span> <strong>Mangia di più</strong> — Nutri i muscoli e il sistema nervoso per recuperare.</li>
+            <li><span class="rule-num">5</span> <strong>Guardia sempre alta</strong> — La concentrazione e la disciplina non calano mai.</li>
+          </ul>
+        </div>
+
         <div class="card">
           <p class="eyebrow mb-8">CAMBIA SCHEDA RAPIDA (1 TAP)</p>
           <div class="preset-grid-2">
+            <button type="button" class="preset-card-btn active-fighter" data-gym-preset="fighter_boxing">
+              <strong>🥊 Fighter Boxing</strong>
+              <span>Boxing, KO Power &amp; Strength (7 Giorni)</span>
+            </button>
             <button type="button" class="preset-card-btn" data-gym-preset="push">
               <strong>🔥 Push Day</strong>
               <span>Petto, Spalle, Tricipiti</span>
@@ -547,10 +617,6 @@
             <button type="button" class="preset-card-btn" data-gym-preset="legs">
               <strong>⚡ Legs &amp; Core</strong>
               <span>Squat, RDL, Polpacci</span>
-            </button>
-            <button type="button" class="preset-card-btn" data-gym-preset="full">
-              <strong>🏆 Full Body</strong>
-              <span>Total Body Completo</span>
             </button>
           </div>
         </div>
@@ -1092,19 +1158,47 @@
       <form id="edit-gym-set-form" class="stacked-form">
         <input type="hidden" id="edit-gym-ex-id">
         <input type="hidden" id="edit-gym-set-idx">
-        <div class="form-row-2">
-          <div class="field-group">
-            <label for="edit-gym-kg">Carico (Kg)</label>
-            <input type="number" id="edit-gym-kg" min="0" max="1000" step="0.5" required>
+
+        <!-- Weight Stepper Input -->
+        <div class="field-group">
+          <div class="field-label-row">
+            <label for="edit-gym-kg">Carico Sollevato (Kg)</label>
+            <span class="text-gold text-xs font-bold" id="edit-gym-prev-kg-label">Ultima volta: 75 kg</span>
           </div>
-          <div class="field-group">
-            <label for="edit-gym-reps">Ripetizioni</label>
-            <input type="number" id="edit-gym-reps" min="1" max="500" required>
+          <input type="number" id="edit-gym-kg" min="0" max="1000" step="0.5" required>
+          <div class="quick-chips-row mt-6">
+            <button type="button" class="chip-stepper-btn" data-step-kg="-2.5">−2.5 kg</button>
+            <button type="button" class="chip-stepper-btn highlight-gold" data-step-kg="2.5">+2.5 kg 📈</button>
+            <button type="button" class="chip-stepper-btn" data-step-kg="5">+5 kg</button>
+            <button type="button" class="chip-stepper-btn" data-step-kg="10">+10 kg</button>
           </div>
         </div>
-        <div class="btn-row-wrap mt-8">
-          <button type="submit" class="btn-primary" style="flex: 1;">Aggiorna Serie</button>
-          <button type="button" class="btn-danger-ghost" id="btn-delete-gym-set">Elimina</button>
+
+        <!-- Reps Stepper Input -->
+        <div class="field-group mt-10">
+          <div class="field-label-row">
+            <label for="edit-gym-reps">Ripetizioni Eseguite</label>
+            <span class="text-muted text-xs font-bold" id="edit-gym-prev-reps-label">Target: 6 reps</span>
+          </div>
+          <input type="number" id="edit-gym-reps" min="1" max="500" required>
+          <div class="quick-chips-row mt-6">
+            <button type="button" class="chip-stepper-btn" data-step-reps="-1">−1 rep</button>
+            <button type="button" class="chip-stepper-btn highlight-gold" data-step-reps="1">+1 rep 🎯</button>
+            <button type="button" class="chip-stepper-btn" data-step-reps="2">+2 reps</button>
+          </div>
+        </div>
+
+        <!-- Past Progress History for this exercise -->
+        <div class="exercise-past-history-box mt-12" id="exercise-past-history-box">
+          <p class="eyebrow">STORICO CARICHI &amp; PROGRESSI RECENTI</p>
+          <ul class="past-history-mini-list" id="past-history-mini-list">
+            <!-- Populated dynamically -->
+          </ul>
+        </div>
+
+        <div class="btn-row-wrap mt-14">
+          <button type="submit" class="btn-primary" style="flex: 1;">Salva Carico &amp; Progresso</button>
+          <button type="button" class="btn-danger-ghost" id="btn-delete-gym-set">Elimina Serie</button>
         </div>
       </form>
     </div>
@@ -1373,7 +1467,12 @@
           <p class="section-desc">Genereremo la tua scheda completa giorno per giorno. Potrai cambiarla o modificarla ogni settimana senza alcun limite!</p>
 
           <div class="choice-cards-grid mt-14" id="wiz-gym-split-grid">
-            <button type="button" class="choice-card active" data-gym-split="push_pull_legs">
+            <button type="button" class="choice-card active" data-gym-split="fighter_boxing">
+              <span class="choice-icon">🥊</span>
+              <strong>Fighter Boxing &amp; Strength</strong>
+              <span>Boxing, KO Power, Collo, Gambe &amp; Guardia (7 Giorni)</span>
+            </button>
+            <button type="button" class="choice-card" data-gym-split="push_pull_legs">
               <span class="choice-icon">⚡</span>
               <strong>Push / Pull / Legs</strong>
               <span>Spinta, Tirata e Gambe con carichi progressivi</span>
@@ -1394,15 +1493,17 @@
               <span>Corpo libero, resistenza e core</span>
             </button>
           </div>
-          <input type="hidden" id="wiz-gym-split-val" value="push_pull_legs">
+          <input type="hidden" id="wiz-gym-split-val" value="fighter_boxing">
 
           <div class="field-group mt-14">
             <label for="wiz-gym-days">Quanti giorni a settimana vuoi allenarti?</label>
             <select id="wiz-gym-days" class="select-field">
               <option value="2">2 Giorni a settimana</option>
               <option value="3">3 Giorni a settimana</option>
-              <option value="4" selected>4 Giorni a settimana (Ideale)</option>
+              <option value="4">4 Giorni a settimana</option>
               <option value="5">5 Giorni a settimana</option>
+              <option value="6" selected>6 Giorni a settimana (Fighter)</option>
+              <option value="7">7 Giorni (Incluso recupero attivo)</option>
             </select>
           </div>
         </div>

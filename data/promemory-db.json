@@ -815,7 +815,1573 @@
         "smokingCostPerUnit": 0.3,
         "cravingsWonCount": 5,
         "dailyBudgetEuro": 50,
-        "focusMinutesToday": 90
+        "focusMinutesToday": 90,
+        "weeklyGymProgram": {
+          "splitName": "🥊 FIGHTER BOXING & STRENGTH (7 Giorni)",
+          "createdAt": "2026-10-22",
+          "weekStartDate": "2026-10-22",
+          "schedule": [
+            {
+              "dayLabel": "Lunedì — Upper + KO Power (Panca, Trazioni, Collo & Core KO)",
+              "day": "Lunedì",
+              "focus": "Upper Body & KO Power (Pesi, Finisher Corda, Collo, KO Core)",
+              "exercises": [
+                {
+                  "id": "ex-fb-1",
+                  "name": "Panca Piana Bilanciere",
+                  "sets": [
+                    {
+                      "kg": 75,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 75,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 75,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 75,
+                      "reps": 6,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-2",
+                  "name": "Trazioni alla Sbarra",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-3",
+                  "name": "Military Press con Bilanciere/Manubri",
+                  "sets": [
+                    {
+                      "kg": 40,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 40,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 40,
+                      "reps": 6,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-4",
+                  "name": "Rematore con Bilanciere",
+                  "sets": [
+                    {
+                      "kg": 60,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 60,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 60,
+                      "reps": 8,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-5",
+                  "name": "Bicipiti Curl con Manubri",
+                  "sets": [
+                    {
+                      "kg": 14,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 14,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-6",
+                  "name": "Pushdown Tricipiti Corda",
+                  "sets": [
+                    {
+                      "kg": 25,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 25,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-7",
+                  "name": "Finisher Corda (30s ON / 30s OFF)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-8",
+                  "name": "Collo: Neck Raises Avanti",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-9",
+                  "name": "Collo: Neck Raises Dietro",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-10",
+                  "name": "Collo: Neck Raises Laterali",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-11",
+                  "name": "KO Power: Russian Twist con Peso",
+                  "sets": [
+                    {
+                      "kg": 10,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 10,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 10,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-12",
+                  "name": "KO Power: Woodchopper al Cavo/Manubrio",
+                  "sets": [
+                    {
+                      "kg": 15,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 15,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 15,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-13",
+                  "name": "KO Power: Shadowboxing Massima Potenza",
+                  "sets": [
+                    {
+                      "kg": 2,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 2,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 2,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-14",
+                  "name": "KO Power: Plank Rotazione Bacino",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 16,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 16,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 16,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-15",
+                  "name": "Finisher KO: Shadowboxing Forza & Frequenza (30s ON/OFF)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Martedì — Kickboxing Completo + Extra Guardia",
+              "day": "Martedì",
+              "focus": "Kickboxing (Tecnica, Sacco, Sparring) + Extra Guardia Alta",
+              "exercises": [
+                {
+                  "id": "ex-fb-16",
+                  "name": "Kickboxing: Riscaldamento Tecnico & Corda",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-17",
+                  "name": "Kickboxing: Combinazioni al Sacco / Pao",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-18",
+                  "name": "Kickboxing: Sparring & Footwork Drills",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-19",
+                  "name": "Extra Guardia: Tenuta Guardia Serrata Ferma (40s)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Mercoledì — Gambe Esplosive & Potenza KO (Squat, RDL, Sprint)",
+              "day": "Mercoledì",
+              "focus": "Gambe (120s squat/stacco, 60-90s resto) + Finisher Jump Squat & Sprint",
+              "exercises": [
+                {
+                  "id": "ex-fb-20",
+                  "name": "Squat con Bilanciere",
+                  "sets": [
+                    {
+                      "kg": 95,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 95,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 95,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 95,
+                      "reps": 6,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-21",
+                  "name": "Stacco Rumeno con Bilanciere (RDL)",
+                  "sets": [
+                    {
+                      "kg": 80,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 80,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 80,
+                      "reps": 8,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-22",
+                  "name": "Affondi Camminati con Manubri",
+                  "sets": [
+                    {
+                      "kg": 18,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 18,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 18,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-23",
+                  "name": "Leg Curl Macchinario",
+                  "sets": [
+                    {
+                      "kg": 45,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 45,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-24",
+                  "name": "Calf Raise in Piedi",
+                  "sets": [
+                    {
+                      "kg": 60,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 60,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 60,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 60,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-25",
+                  "name": "Plank Isometrico con Tenuta",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-26",
+                  "name": "Finisher: Jump Squat Esplosivi",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-27",
+                  "name": "Finisher: Sprint / Navette Veloci (20s)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Giovedì — Kickboxing Completo (Guardia Sempre Alta)",
+              "day": "Giovedì",
+              "focus": "Kickboxing (Tecnica, Schivate, Focus Footwork) — Regola: Guardia sempre alta",
+              "exercises": [
+                {
+                  "id": "ex-fb-28",
+                  "name": "Kickboxing: Riscaldamento & Corda Veloce",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-29",
+                  "name": "Kickboxing: Combinazioni 3-4 Colpi & Uscite",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-30",
+                  "name": "Kickboxing: Sparring Tecnico & Disciplina Difensiva",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Venerdì — Full Body Potenza (Stacco, Panca Inc, Burpees, Rotazioni)",
+              "day": "Venerdì",
+              "focus": "Full Body (Recupero 90s) + Finisher Burpees + Rotazioni Leggere",
+              "exercises": [
+                {
+                  "id": "ex-fb-31",
+                  "name": "Stacco da Terra Convenzionale",
+                  "sets": [
+                    {
+                      "kg": 110,
+                      "reps": 4,
+                      "done": false
+                    },
+                    {
+                      "kg": 110,
+                      "reps": 4,
+                      "done": false
+                    },
+                    {
+                      "kg": 110,
+                      "reps": 4,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-32",
+                  "name": "Panca Inclinata con Manubri",
+                  "sets": [
+                    {
+                      "kg": 26,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 26,
+                      "reps": 8,
+                      "done": false
+                    },
+                    {
+                      "kg": 26,
+                      "reps": 8,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-33",
+                  "name": "Pull Ups (Trazioni Prone)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 6,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-34",
+                  "name": "Alzate Laterali con Manubri",
+                  "sets": [
+                    {
+                      "kg": 12,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 12,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 12,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-35",
+                  "name": "Farmer Walk con Manubri Pesanti",
+                  "sets": [
+                    {
+                      "kg": 26,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 26,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 26,
+                      "reps": 30,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-36",
+                  "name": "Addome alla Sbarra / Leg Raise",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-37",
+                  "name": "Finisher: Burpees Esplosivi (30s ON / 30s OFF)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 30,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-38",
+                  "name": "Rotazioni: Russian Twist Leggero",
+                  "sets": [
+                    {
+                      "kg": 5,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 5,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-39",
+                  "name": "Rotazioni: Woodchopper Dinamico",
+                  "sets": [
+                    {
+                      "kg": 10,
+                      "reps": 10,
+                      "done": false
+                    },
+                    {
+                      "kg": 10,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-40",
+                  "name": "Rotazioni: Shadowboxing Ritmo Medio",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Sabato — Home + Circuito Guardia (3 Giri)",
+              "day": "Sabato",
+              "focus": "Home Routine + Circuito Guardia Speciale (3 Giri, rec. 1m) + Finisher Guardia",
+              "exercises": [
+                {
+                  "id": "ex-fb-41",
+                  "name": "Corda Continua (Home)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 5,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-42",
+                  "name": "Push Ups a Terra (Massime Reps)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-43",
+                  "name": "Squat con Manubri",
+                  "sets": [
+                    {
+                      "kg": 20,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 20,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 20,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 20,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-44",
+                  "name": "Elastici Trazioni Schiena",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-45",
+                  "name": "Core Circuit Completo (Home)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-46",
+                  "name": "Guardia: Shadowboxing Attivo (2m)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 120,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 120,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 120,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-47",
+                  "name": "Guardia: Tenuta Ferma Gomiti Stretti (40s)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 40,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-48",
+                  "name": "Guardia: Alzate Frontali Lente",
+                  "sets": [
+                    {
+                      "kg": 8,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 8,
+                      "reps": 12,
+                      "done": false
+                    },
+                    {
+                      "kg": 8,
+                      "reps": 12,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-49",
+                  "name": "Guardia: Alzate Laterali Lente",
+                  "sets": [
+                    {
+                      "kg": 8,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 8,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 8,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-50",
+                  "name": "Guardia: Pugni Diretti con Elastico",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-51",
+                  "name": "Guardia: Plank con Tocco Spalle",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 20,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-52",
+                  "name": "Finisher Guardia: Tenuta Alta 1m + Shadowboxing 1m (x2)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 120,
+                      "done": false
+                    },
+                    {
+                      "kg": 0,
+                      "reps": 120,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "dayLabel": "Domenica — Recupero Attivo, Stretching & Mobilità",
+              "day": "Domenica",
+              "focus": "Recupero Attivo, Stretching Globale, Mobilità Articolare & Relax",
+              "exercises": [
+                {
+                  "id": "ex-fb-53",
+                  "name": "Stretching Globale Catena Posteriore (15 min)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 15,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-54",
+                  "name": "Mobilità Anche, Spalle & Bacino (10 min)",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                },
+                {
+                  "id": "ex-fb-55",
+                  "name": "Respirazione Diaframmatica & Rilassamento",
+                  "sets": [
+                    {
+                      "kg": 0,
+                      "reps": 10,
+                      "done": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "gymExercises": [
+          {
+            "id": "ex-fb-1",
+            "name": "Panca Piana Bilanciere",
+            "sets": [
+              {
+                "kg": 75,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 75,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 75,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 75,
+                "reps": 6,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-2",
+            "name": "Trazioni alla Sbarra",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 6,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-3",
+            "name": "Military Press con Bilanciere/Manubri",
+            "sets": [
+              {
+                "kg": 40,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 40,
+                "reps": 6,
+                "done": false
+              },
+              {
+                "kg": 40,
+                "reps": 6,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-4",
+            "name": "Rematore con Bilanciere",
+            "sets": [
+              {
+                "kg": 60,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 60,
+                "reps": 8,
+                "done": false
+              },
+              {
+                "kg": 60,
+                "reps": 8,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-5",
+            "name": "Bicipiti Curl con Manubri",
+            "sets": [
+              {
+                "kg": 14,
+                "reps": 10,
+                "done": false
+              },
+              {
+                "kg": 14,
+                "reps": 10,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-6",
+            "name": "Pushdown Tricipiti Corda",
+            "sets": [
+              {
+                "kg": 25,
+                "reps": 10,
+                "done": false
+              },
+              {
+                "kg": 25,
+                "reps": 10,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-7",
+            "name": "Finisher Corda (30s ON / 30s OFF)",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-8",
+            "name": "Collo: Neck Raises Avanti",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 15,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 15,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-9",
+            "name": "Collo: Neck Raises Dietro",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 15,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 15,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-10",
+            "name": "Collo: Neck Raises Laterali",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 12,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 12,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-11",
+            "name": "KO Power: Russian Twist con Peso",
+            "sets": [
+              {
+                "kg": 10,
+                "reps": 20,
+                "done": false
+              },
+              {
+                "kg": 10,
+                "reps": 20,
+                "done": false
+              },
+              {
+                "kg": 10,
+                "reps": 20,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-12",
+            "name": "KO Power: Woodchopper al Cavo/Manubrio",
+            "sets": [
+              {
+                "kg": 15,
+                "reps": 12,
+                "done": false
+              },
+              {
+                "kg": 15,
+                "reps": 12,
+                "done": false
+              },
+              {
+                "kg": 15,
+                "reps": 12,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-13",
+            "name": "KO Power: Shadowboxing Massima Potenza",
+            "sets": [
+              {
+                "kg": 2,
+                "reps": 20,
+                "done": false
+              },
+              {
+                "kg": 2,
+                "reps": 20,
+                "done": false
+              },
+              {
+                "kg": 2,
+                "reps": 20,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-14",
+            "name": "KO Power: Plank Rotazione Bacino",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 16,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 16,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 16,
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ex-fb-15",
+            "name": "Finisher KO: Shadowboxing Forza & Frequenza (30s ON/OFF)",
+            "sets": [
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              },
+              {
+                "kg": 0,
+                "reps": 30,
+                "done": false
+              }
+            ]
+          }
+        ],
+        "exercisePRs": {
+          "Panca Piana Bilanciere": {
+            "kg": 75,
+            "reps": 6,
+            "date": "2026-10-19"
+          },
+          "Squat con Bilanciere": {
+            "kg": 95,
+            "reps": 6,
+            "date": "2026-10-14"
+          },
+          "Stacco da Terra Convenzionale": {
+            "kg": 110,
+            "reps": 4,
+            "date": "2026-10-16"
+          },
+          "Military Press con Bilanciere/Manubri": {
+            "kg": 40,
+            "reps": 6,
+            "date": "2026-10-19"
+          },
+          "Rematore con Bilanciere": {
+            "kg": 60,
+            "reps": 8,
+            "date": "2026-10-19"
+          },
+          "Stacco Rumeno con Bilanciere (RDL)": {
+            "kg": 80,
+            "reps": 8,
+            "date": "2026-10-14"
+          },
+          "Panca Inclinata con Manubri": {
+            "kg": 26,
+            "reps": 8,
+            "date": "2026-10-16"
+          },
+          "Trazioni alla Sbarra": {
+            "kg": 0,
+            "reps": 6,
+            "date": "2026-10-19"
+          },
+          "Russian Twist con Peso": {
+            "kg": 10,
+            "reps": 20,
+            "date": "2026-10-19"
+          },
+          "Woodchopper al Cavo/Manubrio": {
+            "kg": 15,
+            "reps": 12,
+            "date": "2026-10-19"
+          }
+        },
+        "exerciseHistory": {
+          "Panca Piana Bilanciere": [
+            {
+              "date": "12 Ott",
+              "kg": 72.5,
+              "reps": 6,
+              "setNum": 1
+            },
+            {
+              "date": "12 Ott",
+              "kg": 72.5,
+              "reps": 6,
+              "setNum": 2
+            },
+            {
+              "date": "19 Ott",
+              "kg": 75,
+              "reps": 6,
+              "setNum": 1
+            },
+            {
+              "date": "19 Ott",
+              "kg": 75,
+              "reps": 6,
+              "setNum": 2
+            }
+          ],
+          "Squat con Bilanciere": [
+            {
+              "date": "07 Ott",
+              "kg": 92.5,
+              "reps": 6,
+              "setNum": 1
+            },
+            {
+              "date": "14 Ott",
+              "kg": 95,
+              "reps": 6,
+              "setNum": 1
+            }
+          ],
+          "Stacco da Terra Convenzionale": [
+            {
+              "date": "09 Ott",
+              "kg": 105,
+              "reps": 4,
+              "setNum": 1
+            },
+            {
+              "date": "16 Ott",
+              "kg": 110,
+              "reps": 4,
+              "setNum": 1
+            }
+          ]
+        },
+        "warmupChecks": {
+          "2026-10-22": {
+            "w-corda": true,
+            "w-squat": true,
+            "w-pushup": true,
+            "w-spalle": true,
+            "w-hip": true,
+            "w-plank": true
+          }
+        }
       },
       "questionnaire": {
         "name": "Tolo",
@@ -827,8 +2393,8 @@
         "wakeUpTime": "06:30",
         "sleepTime": "23:00",
         "deepWorkHours": 5,
-        "gymSplit": "push_pull_legs",
-        "gymDaysCount": 4
+        "gymSplit": "fighter_boxing",
+        "gymDaysCount": 6
       }
     },
     "usr_1792595061654_rbv5c": {
