@@ -583,6 +583,18 @@ app.post('/api/mutate', async (req, res) => {
         }
         break;
       }
+      case 'EDIT_TRACKER': {
+        const trk = userState.trackers.find((t) => t.id === payload.id);
+        if (trk) {
+          if (payload.name) trk.name = payload.name;
+          if (payload.icon) trk.icon = payload.icon;
+          if (payload.unit) trk.unit = payload.unit;
+          if (payload.mode) trk.mode = payload.mode;
+          if (payload.dailyTarget !== undefined) trk.dailyTarget = Math.max(0, Number(payload.dailyTarget));
+          if (payload.costPerUnit !== undefined) trk.costPerUnit = Math.max(0, Number(payload.costPerUnit));
+        }
+        break;
+      }
       case 'DELETE_TRACKER': {
         userState.trackers = userState.trackers.filter((t) => t.id !== payload.id);
         break;
@@ -600,6 +612,19 @@ app.post('/api/mutate', async (req, res) => {
           history: { [today]: 'pending' },
           scheduleChangedAt: null
         });
+        break;
+      }
+      case 'EDIT_HABIT': {
+        const habit = userState.habits.find((h) => h.id === payload.id);
+        if (habit) {
+          if (payload.name) habit.name = payload.name;
+          if (payload.category) habit.category = payload.category;
+          if (Array.isArray(payload.schedule) && payload.schedule.length) {
+            habit.schedule = payload.schedule;
+            habit.targetPerWeek = payload.schedule.length;
+          }
+          habit.scheduleChangedAt = `Modificata il ${new Date().toLocaleDateString('it-IT')}`;
+        }
         break;
       }
       case 'DELETE_HABIT': {
@@ -632,16 +657,27 @@ app.post('/api/mutate', async (req, res) => {
         break;
       }
       case 'ADD_SINGLE_ALARM': {
-        const { time, label } = payload;
+        const { time, label, sound, repeat } = payload;
         userState.alarms.push({
           id: `alm-${Date.now()}`,
           time: time || '07:00',
           label: label || 'Sveglia Manuale',
           enabled: true,
-          repeat: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          repeat: Array.isArray(repeat) && repeat.length ? repeat : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           group: 'Manuale',
-          sound: 'cascade'
+          sound: sound || 'cascade'
         });
+        userState.alarms.sort((a, b) => a.time.localeCompare(b.time));
+        break;
+      }
+      case 'EDIT_ALARM': {
+        const alarm = userState.alarms.find((a) => a.id === payload.id);
+        if (alarm) {
+          if (payload.time) alarm.time = payload.time;
+          if (payload.label) alarm.label = payload.label;
+          if (Array.isArray(payload.repeat) && payload.repeat.length) alarm.repeat = payload.repeat;
+          if (payload.sound) alarm.sound = payload.sound;
+        }
         userState.alarms.sort((a, b) => a.time.localeCompare(b.time));
         break;
       }

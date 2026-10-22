@@ -3153,4 +3153,95 @@ body {
   box-shadow: 0 0 16px rgba(223, 177, 91, 0.25);
 }
 
+/* Modal split action bar */
+.dialog-actions-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Day selector checkboxes in modals */
+.day-checkboxes-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.day-check-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 2px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pm-text-2);
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.day-check-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(223, 177, 91, 0.3);
+}
+
+.day-check-label:has(input:checked) {
+  background: rgba(223, 177, 91, 0.18);
+  border-color: var(--pm-gold);
+  color: var(--pm-gold-bright);
+  box-shadow: inset 0 0 8px rgba(223, 177, 91, 0.25);
+}
+
+.day-check-label input {
+  accent-color: var(--pm-gold);
+  cursor: pointer;
+}
+
+/* Habit Manage Card */
+.habit-manage-card {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.035), rgba(14, 18, 27, 0.75));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow-glass);
+}
+
+.habit-manage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Custom Focus Duration input bar */
+.focus-custom-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.focus-custom-bar input {
+  max-width: 80px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--pm-text);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-align: center;
+}
+
 

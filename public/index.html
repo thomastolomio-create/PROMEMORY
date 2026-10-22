@@ -110,52 +110,55 @@
     <!-- Desktop Navigation Bar (Hidden on iPhone) -->
     <nav class="module-tabs desktop-tabs" aria-label="Sezioni principali">
       <button type="button" class="tab-btn active" data-tab="today">
-        <span>🏠</span> Oggi, Settimana &amp; Report 1 Anno
+        <span>🏠</span> Abitudini &amp; Oggi
       </button>
       <button type="button" class="tab-btn" data-tab="trackers">
-        <span>🚬</span> Contatori &amp; Anti-Fumo
+        <span>📊</span> Tracker &amp; Fumo
       </button>
       <button type="button" class="tab-btn" data-tab="gym">
-        <span>🏋️‍♂️</span> Palestra &amp; Schede
+        <span>🥊</span> Palestra &amp; Schede
       </button>
       <button type="button" class="tab-btn" data-tab="alarms">
         <span>⏰</span> Sveglie (<span id="tab-alarms-count">0</span>) &amp; Focus
       </button>
+      <button type="button" class="tab-btn" data-tab="report">
+        <span>📈</span> Report 1 Anno
+      </button>
       <button type="button" class="tab-btn" data-tab="finance">
-        <span>💶</span> Finanze &amp; Obiettivi
+        <span>💶</span> Finanze
       </button>
       <button type="button" class="btn-primary btn-sm ml-auto" id="btn-desktop-quick-add">
-        ＋ Aggiungi
+        ＋ Crea
       </button>
     </nav>
 
     <!-- ====================================================================
-         TAB 1: 🏠 OGGI, MATRICE 7G & REPORT STORICO 1 ANNO (52 SETTIMANE)
+         TAB 1: 🏠 ABITUDINI, ROUTINE & MATRICE 7G
          ==================================================================== -->
-    <section class="tab-panel active" id="panel-today" aria-label="Oggi, Settimana e Report Storico">
+    <section class="tab-panel active" id="panel-today" aria-label="Abitudini e Routine Settimanale">
       <div class="section-header-clean">
         <div>
-          <p class="eyebrow" id="today-greeting-eyebrow">IL TUO SISTEMA PERSONALE</p>
-          <h1 class="page-title">Oggi &amp; Progressi</h1>
+          <p class="eyebrow" id="today-greeting-eyebrow">ROUTINE &amp; DISCIPLINA</p>
+          <h1 class="page-title">Abitudini &amp; Oggi</h1>
         </div>
         <div class="btn-row-wrap">
           <button type="button" class="btn-secondary btn-xs" id="btn-archive-reset-week" title="Salva i dati della settimana nel Report Annuale e azzera la settimana corrente">
             🔄 Chiudi &amp; Azzera Settimana
           </button>
-          <button type="button" class="btn-primary btn-sm" data-open-sheet="habit">＋ Aggiungi</button>
+          <button type="button" class="btn-primary btn-sm" data-open-sheet="habit">＋ Nuova Abitudine</button>
         </div>
       </div>
 
-      <!-- iOS Segmented Control (3 Pille Pulite: Oggi | 7 Giorni | Report 1 Anno) -->
-      <div class="ios-segmented ios-segmented-3" role="tablist" aria-label="Vista Oggi, Settimana o Report Annuale">
+      <!-- iOS Segmented Control (3 Pille Pulite: Oggi | 7 Giorni | Gestisci Abitudini) -->
+      <div class="ios-segmented ios-segmented-3" role="tablist" aria-label="Vista Oggi, Settimana o Gestione Abitudini">
         <button type="button" class="seg-btn active" data-seg-group="today" data-seg-target="today-checklist">
           ✓ Oggi
         </button>
         <button type="button" class="seg-btn" data-seg-group="today" data-seg-target="today-matrix">
           📅 7 Giorni
         </button>
-        <button type="button" class="seg-btn" data-seg-group="today" data-seg-target="today-report">
-          📈 Report 1 Anno
+        <button type="button" class="seg-btn" data-seg-group="today" data-seg-target="today-manage">
+          ⚙️ Gestisci Abitudini
         </button>
       </div>
 
@@ -289,64 +292,20 @@
         </div>
       </div>
 
-      <!-- SUB-VIEW 1C: 1-YEAR (52 WEEKS) HISTORICAL PROGRESS REPORT -->
-      <div class="seg-view" id="seg-today-report" hidden>
-        <!-- Annual Summary Hero KPIs -->
-        <div class="gym-summary-stats mb-12">
-          <div class="stat-box">
-            <span class="eyebrow">Media Anno</span>
-            <strong id="rep-year-avg-score">86%</strong>
-          </div>
-          <div class="stat-box">
-            <span class="eyebrow">Risparmio Fumo 1 Anno</span>
-            <strong id="rep-year-saved-euros" class="text-emerald">€0.00</strong>
-          </div>
-          <div class="stat-box">
-            <span class="eyebrow">Settimane in Memoria</span>
-            <strong id="rep-year-weeks-count">52 / 52</strong>
-          </div>
-        </div>
-
-        <!-- 52-Week Visual Consistency Grid (1 Full Year Memory) -->
+      <!-- SUB-VIEW 1C: GESTIONE & PERSONALIZZAZIONE ABITUDINI -->
+      <div class="seg-view" id="seg-today-manage" hidden>
         <div class="card">
           <div class="card-header-compact">
             <div>
-              <p class="eyebrow">MEMORIA STORICA 52 SETTIMANE (1 ANNO INTERO)</p>
-              <h2 class="card-title">Mappa Annuale dei Progressi</h2>
+              <p class="eyebrow">CONFIGURA, MODIFICA ED ELIMINA</p>
+              <h2 class="card-title">Le Tue Abitudini</h2>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-              <button type="button" class="btn-ghost btn-xs" id="btn-clear-archive-reports" title="Azzera lo storico dei report salvati">
-                🗑️ Svuota Archivio
-              </button>
-              <button type="button" class="btn-primary btn-xs" id="btn-save-week-snapshot">
-                💾 Salva &amp; Chiudi Settimana
-              </button>
-            </div>
+            <button type="button" class="btn-primary btn-sm" data-open-sheet="habit">＋ Nuova Abitudine</button>
           </div>
           <p class="habit-meta-sub mb-12">
-            Ogni blocco rappresenta una settimana dell'anno. <strong>Ogni Lunedì</strong> (o quando premi <em>Chiudi &amp; Azzera Settimana</em>) la settimana viene salvata qui in automatico per <strong>oltre 1 anno (52+ settimane)</strong> e i contatori settimanali ripartono da zero.
+            Da qui puoi personalizzare il nome, la categoria e i giorni attivi di ciascuna abitudine (o eliminarla) con salvataggio permanente sul tuo account.
           </p>
-
-          <div class="year-52-grid" id="year-52-grid" aria-label="Griglia 52 settimane dell'anno">
-            <!-- Populated by app.js -->
-          </div>
-
-          <div class="habit-legend mt-12">
-            <li><span class="cell-mark" style="background: var(--ob-emerald);"></span> Eccellente (80–100%)</li>
-            <li><span class="cell-mark" style="background: var(--ob-gold);"></span> Buona (60–79%)</li>
-            <li><span class="cell-mark" style="background: var(--ob-danger);"></span> Sotto target (&lt;60%)</li>
-          </div>
-        </div>
-
-        <!-- Week-by-Week Detailed Report Cards -->
-        <div class="card mt-14">
-          <div class="card-header-compact">
-            <div>
-              <p class="eyebrow">CRONOLOGIA DETTAGLIATA SETTIMANA PER SETTIMANA</p>
-              <h3 class="card-title">Report Settimanali Archiviati</h3>
-            </div>
-          </div>
-          <div class="weekly-reports-list" id="weekly-reports-list">
+          <div class="schedule-editor-list" id="habits-management-list">
             <!-- Populated by app.js -->
           </div>
         </div>
@@ -506,7 +465,10 @@
         <div class="gym-summary-bar">
           <span>Volume oggi: <strong class="text-gold" id="gym-today-volume">0 kg</strong></span>
           <span>Completate: <strong id="gym-today-sets">0 serie</strong></span>
-          <button type="button" class="btn-ghost btn-xs" id="btn-reset-gym-checks">Azzera spunte</button>
+          <div style="display: flex; gap: 6px; align-items: center; margin-left: auto;">
+            <button type="button" class="btn-secondary btn-xs" id="btn-add-exercise-to-today">＋ Esercizio Oggi</button>
+            <button type="button" class="btn-ghost btn-xs" id="btn-reset-gym-checks">Azzera</button>
+          </div>
         </div>
 
         <div class="gym-exercises-list mt-12" id="gym-exercises-list">
@@ -550,6 +512,9 @@
                 <p class="gym-day-focus text-gold" id="gym-selected-day-focus">Push Day — Petto, Spalle, Tricipiti</p>
               </div>
               <div class="btn-row-wrap">
+                <button type="button" class="btn-ghost btn-xs" id="btn-edit-day-focus" title="Rinomina nome giorno e muscoli">
+                  ✎ Rinomina
+                </button>
                 <button type="button" class="btn-primary btn-xs" id="btn-load-day-into-today" title="Usa questo allenamento oggi">
                   ⚡ Carica Oggi
                 </button>
@@ -716,11 +681,94 @@
           </div>
           <div class="focus-controls">
             <button type="button" class="btn-primary" id="btn-toggle-focus">▶ Avvia Focus</button>
+            <button type="button" class="btn-secondary btn-sm" data-focus-min="15">15m</button>
             <button type="button" class="btn-secondary btn-sm" data-focus-min="25">25m</button>
             <button type="button" class="btn-secondary btn-sm" data-focus-min="50">50m</button>
             <button type="button" class="btn-secondary btn-sm" data-focus-min="90">90m</button>
-            <button type="button" class="btn-ghost btn-sm" id="btn-focus-ambient">🎧 Brown Noise OFF</button>
+            <button type="button" class="btn-ghost btn-sm" id="btn-focus-ambient">🎧 Suono Focus OFF</button>
           </div>
+        </div>
+
+        <div class="card mt-12">
+          <p class="eyebrow">PERSONALIZZA FOCUS &amp; STATISTICHE</p>
+          <div class="focus-custom-bar">
+            <label for="custom-focus-minutes" class="text-sm">Minuti a piacere:</label>
+            <input type="number" id="custom-focus-minutes" min="1" max="240" value="35" placeholder="min">
+            <button type="button" class="btn-secondary btn-xs" id="btn-set-custom-focus">⚡ Imposta Timer</button>
+            <button type="button" class="btn-ghost btn-xs ml-auto" id="btn-reset-focus-today" title="Azzera i minuti di focus accumulati oggi">🔄 Azzera Oggi</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 5: 📈 REPORT STORICO 1 ANNO (52 SETTIMANE)
+         ==================================================================== -->
+    <section class="tab-panel" id="panel-report" aria-label="Report Annuale 52 Settimane" hidden>
+      <div class="section-header-clean">
+        <div>
+          <p class="eyebrow">MEMORIA CONTINUA 52 SETTIMANE</p>
+          <h1 class="page-title">Report 1 Anno</h1>
+        </div>
+        <div class="btn-row-wrap">
+          <button type="button" class="btn-ghost btn-xs" id="btn-clear-archive-reports" title="Azzera lo storico dei report salvati">
+            🗑️ Svuota Archivio
+          </button>
+          <button type="button" class="btn-primary btn-xs" id="btn-save-week-snapshot">
+            💾 Salva &amp; Chiudi Settimana
+          </button>
+        </div>
+      </div>
+
+      <!-- Annual Summary Hero KPIs -->
+      <div class="gym-summary-stats mb-12">
+        <div class="stat-box">
+          <span class="eyebrow">Media Anno</span>
+          <strong id="rep-year-avg-score">0%</strong>
+        </div>
+        <div class="stat-box">
+          <span class="eyebrow">Risparmio Fumo 1 Anno</span>
+          <strong id="rep-year-saved-euros" class="text-emerald">€0.00</strong>
+        </div>
+        <div class="stat-box">
+          <span class="eyebrow">Settimane in Memoria</span>
+          <strong id="rep-year-weeks-count">1 / 52</strong>
+        </div>
+      </div>
+
+      <!-- 52-Week Visual Consistency Grid (1 Full Year Memory) -->
+      <div class="card">
+        <div class="card-header-compact">
+          <div>
+            <p class="eyebrow">MEMORIA STORICA 52 SETTIMANE (1 ANNO INTERO)</p>
+            <h2 class="card-title">Mappa Annuale dei Progressi</h2>
+          </div>
+        </div>
+        <p class="habit-meta-sub mb-12">
+          Ogni blocco rappresenta una settimana dell'anno. <strong>Ogni Lunedì</strong> (o quando premi <em>Salva &amp; Chiudi Settimana</em>) la settimana viene salvata qui in automatico per <strong>oltre 1 anno (52+ settimane)</strong> e i contatori settimanali ripartono da zero.
+        </p>
+
+        <div class="year-52-grid" id="year-52-grid" aria-label="Griglia 52 settimane dell'anno">
+          <!-- Populated by app.js -->
+        </div>
+
+        <div class="habit-legend mt-12">
+          <li><span class="cell-mark" style="background: var(--ob-emerald);"></span> Eccellente (80–100%)</li>
+          <li><span class="cell-mark" style="background: var(--ob-gold);"></span> Buona (60–79%)</li>
+          <li><span class="cell-mark" style="background: var(--ob-danger);"></span> Sotto target (&lt;60%)</li>
+        </div>
+      </div>
+
+      <!-- Week-by-Week Detailed Report Cards -->
+      <div class="card mt-14">
+        <div class="card-header-compact">
+          <div>
+            <p class="eyebrow">CRONOLOGIA DETTAGLIATA SETTIMANA PER SETTIMANA</p>
+            <h3 class="card-title">Report Settimanali Archiviati</h3>
+          </div>
+        </div>
+        <div class="weekly-reports-list" id="weekly-reports-list">
+          <!-- Populated by app.js -->
         </div>
       </div>
     </section>
@@ -828,14 +876,14 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
       </svg>
-      <span>Oggi &amp; Report</span>
+      <span>Abitudini</span>
     </button>
 
     <button type="button" class="m-nav-btn" data-tab="trackers">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
       </svg>
-      <span>Contatori</span>
+      <span>Tracker</span>
     </button>
 
     <!-- Center Elevated '+' Button (Opens Clean Contextual Bottom Sheet) -->
@@ -857,11 +905,11 @@
       <span>Sveglie</span>
     </button>
 
-    <button type="button" class="m-nav-btn" data-tab="finance">
+    <button type="button" class="m-nav-btn" data-tab="report">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
-      <span>Finanze</span>
+      <span>Report 1A</span>
     </button>
   </nav>
 
@@ -1691,6 +1739,277 @@
     </div>
   </dialog>
 
-  <script src="/app.js?v=10" defer></script>
+  <!-- ====================================================================
+       MODAL: EDIT HABIT (FULL CUSTOMIZATION & PERSISTENCE)
+       ==================================================================== -->
+  <dialog id="edit-habit-dialog" closedby="any" aria-labelledby="edit-habit-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">MODIFICA ABITUDINE</p>
+          <h2 id="edit-habit-title">Personalizza Abitudine</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="edit-habit-form" class="stacked-form">
+        <input type="hidden" id="edit-habit-id">
+        <div class="field-group">
+          <label for="edit-habit-name">Nome Abitudine</label>
+          <input type="text" id="edit-habit-name" required placeholder="Es. Meditazione 10 min">
+        </div>
+        <div class="field-group">
+          <label for="edit-habit-category">Categoria</label>
+          <select id="edit-habit-category">
+            <option value="Salute">Salute &amp; Corpo</option>
+            <option value="Mente">Mente &amp; Focus</option>
+            <option value="Lavoro">Lavoro &amp; Studio</option>
+            <option value="Sport">Sport &amp; Movimento</option>
+            <option value="Personale">Personale</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Giorni Attivi nella Settimana</label>
+          <div class="day-checkboxes-grid" id="edit-habit-days-group">
+            <label class="day-check-label"><input type="checkbox" value="Mon"> Lun</label>
+            <label class="day-check-label"><input type="checkbox" value="Tue"> Mar</label>
+            <label class="day-check-label"><input type="checkbox" value="Wed"> Mer</label>
+            <label class="day-check-label"><input type="checkbox" value="Thu"> Gio</label>
+            <label class="day-check-label"><input type="checkbox" value="Fri"> Ven</label>
+            <label class="day-check-label"><input type="checkbox" value="Sat"> Sab</label>
+            <label class="day-check-label"><input type="checkbox" value="Sun"> Dom</label>
+          </div>
+        </div>
+        <div class="dialog-actions-split mt-14">
+          <button type="button" class="btn-danger-ghost" id="btn-delete-habit-confirm">🗑️ Elimina</button>
+          <button type="submit" class="btn-primary">Salva Modifiche</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: EDIT TRACKER DEFINITION (FULL CUSTOMIZATION)
+       ==================================================================== -->
+  <dialog id="edit-tracker-dialog" closedby="any" aria-labelledby="edit-tracker-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">MODIFICA CONTATORE</p>
+          <h2 id="edit-tracker-title">Personalizza Contatore</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="edit-tracker-form" class="stacked-form">
+        <input type="hidden" id="edit-trk-id">
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="edit-trk-name">Nome</label>
+            <input type="text" id="edit-trk-name" required placeholder="Es. Acqua, Caffè...">
+          </div>
+          <div class="field-group">
+            <label for="edit-trk-icon">Icona Emoji</label>
+            <input type="text" id="edit-trk-icon" maxlength="4" placeholder="💧" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="edit-trk-unit">Unità</label>
+            <input type="text" id="edit-trk-unit" placeholder="bicchieri, tazze, sig" required>
+          </div>
+          <div class="field-group">
+            <label for="edit-trk-target">Target / Limite Giornaliero</label>
+            <input type="number" id="edit-trk-target" min="0" max="999" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="edit-trk-mode">Tipo Logica</label>
+            <select id="edit-trk-mode">
+              <option value="target">🎯 Obiettivo (Raggiungere)</option>
+              <option value="limit">🛑 Limite (Non Superare)</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="edit-trk-cost">Costo per unità (€)</label>
+            <input type="number" id="edit-trk-cost" min="0" step="0.05" placeholder="0.30">
+          </div>
+        </div>
+        <div class="dialog-actions-split mt-14">
+          <button type="button" class="btn-danger-ghost" id="btn-delete-tracker-confirm">🗑️ Elimina</button>
+          <button type="submit" class="btn-primary">Salva Contatore</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: EDIT ROUTINE EXERCISE (WEEKLY PROGRAM)
+       ==================================================================== -->
+  <dialog id="gym-edit-routine-ex-dialog" closedby="any" aria-labelledby="gym-edit-routine-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">MODIFICA ESERCIZIO PROGRAMMA</p>
+          <h2 id="gym-edit-routine-title">Personalizza Esercizio</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="gym-edit-routine-form" class="stacked-form">
+        <input type="hidden" id="gym-edit-routine-day-idx">
+        <input type="hidden" id="gym-edit-routine-ex-idx">
+        <div class="field-group">
+          <label for="edit-routine-ex-name">Nome Esercizio</label>
+          <input type="text" id="edit-routine-ex-name" required placeholder="Es. Panca Piana">
+        </div>
+        <div class="form-row-3">
+          <div class="field-group">
+            <label for="edit-routine-ex-sets">Serie</label>
+            <input type="number" id="edit-routine-ex-sets" min="1" max="15" required>
+          </div>
+          <div class="field-group">
+            <label for="edit-routine-ex-reps">Reps Target</label>
+            <input type="number" id="edit-routine-ex-reps" min="1" max="100" required>
+          </div>
+          <div class="field-group">
+            <label for="edit-routine-ex-kg">Kg Target</label>
+            <input type="number" id="edit-routine-ex-kg" min="0" max="600" step="0.5" required>
+          </div>
+        </div>
+        <div class="dialog-actions-split mt-14">
+          <button type="button" class="btn-danger-ghost" id="btn-delete-routine-ex-confirm">🗑️ Rimuovi</button>
+          <button type="submit" class="btn-primary">Salva Esercizio</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: EDIT ROUTINE DAY (RENAME DAY & FOCUS)
+       ==================================================================== -->
+  <dialog id="gym-edit-day-dialog" closedby="any" aria-labelledby="gym-edit-day-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">RINOMINA GIORNO &amp; FOCUS</p>
+          <h2 id="gym-edit-day-title">Personalizza Giorno Scheda</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="gym-edit-day-form" class="stacked-form">
+        <input type="hidden" id="gym-edit-day-idx">
+        <div class="field-group">
+          <label for="edit-gym-day-label">Nome Giorno</label>
+          <input type="text" id="edit-gym-day-label" required placeholder="Lunedì">
+        </div>
+        <div class="field-group">
+          <label for="edit-gym-day-focus">Focus Muscoli / Attività</label>
+          <input type="text" id="edit-gym-day-focus" required placeholder="Push Day — Petto, Spalle, Tricipiti">
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-12">Salva Dettagli Giorno</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: ADD EXERCISE DIRECTLY TO TODAY'S WORKOUT
+       ==================================================================== -->
+  <dialog id="gym-add-today-ex-dialog" closedby="any" aria-labelledby="gym-add-today-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">ALLENAMENTO DI OGGI</p>
+          <h2 id="gym-add-today-title">Aggiungi Esercizio a Oggi</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="gym-add-today-form" class="stacked-form">
+        <div class="field-group">
+          <label for="today-ex-name">Nome Esercizio</label>
+          <input type="text" id="today-ex-name" required placeholder="Es. Trazioni alla sbarra">
+        </div>
+        <div class="form-row-3">
+          <div class="field-group">
+            <label for="today-ex-sets">Serie</label>
+            <input type="number" id="today-ex-sets" min="1" max="15" value="3" required>
+          </div>
+          <div class="field-group">
+            <label for="today-ex-reps">Reps</label>
+            <input type="number" id="today-ex-reps" min="1" max="100" value="10" required>
+          </div>
+          <div class="field-group">
+            <label for="today-ex-kg">Kg Iniziali</label>
+            <input type="number" id="today-ex-kg" min="0" max="600" step="0.5" value="0" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary btn-block mt-12">＋ Aggiungi all'Allenamento</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: EDIT ALARM
+       ==================================================================== -->
+  <dialog id="edit-alarm-dialog" closedby="any" aria-labelledby="edit-alarm-title" class="nexus-dialog">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">MODIFICA SVEGLIA</p>
+          <h2 id="edit-alarm-title">Personalizza Sveglia</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+      <form id="edit-alarm-form" class="stacked-form">
+        <input type="hidden" id="edit-alarm-id">
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="edit-alarm-time">Orario (HH:MM)</label>
+            <input type="time" id="edit-alarm-time" required>
+          </div>
+          <div class="field-group">
+            <label for="edit-alarm-label">Etichetta</label>
+            <input type="text" id="edit-alarm-label" required placeholder="Es. Sveglia Mattina">
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="edit-alarm-sound">Suoneria Rintocchi</label>
+          <select id="edit-alarm-sound">
+            <option value="cascade">Armonia Ascendente (Cascade)</option>
+            <option value="pulse">Rintocco Energetico (Pulse)</option>
+            <option value="zen">Campana Zen</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Ripeti nei Giorni</label>
+          <div class="day-checkboxes-grid" id="edit-alarm-days-group">
+            <label class="day-check-label"><input type="checkbox" value="Mon"> Lun</label>
+            <label class="day-check-label"><input type="checkbox" value="Tue"> Mar</label>
+            <label class="day-check-label"><input type="checkbox" value="Wed"> Mer</label>
+            <label class="day-check-label"><input type="checkbox" value="Thu"> Gio</label>
+            <label class="day-check-label"><input type="checkbox" value="Fri"> Ven</label>
+            <label class="day-check-label"><input type="checkbox" value="Sat"> Sab</label>
+            <label class="day-check-label"><input type="checkbox" value="Sun"> Dom</label>
+          </div>
+        </div>
+        <div class="dialog-actions-split mt-14">
+          <button type="button" class="btn-danger-ghost" id="btn-delete-alarm-confirm">🗑️ Elimina</button>
+          <button type="submit" class="btn-primary">Salva Sveglia</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="/app.js?v=11" defer></script>
 </body>
 </html>

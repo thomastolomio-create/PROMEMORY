@@ -1100,6 +1100,10 @@
       panel.classList.toggle('active', isMatch);
       panel.hidden = !isMatch;
     });
+
+    if (mappedTab === 'report' && currentState) {
+      render52WeekReport(currentState);
+    }
   }
 
   function activateSegment(groupName, targetId) {
@@ -1439,15 +1443,22 @@
       editTargetBtn.type = 'button';
       editTargetBtn.className = 'btn-ghost btn-xs';
       editTargetBtn.textContent = '✎';
+      editTargetBtn.title = 'Personalizza contatore';
       editTargetBtn.addEventListener('click', () => {
-        openEditTrackerDayModal(trk, todayStr, 'Oggi');
+        playUiTick(650);
+        openEditTrackerModal(trk);
       });
 
       const delBtn = document.createElement('button');
       delBtn.type = 'button';
-      delBtn.className = 'btn-ghost btn-xs';
+      delBtn.className = 'btn-danger-ghost btn-xs';
       delBtn.textContent = '✕';
-      delBtn.addEventListener('click', () => mutateState('DELETE_TRACKER', { id: trk.id }));
+      delBtn.title = 'Elimina contatore';
+      delBtn.addEventListener('click', () => {
+        if (!confirm(`Sei sicuro di voler eliminare il contatore "${trk.name}"?`)) return;
+        mutateState('DELETE_TRACKER', { id: trk.id });
+        showActionToast(`🗑️ Contatore eliminato`);
+      });
 
       headBtns.appendChild(editTargetBtn);
       headBtns.appendChild(delBtn);
@@ -1460,6 +1471,11 @@
 
       const bigNum = document.createElement('div');
       bigNum.className = 'tracker-big-number';
+      bigNum.style.cursor = 'pointer';
+      bigNum.title = 'Tocca per impostare manualmente il numero di oggi';
+      bigNum.addEventListener('click', () => {
+        openEditTrackerDayModal(trk, todayStr, 'Oggi');
+      });
       if (isOverLimit) bigNum.style.color = 'var(--ob-danger)';
       else if (!isLimit && countToday >= target) bigNum.style.color = 'var(--ob-emerald)';
       bigNum.textContent = `${countToday} `;
@@ -1934,6 +1950,293 @@
     editGymSetDialog.close();
   });
 
+  // ==========================================================================
+  // COMPREHENSIVE EDITING & CUSTOMIZATION MODALS (PERSISTENT & MULTI-USER)
+  // ==========================================================================
+
+  // 1. Edit Habit Modal
+  function openEditHabitModal(habit) {
+    if (!habit) return;
+    const dialog = document.getElementById('edit-habit-dialog');
+    if (!dialog) return;
+    document.getElementById('edit-habit-id').value = habit.id;
+    document.getElementById('edit-habit-name').value = habit.name || '';
+    document.getElementById('edit-habit-category').value = habit.category || 'Personale';
+
+    const sched = Array.isArray(habit.schedule) ? habit.schedule : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    document.querySelectorAll('#edit-habit-days-group input[type="checkbox"]').forEach((cb) => {
+      cb.checked = sched.includes(cb.value);
+    });
+
+    const delBtn = document.getElementById('btn-delete-habit-confirm');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        if (!confirm(`Sei sicuro di voler eliminare l'abitudine "${habit.name}"?`)) return;
+        mutateState('DELETE_HABIT', { id: habit.id });
+        dialog.close();
+        showActionToast(`🗑️ Abitudine eliminata`);
+      };
+    }
+
+    dialog.showModal();
+  }
+
+  document.getElementById('edit-habit-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const habitId = document.getElementById('edit-habit-id').value;
+    const name = document.getElementById('edit-habit-name').value.trim();
+    const category = document.getElementById('edit-habit-category').value;
+    const schedule = [];
+    document.querySelectorAll('#edit-habit-days-group input[type="checkbox"]:checked').forEach((cb) => {
+      schedule.push(cb.value);
+    });
+
+    mutateState('EDIT_HABIT', {
+      id: habitId,
+      name,
+      category,
+      schedule: schedule.length ? schedule : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    });
+    document.getElementById('edit-habit-dialog')?.close();
+    showActionToast(`🔥 Abitudine "${name}" aggiornata!`);
+  });
+
+  // 2. Edit Tracker Definition Modal
+  function openEditTrackerModal(trk) {
+    if (!trk) return;
+    const dialog = document.getElementById('edit-tracker-dialog');
+    if (!dialog) return;
+    document.getElementById('edit-trk-id').value = trk.id;
+    document.getElementById('edit-trk-name').value = trk.name || '';
+    document.getElementById('edit-trk-icon').value = trk.icon || '🔢';
+    document.getElementById('edit-trk-unit').value = trk.unit || 'unità';
+    document.getElementById('edit-trk-target').value = trk.dailyTarget || 1;
+    document.getElementById('edit-trk-mode').value = trk.mode || 'limit';
+    document.getElementById('edit-trk-cost').value = trk.costPerUnit || 0;
+
+    const delBtn = document.getElementById('btn-delete-tracker-confirm');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        if (!confirm(`Sei sicuro di voler eliminare il contatore "${trk.name}"?`)) return;
+        mutateState('DELETE_TRACKER', { id: trk.id });
+        dialog.close();
+        showActionToast(`🗑️ Contatore eliminato`);
+      };
+    }
+
+    dialog.showModal();
+  }
+
+  document.getElementById('edit-tracker-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = document.getElementById('edit-trk-id').value;
+    const name = document.getElementById('edit-trk-name').value.trim();
+    const icon = document.getElementById('edit-trk-icon').value.trim() || '🔢';
+    const unit = document.getElementById('edit-trk-unit').value.trim() || 'unità';
+    const dailyTarget = Number(document.getElementById('edit-trk-target').value) || 1;
+    const mode = document.getElementById('edit-trk-mode').value;
+    const costPerUnit = Number(document.getElementById('edit-trk-cost').value) || 0;
+
+    mutateState('EDIT_TRACKER', {
+      id,
+      name,
+      icon,
+      unit,
+      dailyTarget,
+      mode,
+      costPerUnit
+    });
+    document.getElementById('edit-tracker-dialog')?.close();
+    showActionToast(`🔢 Contatore "${name}" aggiornato!`);
+  });
+
+  // 3. Edit Routine Exercise Modal
+  function openEditRoutineExModal(dayRoutine, ex, exIdx) {
+    const dialog = document.getElementById('gym-edit-routine-ex-dialog');
+    if (!dialog) return;
+    document.getElementById('gym-edit-routine-day-idx').value = String(selectedGymDayIdx);
+    document.getElementById('gym-edit-routine-ex-idx').value = String(exIdx);
+    document.getElementById('edit-routine-ex-name').value = ex.name || '';
+    document.getElementById('edit-routine-ex-sets').value = ex.sets || 3;
+    document.getElementById('edit-routine-ex-reps').value = ex.reps || 10;
+    document.getElementById('edit-routine-ex-kg').value = ex.kg || 0;
+
+    const delBtn = document.getElementById('btn-delete-routine-ex-confirm');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        if (!confirm(`Rimuovere "${ex.name}" da questo giorno?`)) return;
+        dayRoutine.exercises.splice(exIdx, 1);
+        saveExtraState();
+        syncWeeklyGymProgram();
+        renderWeeklyGymProgram();
+        dialog.close();
+        showActionToast(`🗑️ Esercizio rimosso dal programma`);
+      };
+    }
+
+    dialog.showModal();
+  }
+
+  document.getElementById('gym-edit-routine-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const dayIdx = Number(document.getElementById('gym-edit-routine-day-idx').value) || 0;
+    const exIdx = Number(document.getElementById('gym-edit-routine-ex-idx').value) || 0;
+    const name = document.getElementById('edit-routine-ex-name').value.trim();
+    const sets = Number(document.getElementById('edit-routine-ex-sets').value) || 3;
+    const reps = Number(document.getElementById('edit-routine-ex-reps').value) || 10;
+    const kg = Number(document.getElementById('edit-routine-ex-kg').value) || 0;
+
+    if (extraState.weeklyGymProgram && extraState.weeklyGymProgram.schedule[dayIdx]) {
+      const routine = extraState.weeklyGymProgram.schedule[dayIdx];
+      if (routine.exercises && routine.exercises[exIdx]) {
+        routine.exercises[exIdx] = { name, sets, reps, kg };
+        saveExtraState();
+        syncWeeklyGymProgram();
+        renderWeeklyGymProgram();
+      }
+    }
+    document.getElementById('gym-edit-routine-ex-dialog')?.close();
+    showActionToast(`🥊 Esercizio aggiornato nel programma!`);
+  });
+
+  // 4. Edit Routine Day Details Modal
+  function openEditRoutineDayModal() {
+    const dialog = document.getElementById('gym-edit-day-dialog');
+    if (!dialog || !extraState.weeklyGymProgram) return;
+    const dayRoutine = extraState.weeklyGymProgram.schedule[selectedGymDayIdx] || { day: 'Giorno', focus: '' };
+    document.getElementById('gym-edit-day-idx').value = String(selectedGymDayIdx);
+    document.getElementById('edit-gym-day-label').value = dayRoutine.day || '';
+    document.getElementById('edit-gym-day-focus').value = dayRoutine.focus || '';
+    dialog.showModal();
+  }
+
+  document.getElementById('btn-edit-day-focus')?.addEventListener('click', () => {
+    playUiTick(650);
+    openEditRoutineDayModal();
+  });
+
+  document.getElementById('gym-edit-day-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const dayIdx = Number(document.getElementById('gym-edit-day-idx').value) || 0;
+    const dayLabel = document.getElementById('edit-gym-day-label').value.trim();
+    const dayFocus = document.getElementById('edit-gym-day-focus').value.trim();
+
+    if (extraState.weeklyGymProgram && extraState.weeklyGymProgram.schedule[dayIdx]) {
+      extraState.weeklyGymProgram.schedule[dayIdx].day = dayLabel;
+      extraState.weeklyGymProgram.schedule[dayIdx].focus = dayFocus;
+      saveExtraState();
+      syncWeeklyGymProgram();
+      renderWeeklyGymProgram();
+    }
+    document.getElementById('gym-edit-day-dialog')?.close();
+    showActionToast(`📋 Dettagli giorno aggiornati!`);
+  });
+
+  // 5. Add Exercise directly to Today's Workout
+  document.getElementById('btn-add-exercise-to-today')?.addEventListener('click', () => {
+    playUiTick(650);
+    document.getElementById('gym-add-today-ex-dialog')?.showModal();
+  });
+
+  document.getElementById('gym-add-today-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('today-ex-name').value.trim();
+    const setsCount = Number(document.getElementById('today-ex-sets').value) || 3;
+    const reps = Number(document.getElementById('today-ex-reps').value) || 10;
+    const kg = Number(document.getElementById('today-ex-kg').value) || 0;
+
+    const sets = [];
+    for (let i = 0; i < setsCount; i++) {
+      sets.push({ kg, reps, done: false });
+    }
+
+    extraState.gymExercises = extraState.gymExercises || [];
+    extraState.gymExercises.push({
+      id: `ex-today-${Date.now()}`,
+      name,
+      sets
+    });
+
+    saveExtraState();
+    renderGymModule();
+    document.getElementById('gym-add-today-ex-dialog')?.close();
+    document.getElementById('today-ex-name').value = '';
+    showActionToast(`🥊 "${name}" aggiunto all'allenamento di oggi!`);
+  });
+
+  // 6. Edit Alarm Modal
+  function openEditAlarmModal(alarm) {
+    if (!alarm) return;
+    const dialog = document.getElementById('edit-alarm-dialog');
+    if (!dialog) return;
+    document.getElementById('edit-alarm-id').value = alarm.id;
+    document.getElementById('edit-alarm-time').value = alarm.time || '07:00';
+    document.getElementById('edit-alarm-label').value = alarm.label || '';
+    document.getElementById('edit-alarm-sound').value = alarm.sound || 'cascade';
+
+    const rep = Array.isArray(alarm.repeat) ? alarm.repeat : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    document.querySelectorAll('#edit-alarm-days-group input[type="checkbox"]').forEach((cb) => {
+      cb.checked = rep.includes(cb.value);
+    });
+
+    const delBtn = document.getElementById('btn-delete-alarm-confirm');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        if (!confirm(`Eliminare la sveglia "${alarm.label}" delle ${alarm.time}?`)) return;
+        mutateState('DELETE_ALARM', { id: alarm.id });
+        dialog.close();
+        showActionToast(`🗑️ Sveglia eliminata`);
+      };
+    }
+
+    dialog.showModal();
+  }
+
+  document.getElementById('edit-alarm-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = document.getElementById('edit-alarm-id').value;
+    const time = document.getElementById('edit-alarm-time').value;
+    const label = document.getElementById('edit-alarm-label').value.trim();
+    const sound = document.getElementById('edit-alarm-sound').value;
+    const repeat = [];
+    document.querySelectorAll('#edit-alarm-days-group input[type="checkbox"]:checked').forEach((cb) => {
+      repeat.push(cb.value);
+    });
+
+    mutateState('EDIT_ALARM', {
+      id,
+      time,
+      label,
+      sound,
+      repeat: repeat.length ? repeat : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    });
+    document.getElementById('edit-alarm-dialog')?.close();
+    showActionToast(`⏰ Sveglia "${label}" aggiornata!`);
+  });
+
+  // 7. Custom Focus Duration & Reset
+  document.getElementById('btn-set-custom-focus')?.addEventListener('click', () => {
+    playUiTick(680);
+    const mins = Math.max(1, Math.min(240, Number(document.getElementById('custom-focus-minutes')?.value) || 30));
+    if (focusTimer) clearInterval(focusTimer);
+    focusRunning = false;
+    focusSecLeft = mins * 60;
+    const btn = document.getElementById('btn-toggle-focus');
+    if (btn) btn.textContent = '▶ Avvia Focus';
+    updateFocusClockUI();
+    showActionToast(`⏱️ Timer impostato su ${mins} minuti!`);
+  });
+
+  document.getElementById('btn-reset-focus-today')?.addEventListener('click', () => {
+    if (!confirm('Vuoi azzerare i minuti di focus accumulati oggi?')) return;
+    playUiTick(500);
+    extraState.focusMinutesToday = 0;
+    saveExtraState();
+    updateFocusClockUI();
+    renderHeaderAndKpis(currentState);
+    showActionToast('🔄 Minuti focus di oggi azzerati a 0');
+  });
+
   function renderFighterPrsTable() {
     const container = document.getElementById('gym-prs-table-container');
     if (!container) return;
@@ -2293,20 +2596,39 @@
         info.appendChild(strong);
         info.appendChild(badgeWrap);
 
+        const actionWrap = document.createElement('div');
+        actionWrap.style.display = 'flex';
+        actionWrap.style.gap = '6px';
+        actionWrap.style.alignItems = 'center';
+
+        const editExBtn = document.createElement('button');
+        editExBtn.type = 'button';
+        editExBtn.className = 'btn-ghost btn-xs';
+        editExBtn.textContent = '✎';
+        editExBtn.title = 'Modifica esercizio, serie, reps e kg';
+        editExBtn.addEventListener('click', () => {
+          playUiTick(650);
+          openEditRoutineExModal(dayRoutine, ex, exIdx);
+        });
+
         const delBtn = document.createElement('button');
         delBtn.type = 'button';
         delBtn.className = 'btn-danger-ghost btn-xs';
         delBtn.textContent = '✕';
         delBtn.title = 'Rimuovi dal programma';
         delBtn.addEventListener('click', () => {
+          if (!confirm(`Rimuovere "${ex.name}" dal programma di ${dayRoutine.day}?`)) return;
           dayRoutine.exercises.splice(exIdx, 1);
           saveExtraState();
           syncWeeklyGymProgram();
           renderWeeklyGymProgram();
+          showActionToast(`🗑️ Esercizio rimosso dal programma`);
         });
 
+        actionWrap.appendChild(editExBtn);
+        actionWrap.appendChild(delBtn);
         row.appendChild(info);
-        row.appendChild(delBtn);
+        row.appendChild(actionWrap);
         exContainer.appendChild(row);
       });
     }
@@ -2746,12 +3068,13 @@
       (habits || []).forEach((habit) => {
         const currentSt = getHabitDayState(habit, todayStr, todayCode);
         const isDoneToday = currentSt === 'done';
-        const item = document.createElement('button');
-        item.type = 'button';
+        const item = document.createElement('div');
         item.className = 'thumb-habit-item';
         item.dataset.done = String(isDoneToday);
 
         const left = document.createElement('div');
+        left.style.flex = '1';
+        left.style.cursor = 'pointer';
         const t = document.createElement('strong');
         t.textContent = habit.name;
         const sub = document.createElement('p');
@@ -2760,14 +3083,7 @@
         left.appendChild(t);
         left.appendChild(sub);
 
-        const checkCircle = document.createElement('span');
-        checkCircle.className = 'thumb-check-circle';
-        checkCircle.textContent = '✓';
-
-        item.appendChild(left);
-        item.appendChild(checkCircle);
-
-        item.addEventListener('click', () => {
+        left.addEventListener('click', () => {
           playUiTick(isDoneToday ? 520 : 840);
           const nextState = isDoneToday ? 'pending' : 'done';
           extraState.habitHistoryOverrides = extraState.habitHistoryOverrides || {};
@@ -2778,6 +3094,40 @@
           renderAll(currentState);
           mutateState('CYCLE_HABIT_CELL', { habitId: habit.id, date: todayStr });
         });
+
+        const editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'btn-ghost btn-xs';
+        editBtn.style.padding = '4px 8px';
+        editBtn.style.marginRight = '8px';
+        editBtn.style.fontSize = '13px';
+        editBtn.textContent = '✎';
+        editBtn.title = 'Personalizza o elimina abitudine';
+        editBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          playUiTick(650);
+          openEditHabitModal(habit);
+        });
+
+        const checkCircle = document.createElement('button');
+        checkCircle.type = 'button';
+        checkCircle.className = 'thumb-check-circle';
+        checkCircle.textContent = '✓';
+        checkCircle.addEventListener('click', () => {
+          playUiTick(isDoneToday ? 520 : 840);
+          const nextState = isDoneToday ? 'pending' : 'done';
+          extraState.habitHistoryOverrides = extraState.habitHistoryOverrides || {};
+          extraState.habitHistoryOverrides[habit.id] = extraState.habitHistoryOverrides[habit.id] || {};
+          extraState.habitHistoryOverrides[habit.id][todayStr] = nextState;
+          if (habit.history) habit.history[todayStr] = nextState;
+          saveExtraState();
+          renderAll(currentState);
+          mutateState('CYCLE_HABIT_CELL', { habitId: habit.id, date: todayStr });
+        });
+
+        item.appendChild(left);
+        item.appendChild(editBtn);
+        item.appendChild(checkCircle);
 
         todayChecklist.appendChild(item);
       });
@@ -2895,15 +3245,25 @@
         pillsGroup.appendChild(pBtn);
       });
 
+      const editHabitBtn = document.createElement('button');
+      editHabitBtn.type = 'button';
+      editHabitBtn.className = 'btn-ghost btn-xs';
+      editHabitBtn.textContent = '✎';
+      editHabitBtn.title = 'Modifica';
+      editHabitBtn.addEventListener('click', () => openEditHabitModal(habit));
+
       const delHabitBtn = document.createElement('button');
       delHabitBtn.type = 'button';
       delHabitBtn.className = 'btn-danger-ghost btn-xs';
       delHabitBtn.textContent = '✕';
+      delHabitBtn.title = 'Elimina';
       delHabitBtn.addEventListener('click', () => {
+        if (!confirm(`Eliminare l'abitudine "${habit.name}"?`)) return;
         mutateState('DELETE_HABIT', { id: habit.id });
       });
 
       rightControls.appendChild(pillsGroup);
+      rightControls.appendChild(editHabitBtn);
       rightControls.appendChild(delHabitBtn);
 
       schedRow.appendChild(schedInfo);
@@ -2911,7 +3271,80 @@
       scheduleEditor.appendChild(schedRow);
     });
 
-    const pct = weekScheduledTotal > 0 ? Math.min(100, Math.round((weekDoneTotal / weekScheduledTotal) * 100)) : 85;
+    // 3. Render Dedicated Habit Management List (seg-today-manage)
+    const manageList = document.getElementById('habits-management-list');
+    if (manageList) {
+      manageList.replaceChildren();
+      (habits || []).forEach((habit) => {
+        const mCard = document.createElement('div');
+        mCard.className = 'habit-manage-card';
+
+        const top = document.createElement('div');
+        top.className = 'habit-manage-top';
+
+        const titleWrap = document.createElement('div');
+        const t = document.createElement('strong');
+        t.textContent = habit.name;
+        const cat = document.createElement('span');
+        cat.className = 'habit-meta-sub';
+        cat.textContent = `${habit.category} · 🔥 Serie: ${habit.streak || 0}g`;
+        titleWrap.appendChild(t);
+        titleWrap.appendChild(cat);
+
+        const actions = document.createElement('div');
+        actions.style.display = 'flex';
+        actions.style.gap = '6px';
+        actions.style.alignItems = 'center';
+
+        const editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'btn-secondary btn-xs';
+        editBtn.textContent = '✎ Modifica';
+        editBtn.addEventListener('click', () => {
+          playUiTick(650);
+          openEditHabitModal(habit);
+        });
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn-danger-ghost btn-xs';
+        delBtn.textContent = '✕';
+        delBtn.title = 'Elimina';
+        delBtn.addEventListener('click', () => {
+          if (!confirm(`Sei sicuro di voler eliminare l'abitudine "${habit.name}"?`)) return;
+          mutateState('DELETE_HABIT', { id: habit.id });
+          showActionToast(`🗑️ Abitudine eliminata`);
+        });
+
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+        top.appendChild(titleWrap);
+        top.appendChild(actions);
+
+        // Day pills
+        const pillsGroup = document.createElement('div');
+        pillsGroup.className = 'day-pills-group';
+        DAY_CODES.forEach((code, idx) => {
+          const pBtn = document.createElement('button');
+          pBtn.type = 'button';
+          pBtn.className = 'day-pill-btn';
+          const active = habit.schedule.includes(code);
+          pBtn.dataset.active = String(active);
+          pBtn.textContent = DAY_SHORT_IT[idx];
+          pBtn.addEventListener('click', () => {
+            playUiTick(680);
+            mutateState('UPDATE_HABIT_SCHEDULE', { habitId: habit.id, dayCode: code });
+          });
+          pillsGroup.appendChild(pBtn);
+        });
+
+        mCard.appendChild(top);
+        mCard.appendChild(pillsGroup);
+        manageList.appendChild(mCard);
+      });
+    }
+
+    const pct = weekScheduledTotal > 0 ? Math.min(100, Math.round((weekDoneTotal / weekScheduledTotal) * 100)) : 0;
     document.getElementById('tally-week-done').textContent = String(weekDoneTotal);
     document.getElementById('tally-week-total').textContent = String(weekScheduledTotal);
     document.getElementById('meter-week').style.setProperty('--progress-w', `${pct}%`);
@@ -2955,14 +3388,36 @@
       timeEl.className = 'alarm-time-display';
       timeEl.textContent = alarm.time;
 
+      const editAlarmBtn = document.createElement('button');
+      editAlarmBtn.type = 'button';
+      editAlarmBtn.className = 'btn-ghost btn-xs';
+      editAlarmBtn.textContent = '✎';
+      editAlarmBtn.title = 'Personalizza sveglia';
+      editAlarmBtn.addEventListener('click', () => {
+        playUiTick(650);
+        openEditAlarmModal(alarm);
+      });
+
       const delBtn = document.createElement('button');
       delBtn.type = 'button';
       delBtn.className = 'btn-danger-ghost btn-xs';
       delBtn.textContent = '✕';
-      delBtn.addEventListener('click', () => mutateState('DELETE_ALARM', { id: alarm.id }));
+      delBtn.title = 'Elimina sveglia';
+      delBtn.addEventListener('click', () => {
+        if (!confirm(`Eliminare la sveglia "${alarm.label}" delle ${alarm.time}?`)) return;
+        mutateState('DELETE_ALARM', { id: alarm.id });
+        showActionToast(`🗑️ Sveglia eliminata`);
+      });
+
+      const topBtns = document.createElement('div');
+      topBtns.style.display = 'flex';
+      topBtns.style.gap = '6px';
+      topBtns.style.alignItems = 'center';
+      topBtns.appendChild(editAlarmBtn);
+      topBtns.appendChild(delBtn);
 
       top.appendChild(timeEl);
-      top.appendChild(delBtn);
+      top.appendChild(topBtns);
 
       const labelEl = document.createElement('p');
       labelEl.className = 'alarm-label-text';
@@ -3336,6 +3791,18 @@
         });
         break;
       }
+      case 'EDIT_TRACKER': {
+        const trk = (currentState.trackers || []).find((t) => t.id === payload.id);
+        if (trk) {
+          if (payload.name) trk.name = payload.name;
+          if (payload.icon) trk.icon = payload.icon;
+          if (payload.unit) trk.unit = payload.unit;
+          if (payload.mode) trk.mode = payload.mode;
+          if (payload.dailyTarget !== undefined) trk.dailyTarget = Math.max(0, Number(payload.dailyTarget));
+          if (payload.costPerUnit !== undefined) trk.costPerUnit = Math.max(0, Number(payload.costPerUnit));
+        }
+        break;
+      }
       case 'DELETE_TRACKER': {
         currentState.trackers = (currentState.trackers || []).filter((t) => t.id !== payload.id);
         break;
@@ -3354,6 +3821,18 @@
           streak: 0,
           history: { [today]: 'pending' }
         });
+        break;
+      }
+      case 'EDIT_HABIT': {
+        const habit = (currentState.habits || []).find((h) => h.id === payload.id);
+        if (habit) {
+          if (payload.name) habit.name = payload.name;
+          if (payload.category) habit.category = payload.category;
+          if (Array.isArray(payload.schedule) && payload.schedule.length) {
+            habit.schedule = payload.schedule;
+            habit.targetPerWeek = payload.schedule.length;
+          }
+        }
         break;
       }
       case 'DELETE_HABIT': {
@@ -3379,10 +3858,21 @@
           time: payload.time || '07:00',
           label: payload.label || 'Sveglia Manuale',
           enabled: true,
-          repeat: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          repeat: Array.isArray(payload.repeat) && payload.repeat.length ? payload.repeat : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           group: 'Manuale',
-          sound: 'cascade'
+          sound: payload.sound || 'cascade'
         });
+        currentState.alarms.sort((a, b) => a.time.localeCompare(b.time));
+        break;
+      }
+      case 'EDIT_ALARM': {
+        const alarm = (currentState.alarms || []).find((a) => a.id === payload.id);
+        if (alarm) {
+          if (payload.time) alarm.time = payload.time;
+          if (payload.label) alarm.label = payload.label;
+          if (Array.isArray(payload.repeat) && payload.repeat.length) alarm.repeat = payload.repeat;
+          if (payload.sound) alarm.sound = payload.sound;
+        }
         currentState.alarms.sort((a, b) => a.time.localeCompare(b.time));
         break;
       }
