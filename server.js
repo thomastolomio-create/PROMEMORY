@@ -451,6 +451,24 @@ app.post('/api/auth/gym-program', (req, res) => {
   }
 });
 
+app.post('/api/auth/extra-state', (req, res) => {
+  try {
+    const user = resolveUser(req);
+    const { extraState } = req.body || {};
+    user.extraState = user.extraState || {};
+    if (extraState && typeof extraState === 'object') {
+      user.extraState = {
+        ...user.extraState,
+        ...extraState
+      };
+      saveDb(getDb());
+    }
+    res.json({ ok: true, extraState: user.extraState });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 // 4. State & Sync Routes
 app.get('/api/state', (req, res) => {
   const user = resolveUser(req);

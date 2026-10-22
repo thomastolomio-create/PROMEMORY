@@ -813,9 +813,9 @@
       "extraState": {
         "smokingBaselinePerDay": 15,
         "smokingCostPerUnit": 0.3,
-        "cravingsWonCount": 5,
+        "cravingsWonCount": 0,
         "dailyBudgetEuro": 50,
-        "focusMinutesToday": 90,
+        "focusMinutesToday": 0,
         "weeklyGymProgram": {
           "splitName": "🥊 FIGHTER BOXING & STRENGTH (7 Giorni)",
           "createdAt": "2026-10-22",
@@ -2381,7 +2381,9 @@
             "w-hip": true,
             "w-plank": true
           }
-        }
+        },
+        "weeklyArchive52": [],
+        "gymHistory": []
       },
       "questionnaire": {
         "name": "Tolo",
