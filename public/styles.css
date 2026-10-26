@@ -3326,4 +3326,247 @@ body {
   text-align: center;
 }
 
+/* 4-Segmented Control Grid & Responsive Fallback */
+.ios-segmented-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 580px) {
+  .ios-segmented-4 {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+}
+
+/* =========================================================================
+   INTERVAL & ROUND TIMER STYLES (High Visibility & Big Clock)
+   ========================================================================= */
+.interval-timer-card {
+  padding: 24px 20px;
+  background: linear-gradient(135deg, rgba(13, 17, 26, 0.95) 0%, rgba(5, 7, 12, 0.98) 100%);
+  border: 1px solid rgba(250, 232, 162, 0.28);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.interval-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+.interval-phase-badge-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.interval-phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interval-phase-badge.phase-work {
+  background: linear-gradient(135deg, rgba(223, 177, 91, 0.28), rgba(223, 177, 91, 0.1));
+  border: 1.5px solid var(--pm-gold-bright);
+  color: var(--pm-gold-bright);
+  box-shadow: 0 0 20px rgba(223, 177, 91, 0.35);
+}
+
+.interval-phase-badge.phase-rest {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0.08));
+  border: 1.5px solid #38bdf8;
+  color: #38bdf8;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+}
+
+.interval-phase-badge.phase-prep {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(245, 158, 11, 0.08));
+  border: 1.5px solid #f59e0b;
+  color: #f59e0b;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+}
+
+.interval-phase-badge.phase-done {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.28), rgba(16, 185, 129, 0.1));
+  border: 1.5px solid #10b981;
+  color: #10b981;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+}
+
+.interval-round-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+
+.interval-round-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--pm-muted);
+}
+
+.interval-round-numbers {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--pm-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.interval-giant-display-wrap {
+  margin-block: 8px;
+}
+
+.interval-giant-clock {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: clamp(60px, 14vw, 88px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--pm-gold-bright);
+  text-shadow: 0 0 24px rgba(223, 177, 91, 0.35);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.interval-giant-clock.color-rest {
+  color: #38bdf8;
+  text-shadow: 0 0 24px rgba(56, 189, 248, 0.35);
+}
+
+.interval-giant-clock.color-prep {
+  color: #f59e0b;
+  text-shadow: 0 0 24px rgba(245, 158, 11, 0.35);
+}
+
+.interval-giant-clock.color-done {
+  color: #10b981;
+  text-shadow: 0 0 24px rgba(16, 185, 129, 0.4);
+}
+
+.interval-status-hint {
+  font-size: 12px;
+  color: var(--pm-text-2);
+  margin-top: 6px;
+}
+
+.interval-progress-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.interval-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pm-gold), var(--pm-gold-bright));
+  transition: width 0.3s linear, background 0.3s ease;
+}
+
+.interval-progress-fill.phase-rest-fill {
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+}
+
+.interval-progress-fill.phase-prep-fill {
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+
+.interval-actions-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-interval-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, #dfb15b 0%, #fae8a2 100%);
+  color: #000;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(223, 177, 91, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-interval-main:active {
+  transform: scale(0.97);
+}
+
+.btn-interval-main.is-paused {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  box-shadow: 0 6px 24px rgba(245, 158, 11, 0.45);
+}
+
+.btn-interval-main.is-running {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(239, 68, 68, 0.45);
+}
+
+.interval-sub-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.interval-presets-bar {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.interval-current-summary {
+  font-size: 11.5px;
+  color: var(--pm-text-2);
+}
+
+.quick-preset-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.preset-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pm-text-2);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-chip:hover,
+.preset-chip.active {
+  background: rgba(223, 177, 91, 0.18);
+  border-color: rgba(250, 232, 162, 0.5);
+  color: var(--pm-gold-bright);
+}
+
 

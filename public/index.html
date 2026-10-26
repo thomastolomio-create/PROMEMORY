@@ -437,19 +437,23 @@
           <button type="button" class="chip-btn" data-rest-sec="120">120s</button>
           <button type="button" class="chip-btn" id="btn-plus-rest">+15s</button>
           <button type="button" class="chip-btn danger-text" id="btn-stop-rest">✕</button>
+          <button type="button" class="chip-btn highlight-gold" id="btn-quick-open-interval-timer" title="Apri Timer Intervalli per round e fiato">⏱️ Intervalli</button>
         </div>
       </div>
 
-      <!-- iOS Segmented Control -->
-      <div class="ios-segmented mt-12" role="tablist" aria-label="Vista Scheda, Programma o Storico Palestra">
+      <!-- iOS Segmented Control (4 Tabs: Scheda di Oggi | Programma | Timer Intervalli | Storico & PR) -->
+      <div class="ios-segmented ios-segmented-4 mt-12" role="tablist" aria-label="Vista Scheda, Programma, Timer o Storico Palestra">
         <button type="button" class="seg-btn active" data-seg-group="gym" data-seg-target="gym-active">
-          🏋️ Scheda di Oggi
+          🏋️ Scheda Oggi
         </button>
         <button type="button" class="seg-btn" data-seg-group="gym" data-seg-target="gym-weekly">
-          📅 Programma Settimanale
+          📅 Programma
+        </button>
+        <button type="button" class="seg-btn" data-seg-group="gym" data-seg-target="gym-interval">
+          ⏱️ Timer Intervalli
         </button>
         <button type="button" class="seg-btn" data-seg-group="gym" data-seg-target="gym-history">
-          🏆 Schede Pronte &amp; Storico
+          🏆 Storico &amp; PR
         </button>
       </div>
 
@@ -644,6 +648,73 @@
           <ul class="item-list" id="gym-history-list">
             <!-- Populated by app.js -->
           </ul>
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 3D: INTERVAL / ROUND TIMER (GENERIC FOR ROUNDS, WORK & REST) -->
+      <div class="seg-view" id="seg-gym-interval" hidden>
+        <div class="card interval-timer-card text-center" id="interval-timer-card">
+          <div class="interval-top-bar">
+            <div>
+              <p class="eyebrow-gold">ROUND &amp; INTERVAL TIMER</p>
+              <h3 class="card-title mt-2">Timer Intervalli</h3>
+            </div>
+            <button type="button" class="btn-secondary btn-xs" id="btn-open-interval-config">
+              ⚙️ Imposta Tempi
+            </button>
+          </div>
+
+          <!-- Phase Badge (LAVORO / RIPOSO / PREP / COMPLETATO) -->
+          <div class="interval-phase-badge-wrap mt-14">
+            <span class="interval-phase-badge phase-work" id="interval-phase-badge">🥊 LAVORO</span>
+          </div>
+
+          <!-- Round Indicator -->
+          <div class="interval-round-row mt-10">
+            <span class="interval-round-label">ROUND</span>
+            <strong class="interval-round-numbers">
+              <span id="interval-current-round">1</span> <span class="text-muted">/</span> <span id="interval-total-rounds">5</span>
+            </strong>
+          </div>
+
+          <!-- Giant Digital Clock Display -->
+          <div class="interval-giant-display-wrap mt-10">
+            <div class="interval-giant-clock" id="interval-clock-display">02:00</div>
+            <p class="interval-status-hint" id="interval-status-hint">Tocca AVVIA per iniziare il Round 1</p>
+          </div>
+
+          <!-- Visual Progress Track -->
+          <div class="interval-progress-track mt-14">
+            <div class="interval-progress-fill" id="interval-progress-fill" style="width: 100%;"></div>
+          </div>
+
+          <!-- Interactive Action Buttons -->
+          <div class="interval-actions-cluster mt-18">
+            <button type="button" class="btn-interval-main" id="btn-interval-toggle">
+              <span id="interval-toggle-icon">▶</span> <span id="interval-toggle-text">AVVIA</span>
+            </button>
+            <div class="interval-sub-actions mt-12">
+              <button type="button" class="btn-secondary btn-sm" id="btn-interval-skip" title="Passa subito alla fase successiva">
+                ⏭ Salta Fase
+              </button>
+              <button type="button" class="btn-ghost btn-sm" id="btn-interval-reset" title="Azzera il timer al primo round">
+                🔄 Azzera
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Settings Summary & Quick Presets -->
+          <div class="interval-presets-bar mt-20">
+            <div class="interval-current-summary" id="interval-current-summary">
+              ⏱ Lavoro: <strong id="summary-work-time">2:00</strong> · Riposo: <strong id="summary-rest-time">0:30</strong> · <strong id="summary-rounds-count">5 Round</strong> · 🔔 <span id="summary-sound-label">Campana Ring</span>
+            </div>
+            <div class="quick-preset-chips mt-10">
+              <button type="button" class="preset-chip active" data-preset-work="120" data-preset-rest="30" data-preset-rounds="5">2m / 30s (Default)</button>
+              <button type="button" class="preset-chip" data-preset-work="180" data-preset-rest="60" data-preset-rounds="5">3m / 1m (Pro)</button>
+              <button type="button" class="preset-chip" data-preset-work="60" data-preset-rest="30" data-preset-rounds="8">1m / 30s (Intenso)</button>
+              <button type="button" class="preset-chip" data-preset-work="20" data-preset-rest="10" data-preset-rounds="8">Tabata (20s/10s)</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -2048,6 +2119,94 @@
         <div class="dialog-actions-split mt-14">
           <button type="button" class="btn-danger-ghost" id="btn-delete-alarm-confirm">🗑️ Elimina</button>
           <button type="submit" class="btn-primary">Salva Sveglia</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ====================================================================
+       MODAL: PERSONALIZZA TIMER INTERVALLI (WORK / REST / ROUNDS / SUONI)
+       ==================================================================== -->
+  <dialog id="interval-config-dialog" closedby="any" aria-labelledby="interval-config-title" class="nexus-dialog">
+    <div class="dialog-content">
+      <div class="dialog-header-clean">
+        <div>
+          <p class="eyebrow-gold">IMPOSTAZIONI TIMER</p>
+          <h2 id="interval-config-title">Personalizza Intervalli</h2>
+        </div>
+        <form method="dialog">
+          <button type="submit" class="btn-ghost btn-sm" aria-label="Chiudi">✕</button>
+        </form>
+      </div>
+
+      <form id="interval-config-form" class="stacked-form mt-14">
+        <!-- Tempo Lavoro -->
+        <div class="field-group">
+          <label>Tempo di Lavoro per Round</label>
+          <div class="form-row-2">
+            <div>
+              <span class="sub-label">Minuti</span>
+              <input type="number" id="cfg-work-min" min="0" max="60" value="2" required>
+            </div>
+            <div>
+              <span class="sub-label">Secondi</span>
+              <input type="number" id="cfg-work-sec" min="0" max="59" step="5" value="0" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tempo Riposo -->
+        <div class="field-group">
+          <label>Tempo di Riposo tra i Round</label>
+          <div class="form-row-2">
+            <div>
+              <span class="sub-label">Minuti</span>
+              <input type="number" id="cfg-rest-min" min="0" max="30" value="0" required>
+            </div>
+            <div>
+              <span class="sub-label">Secondi</span>
+              <input type="number" id="cfg-rest-sec" min="0" max="59" step="5" value="30" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Numero Round & Prep -->
+        <div class="form-row-2">
+          <div class="field-group">
+            <label for="cfg-rounds-count">Numero di Round</label>
+            <input type="number" id="cfg-rounds-count" min="1" max="50" value="5" required>
+          </div>
+          <div class="field-group">
+            <label for="cfg-prep-sec">Countdown Iniziale</label>
+            <select id="cfg-prep-sec">
+              <option value="5" selected>5s (Consigliato 3-2-1)</option>
+              <option value="10">10 secondi</option>
+              <option value="3">3 secondi</option>
+              <option value="0">Zero (Immediato)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Suoneria / Segnale Acustico -->
+        <div class="field-group">
+          <label for="cfg-sound-select">Segnale Acustico / Suoneria</label>
+          <div style="display: flex; gap: 8px;">
+            <select id="cfg-sound-select" style="flex: 1;">
+              <option value="boxing_bell" selected>🔔 Campana Ring (DING-DING potente)</option>
+              <option value="powerful_gong">🥋 Gong Risonante (Profondo)</option>
+              <option value="digital_alarm">🚨 Allarme Acustico (Energico)</option>
+              <option value="whistle">🎺 Fischietto Arbitro (Squillante)</option>
+            </select>
+            <button type="button" class="btn-secondary btn-sm" id="btn-test-interval-sound" title="Ascolta subito il suono di prova">
+              🔊 Prova
+            </button>
+          </div>
+          <p class="field-hint">Segnale acustico ad alto volume per sentire chiaramente il cambio round senza guardare lo schermo.</p>
+        </div>
+
+        <div class="dialog-actions-split mt-14">
+          <button type="button" class="btn-ghost" id="btn-cancel-interval-cfg">Annulla</button>
+          <button type="submit" class="btn-primary">Salva Tempi</button>
         </div>
       </form>
     </div>

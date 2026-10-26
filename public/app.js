@@ -374,6 +374,13 @@
       { id: 'exp-1', title: 'Pranzo proteico', amount: 14.50, category: 'Cibo', date: todayStrInit },
       { id: 'exp-2', title: 'Integrazione Magnesio & Omega 3', amount: 24.00, category: 'Sport', date: todayStrInit }
     ],
+    intervalConfig: {
+      workSec: 120, // 2 minuti
+      restSec: 30,  // 30 secondi
+      rounds: 5,    // 5 round
+      prepSec: 5,   // 5s countdown iniziale
+      sound: 'boxing_bell' // campana ring boxe
+    },
     weeklyGymProgram: {
       splitName: '🥊 FIGHTER BOXING & STRENGTH (7 Giorni)',
       schedule: FIGHTER_BOXING_ROUTINE
@@ -998,6 +1005,141 @@
       osc.start(now + idx * 0.14);
       osc.stop(now + idx * 0.14 + 0.48);
     });
+  }
+
+  function playIntervalSound(type = 'work_start', soundChoice = 'boxing_bell') {
+    ensureAudioContext();
+    if (!audioCtx) return;
+
+    if (navigator.vibrate) {
+      if (type === 'work_start') navigator.vibrate([280, 100, 280]);
+      else if (type === 'rest_start') navigator.vibrate([400, 150, 400]);
+      else if (type === 'warning_beep') navigator.vibrate(80);
+      else if (type === 'workout_completed') navigator.vibrate([200, 100, 200, 100, 400]);
+    }
+
+    const now = audioCtx.currentTime;
+
+    // Warning 3-2-1 countdown beep (sharp short pip)
+    if (type === 'warning_beep') {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.35, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.15);
+      return;
+    }
+
+    // 1. AUTHENTIC BOXING RING BELL (Rich brass inharmonic partials + strike click)
+    if (soundChoice === 'boxing_bell') {
+      const bellCount = type === 'work_start' ? 3 : (type === 'rest_start' ? 2 : 4);
+      for (let b = 0; b < bellCount; b++) {
+        const bellTime = now + b * 0.28;
+        // Strike click
+        const clickOsc = audioCtx.createOscillator();
+        const clickGain = audioCtx.createGain();
+        clickOsc.type = 'triangle';
+        clickOsc.frequency.setValueAtTime(2400, bellTime);
+        clickGain.gain.setValueAtTime(0.35, bellTime);
+        clickGain.gain.exponentialRampToValueAtTime(0.001, bellTime + 0.03);
+        clickOsc.connect(clickGain);
+        clickGain.connect(audioCtx.destination);
+        clickOsc.start(bellTime);
+        clickOsc.stop(bellTime + 0.04);
+
+        // Ringing brass body
+        const partials = [784, 1240, 1780, 2410];
+        partials.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, bellTime);
+          const amp = 0.38 / (idx + 1);
+          gain.gain.setValueAtTime(0.001, bellTime);
+          gain.gain.linearRampToValueAtTime(amp, bellTime + 0.008);
+          gain.gain.exponentialRampToValueAtTime(0.0001, bellTime + 1.25);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(bellTime);
+          osc.stop(bellTime + 1.3);
+        });
+      }
+      return;
+    }
+
+    // 2. POWERFUL RESONANT GONG
+    if (soundChoice === 'powerful_gong') {
+      const gongPartials = [110, 220, 330, 440, 660, 880];
+      gongPartials.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+        const amp = 0.42 / (idx + 1);
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(amp, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 2.3);
+      });
+      return;
+    }
+
+    // 3. ENERGETIC DIGITAL ALARM
+    if (soundChoice === 'digital_alarm') {
+      const alarmPulses = type === 'work_start' ? [920, 1420, 920, 1420] : [1420, 920];
+      alarmPulses.forEach((freq, idx) => {
+        const pulseTime = now + idx * 0.16;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, pulseTime);
+        gain.gain.setValueAtTime(0.001, pulseTime);
+        gain.gain.linearRampToValueAtTime(0.24, pulseTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, pulseTime + 0.13);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(pulseTime);
+        osc.stop(pulseTime + 0.14);
+      });
+      return;
+    }
+
+    // 4. REFEREE SPORTS WHISTLE
+    if (soundChoice === 'whistle') {
+      const whistleDuration = type === 'work_start' ? 0.65 : 0.45;
+      [2600, 2800].forEach((freq) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+        const lfo = audioCtx.createOscillator();
+        const lfoGain = audioCtx.createGain();
+        lfo.frequency.setValueAtTime(18, now);
+        lfoGain.gain.setValueAtTime(80, now);
+        lfo.connect(osc.frequency);
+        lfo.start(now);
+        lfo.stop(now + whistleDuration);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.28, now + 0.04);
+        gain.gain.setValueAtTime(0.28, now + whistleDuration - 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + whistleDuration);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + whistleDuration + 0.05);
+      });
+    }
   }
 
   function toggleAmbientFocusSound() {
@@ -2645,6 +2787,7 @@
 
     renderWeeklyGymProgram();
     renderFighterPrsTable();
+    updateIntervalTimerUI();
   }
 
   function renderWeeklyGymProgram() {
@@ -3006,6 +3149,408 @@
     render52WeekReport(currentState);
     playAlarmChime('pulse');
     showActionToast('🏆 Sessione salvata nello storico!');
+  });
+
+  // ==========================================================================
+  // 2B. ROUND & INTERVAL TIMER (GENERIC FOR WORK & REST CYCLES)
+  // ==========================================================================
+  let intervalTimerState = {
+    running: false,
+    phase: 'idle', // 'idle', 'prep', 'work', 'rest', 'completed'
+    currentRound: 1,
+    secLeft: 120,
+    phaseTotalSec: 120,
+    timerId: null
+  };
+
+  function getIntervalConfig() {
+    if (!extraState.intervalConfig) {
+      extraState.intervalConfig = {
+        workSec: 120,
+        restSec: 30,
+        rounds: 5,
+        prepSec: 5,
+        sound: 'boxing_bell'
+      };
+    }
+    return extraState.intervalConfig;
+  }
+
+  function formatMMSS(totalSeconds) {
+    const s = Math.max(0, Math.floor(totalSeconds));
+    const m = Math.floor(s / 60);
+    const remS = s % 60;
+    return `${String(m).padStart(2, '0')}:${String(remS).padStart(2, '0')}`;
+  }
+
+  function getSoundNameLabel(soundKey) {
+    switch (soundKey) {
+      case 'powerful_gong': return 'Gong Risonante';
+      case 'digital_alarm': return 'Allarme Acustico';
+      case 'whistle': return 'Fischietto Arbitro';
+      case 'boxing_bell':
+      default:
+        return 'Campana Ring';
+    }
+  }
+
+  function updateIntervalTimerUI() {
+    const cfg = getIntervalConfig();
+    const clockEl = document.getElementById('interval-clock-display');
+    const badgeEl = document.getElementById('interval-phase-badge');
+    const curRoundEl = document.getElementById('interval-current-round');
+    const totRoundsEl = document.getElementById('interval-total-rounds');
+    const hintEl = document.getElementById('interval-status-hint');
+    const fillEl = document.getElementById('interval-progress-fill');
+    const toggleIcon = document.getElementById('interval-toggle-icon');
+    const toggleText = document.getElementById('interval-toggle-text');
+    const toggleBtn = document.getElementById('btn-interval-toggle');
+
+    if (!clockEl) return;
+
+    if (intervalTimerState.phase === 'idle') {
+      intervalTimerState.secLeft = cfg.workSec;
+      intervalTimerState.phaseTotalSec = cfg.workSec;
+    }
+
+    clockEl.textContent = formatMMSS(intervalTimerState.secLeft);
+    if (curRoundEl) curRoundEl.textContent = String(intervalTimerState.currentRound);
+    if (totRoundsEl) totRoundsEl.textContent = String(cfg.rounds);
+
+    // Dynamic phase badge
+    if (badgeEl) {
+      badgeEl.className = 'interval-phase-badge';
+      if (intervalTimerState.phase === 'prep') {
+        badgeEl.textContent = '⏳ PREPARATI';
+        badgeEl.classList.add('phase-prep');
+      } else if (intervalTimerState.phase === 'rest') {
+        badgeEl.textContent = '🛑 RECUPERO';
+        badgeEl.classList.add('phase-rest');
+      } else if (intervalTimerState.phase === 'completed') {
+        badgeEl.textContent = '🏆 COMPLETATO';
+        badgeEl.classList.add('phase-done');
+      } else {
+        badgeEl.textContent = '🥊 LAVORO';
+        badgeEl.classList.add('phase-work');
+      }
+    }
+
+    // Dynamic clock styling
+    clockEl.classList.remove('clock-prep', 'clock-rest', 'clock-work', 'clock-done');
+    if (intervalTimerState.phase === 'prep') clockEl.classList.add('clock-prep');
+    else if (intervalTimerState.phase === 'rest') clockEl.classList.add('clock-rest');
+    else if (intervalTimerState.phase === 'completed') clockEl.classList.add('clock-done');
+    else clockEl.classList.add('clock-work');
+
+    // Status Hint text
+    if (hintEl) {
+      if (intervalTimerState.phase === 'idle') {
+        hintEl.textContent = `Tocca AVVIA per iniziare il Round 1 di ${cfg.rounds}`;
+      } else if (intervalTimerState.phase === 'prep') {
+        hintEl.textContent = `Preparati! Il Round ${intervalTimerState.currentRound} inizia tra poco`;
+      } else if (intervalTimerState.phase === 'work') {
+        hintEl.textContent = `Round ${intervalTimerState.currentRound} di ${cfg.rounds} in corso! Mantieni il ritmo`;
+      } else if (intervalTimerState.phase === 'rest') {
+        hintEl.textContent = `Recupera il fiato! Prossimo Round: ${intervalTimerState.currentRound + 1} di ${cfg.rounds}`;
+      } else if (intervalTimerState.phase === 'completed') {
+        hintEl.textContent = `Ottimo lavoro! Tutti i ${cfg.rounds} round sono stati completati!`;
+      }
+    }
+
+    // Progress bar fill
+    if (fillEl) {
+      const tot = intervalTimerState.phaseTotalSec || 1;
+      const pct = Math.max(0, Math.min(100, Math.round((intervalTimerState.secLeft / tot) * 100)));
+      fillEl.style.width = `${pct}%`;
+      if (intervalTimerState.phase === 'rest') {
+        fillEl.style.background = 'linear-gradient(90deg, #f59e0b, #ef4444)';
+      } else if (intervalTimerState.phase === 'prep') {
+        fillEl.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+      } else if (intervalTimerState.phase === 'completed') {
+        fillEl.style.background = 'linear-gradient(90deg, #10b981, #3b82f6)';
+      } else {
+        fillEl.style.background = 'linear-gradient(90deg, #10b981, #06b6d4)';
+      }
+    }
+
+    // Main Toggle Button
+    if (toggleBtn && toggleIcon && toggleText) {
+      if (intervalTimerState.running) {
+        toggleBtn.classList.add('btn-interval-running');
+        toggleIcon.textContent = '⏸';
+        toggleText.textContent = 'PAUSA';
+      } else {
+        toggleBtn.classList.remove('btn-interval-running');
+        if (intervalTimerState.phase === 'completed') {
+          toggleIcon.textContent = '🔄';
+          toggleText.textContent = 'NUOVO CICLO';
+        } else if (intervalTimerState.phase !== 'idle') {
+          toggleIcon.textContent = '▶';
+          toggleText.textContent = 'RIPRENDI';
+        } else {
+          toggleIcon.textContent = '▶';
+          toggleText.textContent = 'AVVIA';
+        }
+      }
+    }
+
+    // Summary Labels in Presets Bar
+    const sumWork = document.getElementById('summary-work-time');
+    const sumRest = document.getElementById('summary-rest-time');
+    const sumRounds = document.getElementById('summary-rounds-count');
+    const sumSound = document.getElementById('summary-sound-label');
+    if (sumWork) sumWork.textContent = formatMMSS(cfg.workSec);
+    if (sumRest) sumRest.textContent = formatMMSS(cfg.restSec);
+    if (sumRounds) sumRounds.textContent = `${cfg.rounds} Round`;
+    if (sumSound) sumSound.textContent = getSoundNameLabel(cfg.sound);
+
+    // Preset chip active states
+    document.querySelectorAll('.preset-chip[data-preset-work]').forEach((chip) => {
+      const w = parseInt(chip.dataset.presetWork, 10);
+      const r = parseInt(chip.dataset.presetRest, 10);
+      const rnd = parseInt(chip.dataset.presetRounds, 10);
+      const isMatch = w === cfg.workSec && r === cfg.restSec && rnd === cfg.rounds;
+      chip.classList.toggle('active', isMatch);
+    });
+  }
+
+  function startIntervalTimer() {
+    const cfg = getIntervalConfig();
+    ensureAudioContext();
+
+    if (intervalTimerState.phase === 'completed') {
+      intervalTimerState.phase = 'idle';
+      intervalTimerState.currentRound = 1;
+    }
+
+    if (intervalTimerState.phase === 'idle') {
+      if (cfg.prepSec > 0) {
+        intervalTimerState.phase = 'prep';
+        intervalTimerState.secLeft = cfg.prepSec;
+        intervalTimerState.phaseTotalSec = cfg.prepSec;
+        playIntervalSound('warning_beep', cfg.sound);
+      } else {
+        intervalTimerState.phase = 'work';
+        intervalTimerState.secLeft = cfg.workSec;
+        intervalTimerState.phaseTotalSec = cfg.workSec;
+        playIntervalSound('work_start', cfg.sound);
+      }
+    }
+
+    intervalTimerState.running = true;
+    updateIntervalTimerUI();
+
+    if (intervalTimerState.timerId) clearInterval(intervalTimerState.timerId);
+
+    intervalTimerState.timerId = setInterval(() => {
+      intervalTimerState.secLeft--;
+
+      // 3-2-1 acoustic warning beeps
+      if (intervalTimerState.secLeft <= 3 && intervalTimerState.secLeft > 0) {
+        playIntervalSound('warning_beep', cfg.sound);
+      }
+
+      if (intervalTimerState.secLeft <= 0) {
+        handleIntervalPhaseTransition();
+      } else {
+        updateIntervalTimerUI();
+      }
+    }, 1000);
+  }
+
+  function handleIntervalPhaseTransition() {
+    const cfg = getIntervalConfig();
+
+    if (intervalTimerState.phase === 'prep') {
+      intervalTimerState.phase = 'work';
+      intervalTimerState.secLeft = cfg.workSec;
+      intervalTimerState.phaseTotalSec = cfg.workSec;
+      playIntervalSound('work_start', cfg.sound);
+      showActionToast(`🥊 Round ${intervalTimerState.currentRound} INIZIATO!`);
+    } else if (intervalTimerState.phase === 'work') {
+      if (intervalTimerState.currentRound >= cfg.rounds) {
+        intervalTimerState.phase = 'completed';
+        intervalTimerState.running = false;
+        intervalTimerState.secLeft = 0;
+        if (intervalTimerState.timerId) {
+          clearInterval(intervalTimerState.timerId);
+          intervalTimerState.timerId = null;
+        }
+        playIntervalSound('workout_completed', cfg.sound);
+        showActionToast(`🏆 Sessione completata! ${cfg.rounds} round conclusi!`);
+      } else {
+        intervalTimerState.phase = 'rest';
+        intervalTimerState.secLeft = cfg.restSec;
+        intervalTimerState.phaseTotalSec = cfg.restSec;
+        playIntervalSound('rest_start', cfg.sound);
+        showActionToast(`🛑 Round ${intervalTimerState.currentRound} concluso. Recupero!`);
+      }
+    } else if (intervalTimerState.phase === 'rest') {
+      intervalTimerState.currentRound++;
+      intervalTimerState.phase = 'work';
+      intervalTimerState.secLeft = cfg.workSec;
+      intervalTimerState.phaseTotalSec = cfg.workSec;
+      playIntervalSound('work_start', cfg.sound);
+      showActionToast(`🥊 Round ${intervalTimerState.currentRound} di ${cfg.rounds} INIZIATO!`);
+    }
+
+    updateIntervalTimerUI();
+  }
+
+  function pauseIntervalTimer() {
+    intervalTimerState.running = false;
+    if (intervalTimerState.timerId) {
+      clearInterval(intervalTimerState.timerId);
+      intervalTimerState.timerId = null;
+    }
+    updateIntervalTimerUI();
+  }
+
+  function toggleIntervalTimer() {
+    playUiTick(750);
+    if (intervalTimerState.running) {
+      pauseIntervalTimer();
+    } else {
+      startIntervalTimer();
+    }
+  }
+
+  function skipIntervalPhase() {
+    playUiTick(820);
+    ensureAudioContext();
+    if (intervalTimerState.phase === 'idle') {
+      startIntervalTimer();
+      return;
+    }
+    handleIntervalPhaseTransition();
+  }
+
+  function resetIntervalTimer() {
+    playUiTick(620);
+    const cfg = getIntervalConfig();
+    intervalTimerState.running = false;
+    if (intervalTimerState.timerId) {
+      clearInterval(intervalTimerState.timerId);
+      intervalTimerState.timerId = null;
+    }
+    intervalTimerState.phase = 'idle';
+    intervalTimerState.currentRound = 1;
+    intervalTimerState.secLeft = cfg.workSec;
+    intervalTimerState.phaseTotalSec = cfg.workSec;
+    updateIntervalTimerUI();
+    showActionToast('🔄 Timer intervalli azzerato');
+  }
+
+  function applyIntervalPreset(workSec, restSec, rounds) {
+    playUiTick(780);
+    const cfg = getIntervalConfig();
+    cfg.workSec = workSec;
+    cfg.restSec = restSec;
+    cfg.rounds = rounds;
+    saveExtraState();
+    resetIntervalTimer();
+    showActionToast(`⚡ Preset impostato: ${formatMMSS(workSec)} / ${formatMMSS(restSec)} (${rounds} round)`);
+  }
+
+  // Interval Timer Event Listeners
+  const btnQuickOpenInterval = document.getElementById('btn-quick-open-interval-timer');
+  if (btnQuickOpenInterval) {
+    btnQuickOpenInterval.addEventListener('click', () => {
+      playUiTick(720);
+      activateTab('gym');
+      activateSegment('gym', 'gym-interval');
+      document.getElementById('interval-timer-card')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  document.getElementById('btn-interval-toggle')?.addEventListener('click', toggleIntervalTimer);
+  document.getElementById('btn-interval-skip')?.addEventListener('click', skipIntervalPhase);
+  document.getElementById('btn-interval-reset')?.addEventListener('click', resetIntervalTimer);
+
+  const intervalConfigDialog = document.getElementById('interval-config-dialog');
+  const btnOpenIntervalCfg = document.getElementById('btn-open-interval-config');
+  const btnCancelIntervalCfg = document.getElementById('btn-cancel-interval-cfg');
+  const intervalCfgForm = document.getElementById('interval-config-form');
+  const btnTestIntervalSound = document.getElementById('btn-test-interval-sound');
+
+  if (btnOpenIntervalCfg && intervalConfigDialog) {
+    btnOpenIntervalCfg.addEventListener('click', () => {
+      playUiTick(650);
+      const cfg = getIntervalConfig();
+      const workMin = Math.floor(cfg.workSec / 60);
+      const workSec = cfg.workSec % 60;
+      const restMin = Math.floor(cfg.restSec / 60);
+      const restSec = cfg.restSec % 60;
+
+      const wMinInp = document.getElementById('cfg-work-min');
+      const wSecInp = document.getElementById('cfg-work-sec');
+      const rMinInp = document.getElementById('cfg-rest-min');
+      const rSecInp = document.getElementById('cfg-rest-sec');
+      const rndInp = document.getElementById('cfg-rounds-count');
+      const prepInp = document.getElementById('cfg-prep-sec');
+      const soundInp = document.getElementById('cfg-sound-select');
+
+      if (wMinInp) wMinInp.value = workMin;
+      if (wSecInp) wSecInp.value = workSec;
+      if (rMinInp) rMinInp.value = restMin;
+      if (rSecInp) rSecInp.value = restSec;
+      if (rndInp) rndInp.value = cfg.rounds;
+      if (prepInp) prepInp.value = String(cfg.prepSec);
+      if (soundInp) soundInp.value = cfg.sound;
+
+      intervalConfigDialog.showModal();
+    });
+  }
+
+  if (btnCancelIntervalCfg && intervalConfigDialog) {
+    btnCancelIntervalCfg.addEventListener('click', () => {
+      intervalConfigDialog.close();
+    });
+  }
+
+  if (btnTestIntervalSound) {
+    btnTestIntervalSound.addEventListener('click', () => {
+      const soundChoice = document.getElementById('cfg-sound-select')?.value || 'boxing_bell';
+      playIntervalSound('work_start', soundChoice);
+    });
+  }
+
+  if (intervalCfgForm && intervalConfigDialog) {
+    intervalCfgForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const wMin = parseInt(document.getElementById('cfg-work-min')?.value, 10) || 0;
+      const wSec = parseInt(document.getElementById('cfg-work-sec')?.value, 10) || 0;
+      const rMin = parseInt(document.getElementById('cfg-rest-min')?.value, 10) || 0;
+      const rSec = parseInt(document.getElementById('cfg-rest-sec')?.value, 10) || 0;
+      const rounds = parseInt(document.getElementById('cfg-rounds-count')?.value, 10) || 5;
+      const prep = parseInt(document.getElementById('cfg-prep-sec')?.value, 10) || 0;
+      const sound = document.getElementById('cfg-sound-select')?.value || 'boxing_bell';
+
+      const totalWork = Math.max(5, (wMin * 60) + wSec);
+      const totalRest = Math.max(0, (rMin * 60) + rSec);
+
+      const cfg = getIntervalConfig();
+      cfg.workSec = totalWork;
+      cfg.restSec = totalRest;
+      cfg.rounds = Math.max(1, rounds);
+      cfg.prepSec = prep;
+      cfg.sound = sound;
+
+      saveExtraState();
+      resetIntervalTimer();
+      intervalConfigDialog.close();
+      playIntervalSound('work_start', sound);
+      showActionToast(`⚙️ Timer configurato: ${formatMMSS(totalWork)} lavoro · ${formatMMSS(totalRest)} riposo · ${rounds} round`);
+    });
+  }
+
+  document.querySelectorAll('.preset-chip[data-preset-work]').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const w = parseInt(chip.dataset.presetWork, 10) || 120;
+      const r = parseInt(chip.dataset.presetRest, 10) || 30;
+      const rnd = parseInt(chip.dataset.presetRounds, 10) || 5;
+      applyIntervalPreset(w, r, rnd);
+    });
   });
 
   // ==========================================================================
