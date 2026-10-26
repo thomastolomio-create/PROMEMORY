@@ -3153,6 +3153,8 @@
 
   // ==========================================================================
   // 2B. ROUND & INTERVAL TIMER (GENERIC FOR WORK & REST CYCLES)
+  // Resistant to screen-off / background lock on mobile via WakeLock,
+  // Timestamp Delta Tracking, Silent Audio Keep-Alive & MediaSession.
   // ==========================================================================
   let intervalTimerState = {
     running: false,
@@ -3160,8 +3162,115 @@
     currentRound: 1,
     secLeft: 120,
     phaseTotalSec: 120,
+    phaseEndTimestamp: null,
+    lastWarningSec: null,
     timerId: null
   };
+
+  let intervalWakeLock = null;
+  let intervalKeepAliveAudio = null;
+
+  async function acquireIntervalWakeLock() {
+    if ('wakeLock' in navigator && document.visibilityState === 'visible') {
+      try {
+        intervalWakeLock = await navigator.wakeLock.request('screen');
+        updateWakeLockUI(true);
+        intervalWakeLock.addEventListener('release', () => {
+          intervalWakeLock = null;
+          updateWakeLockUI(false);
+        });
+      } catch (err) {
+        updateWakeLockUI(false);
+      }
+    }
+  }
+
+  function releaseIntervalWakeLock() {
+    if (intervalWakeLock) {
+      intervalWakeLock.release().catch(() => {});
+      intervalWakeLock = null;
+      updateWakeLockUI(false);
+    }
+  }
+
+  function updateWakeLockUI(active) {
+    const pill = document.getElementById('interval-wakelock-pill');
+    if (pill) {
+      if (active) {
+        pill.classList.add('active');
+        pill.textContent = '💡 Schermo Sempre Acceso';
+      } else {
+        pill.classList.remove('active');
+        pill.textContent = '💤 Schermo Standard';
+      }
+    }
+  }
+
+  function startIntervalAudioKeepAlive() {
+    try {
+      ensureAudioContext();
+      if (!intervalKeepAliveAudio) {
+        intervalKeepAliveAudio = new Audio();
+        // 1-second silent WAV base64
+        intervalKeepAliveAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+        intervalKeepAliveAudio.loop = true;
+        intervalKeepAliveAudio.setAttribute('playsinline', '');
+        intervalKeepAliveAudio.setAttribute('preload', 'auto');
+      }
+      intervalKeepAliveAudio.play().catch(() => {});
+    } catch (e) {}
+  }
+
+  function stopIntervalAudioKeepAlive() {
+    if (intervalKeepAliveAudio) {
+      try {
+        intervalKeepAliveAudio.pause();
+      } catch (e) {}
+    }
+  }
+
+  function updateIntervalMediaSession(phaseLabel, secLeft, currentRound, totalRounds) {
+    if (!('mediaSession' in navigator)) return;
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: `🥊 Round ${currentRound}/${totalRounds} - ${phaseLabel}`,
+        artist: `Tempo: ${formatMMSS(secLeft)} rimanenti`,
+        album: 'Timer Intervalli · PROMEMORY',
+        artwork: [
+          { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icon-512.png', sizes: '512x512', type: 'image/png' }
+        ]
+      });
+
+      navigator.mediaSession.playbackState = intervalTimerState.running ? 'playing' : 'paused';
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        startIntervalTimer();
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        pauseIntervalTimer();
+      });
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        skipIntervalPhase();
+      });
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        resetIntervalTimer();
+      });
+    } catch (e) {}
+  }
+
+  function dispatchIntervalNotification(title, body) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try {
+        new Notification(title, {
+          body,
+          icon: '/icon-192.png',
+          tag: 'promemory-interval-timer',
+          renotify: true
+        });
+      } catch (e) {}
+    }
+  }
 
   function getIntervalConfig() {
     if (!extraState.intervalConfig) {
@@ -3218,18 +3327,23 @@
     if (totRoundsEl) totRoundsEl.textContent = String(cfg.rounds);
 
     // Dynamic phase badge
+    let phaseLabel = 'LAVORO';
     if (badgeEl) {
       badgeEl.className = 'interval-phase-badge';
       if (intervalTimerState.phase === 'prep') {
+        phaseLabel = 'PREPARATI';
         badgeEl.textContent = '⏳ PREPARATI';
         badgeEl.classList.add('phase-prep');
       } else if (intervalTimerState.phase === 'rest') {
+        phaseLabel = 'RECUPERO';
         badgeEl.textContent = '🛑 RECUPERO';
         badgeEl.classList.add('phase-rest');
       } else if (intervalTimerState.phase === 'completed') {
+        phaseLabel = 'COMPLETATO';
         badgeEl.textContent = '🏆 COMPLETATO';
         badgeEl.classList.add('phase-done');
       } else {
+        phaseLabel = 'LAVORO';
         badgeEl.textContent = '🥊 LAVORO';
         badgeEl.classList.add('phase-work');
       }
@@ -3249,7 +3363,7 @@
       } else if (intervalTimerState.phase === 'prep') {
         hintEl.textContent = `Preparati! Il Round ${intervalTimerState.currentRound} inizia tra poco`;
       } else if (intervalTimerState.phase === 'work') {
-        hintEl.textContent = `Round ${intervalTimerState.currentRound} di ${cfg.rounds} in corso! Mantieni il ritmo`;
+        hintEl.textContent = `Round ${intervalTimerState.currentRound} di ${cfg.rounds} in corso! Schermo attivo e audio sbloccato`;
       } else if (intervalTimerState.phase === 'rest') {
         hintEl.textContent = `Recupera il fiato! Prossimo Round: ${intervalTimerState.currentRound + 1} di ${cfg.rounds}`;
       } else if (intervalTimerState.phase === 'completed') {
@@ -3312,11 +3426,21 @@
       const isMatch = w === cfg.workSec && r === cfg.restSec && rnd === cfg.rounds;
       chip.classList.toggle('active', isMatch);
     });
+
+    updateIntervalMediaSession(phaseLabel, intervalTimerState.secLeft, intervalTimerState.currentRound, cfg.rounds);
   }
 
   function startIntervalTimer() {
     const cfg = getIntervalConfig();
     ensureAudioContext();
+
+    // Ask notification permission if not yet requested
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission().catch(() => {});
+    }
+
+    acquireIntervalWakeLock();
+    startIntervalAudioKeepAlive();
 
     if (intervalTimerState.phase === 'completed') {
       intervalTimerState.phase = 'idle';
@@ -3328,13 +3452,21 @@
         intervalTimerState.phase = 'prep';
         intervalTimerState.secLeft = cfg.prepSec;
         intervalTimerState.phaseTotalSec = cfg.prepSec;
+        intervalTimerState.phaseEndTimestamp = Date.now() + (cfg.prepSec * 1000);
+        intervalTimerState.lastWarningSec = null;
         playIntervalSound('warning_beep', cfg.sound);
       } else {
         intervalTimerState.phase = 'work';
         intervalTimerState.secLeft = cfg.workSec;
         intervalTimerState.phaseTotalSec = cfg.workSec;
+        intervalTimerState.phaseEndTimestamp = Date.now() + (cfg.workSec * 1000);
+        intervalTimerState.lastWarningSec = null;
         playIntervalSound('work_start', cfg.sound);
       }
+    } else {
+      // Resuming from pause
+      intervalTimerState.phaseEndTimestamp = Date.now() + (intervalTimerState.secLeft * 1000);
+      intervalTimerState.lastWarningSec = null;
     }
 
     intervalTimerState.running = true;
@@ -3342,20 +3474,27 @@
 
     if (intervalTimerState.timerId) clearInterval(intervalTimerState.timerId);
 
+    // High frequency interval (300ms) with Date.now() delta tracking to eliminate timer drift & sleep pausing
     intervalTimerState.timerId = setInterval(() => {
-      intervalTimerState.secLeft--;
+      if (!intervalTimerState.running || !intervalTimerState.phaseEndTimestamp) return;
 
-      // 3-2-1 acoustic warning beeps
-      if (intervalTimerState.secLeft <= 3 && intervalTimerState.secLeft > 0) {
+      const now = Date.now();
+      const msRemaining = intervalTimerState.phaseEndTimestamp - now;
+      const secRemaining = Math.max(0, Math.ceil(msRemaining / 1000));
+
+      // 3-2-1 acoustic warning beeps (fires exactly once per second)
+      if (secRemaining <= 3 && secRemaining > 0 && intervalTimerState.lastWarningSec !== secRemaining) {
+        intervalTimerState.lastWarningSec = secRemaining;
         playIntervalSound('warning_beep', cfg.sound);
       }
 
-      if (intervalTimerState.secLeft <= 0) {
+      if (msRemaining <= 0) {
         handleIntervalPhaseTransition();
-      } else {
+      } else if (intervalTimerState.secLeft !== secRemaining) {
+        intervalTimerState.secLeft = secRemaining;
         updateIntervalTimerUI();
       }
-    }, 1000);
+    }, 300);
   }
 
   function handleIntervalPhaseTransition() {
@@ -3365,24 +3504,34 @@
       intervalTimerState.phase = 'work';
       intervalTimerState.secLeft = cfg.workSec;
       intervalTimerState.phaseTotalSec = cfg.workSec;
+      intervalTimerState.phaseEndTimestamp = Date.now() + (cfg.workSec * 1000);
+      intervalTimerState.lastWarningSec = null;
       playIntervalSound('work_start', cfg.sound);
+      dispatchIntervalNotification('🥊 Round Iniziato', `Round ${intervalTimerState.currentRound} di ${cfg.rounds} in corso!`);
       showActionToast(`🥊 Round ${intervalTimerState.currentRound} INIZIATO!`);
     } else if (intervalTimerState.phase === 'work') {
       if (intervalTimerState.currentRound >= cfg.rounds) {
         intervalTimerState.phase = 'completed';
         intervalTimerState.running = false;
         intervalTimerState.secLeft = 0;
+        intervalTimerState.phaseEndTimestamp = null;
         if (intervalTimerState.timerId) {
           clearInterval(intervalTimerState.timerId);
           intervalTimerState.timerId = null;
         }
+        releaseIntervalWakeLock();
+        stopIntervalAudioKeepAlive();
         playIntervalSound('workout_completed', cfg.sound);
+        dispatchIntervalNotification('🏆 Allenamento Concluso', `Tutti i ${cfg.rounds} round sono stati completati!`);
         showActionToast(`🏆 Sessione completata! ${cfg.rounds} round conclusi!`);
       } else {
         intervalTimerState.phase = 'rest';
         intervalTimerState.secLeft = cfg.restSec;
         intervalTimerState.phaseTotalSec = cfg.restSec;
+        intervalTimerState.phaseEndTimestamp = Date.now() + (cfg.restSec * 1000);
+        intervalTimerState.lastWarningSec = null;
         playIntervalSound('rest_start', cfg.sound);
+        dispatchIntervalNotification('🛑 Recupero', `Round ${intervalTimerState.currentRound} terminato. Riposa ${cfg.restSec}s.`);
         showActionToast(`🛑 Round ${intervalTimerState.currentRound} concluso. Recupero!`);
       }
     } else if (intervalTimerState.phase === 'rest') {
@@ -3390,12 +3539,73 @@
       intervalTimerState.phase = 'work';
       intervalTimerState.secLeft = cfg.workSec;
       intervalTimerState.phaseTotalSec = cfg.workSec;
+      intervalTimerState.phaseEndTimestamp = Date.now() + (cfg.workSec * 1000);
+      intervalTimerState.lastWarningSec = null;
       playIntervalSound('work_start', cfg.sound);
+      dispatchIntervalNotification('🥊 Round Iniziato', `Round ${intervalTimerState.currentRound} di ${cfg.rounds} INIZIATO!`);
       showActionToast(`🥊 Round ${intervalTimerState.currentRound} di ${cfg.rounds} INIZIATO!`);
     }
 
     updateIntervalTimerUI();
   }
+
+  // Fast catch-up engine when phone wakes up from lock / background tab
+  function catchUpIntervalTimer() {
+    if (!intervalTimerState.running || !intervalTimerState.phaseEndTimestamp) return;
+    const cfg = getIntervalConfig();
+    const now = Date.now();
+
+    while (now >= intervalTimerState.phaseEndTimestamp && intervalTimerState.running && intervalTimerState.phase !== 'completed') {
+      if (intervalTimerState.phase === 'prep') {
+        intervalTimerState.phase = 'work';
+        intervalTimerState.phaseTotalSec = cfg.workSec;
+        intervalTimerState.phaseEndTimestamp += cfg.workSec * 1000;
+        playIntervalSound('work_start', cfg.sound);
+      } else if (intervalTimerState.phase === 'work') {
+        if (intervalTimerState.currentRound >= cfg.rounds) {
+          intervalTimerState.phase = 'completed';
+          intervalTimerState.running = false;
+          intervalTimerState.secLeft = 0;
+          intervalTimerState.phaseEndTimestamp = null;
+          if (intervalTimerState.timerId) {
+            clearInterval(intervalTimerState.timerId);
+            intervalTimerState.timerId = null;
+          }
+          releaseIntervalWakeLock();
+          stopIntervalAudioKeepAlive();
+          playIntervalSound('workout_completed', cfg.sound);
+          updateIntervalTimerUI();
+          return;
+        } else {
+          intervalTimerState.phase = 'rest';
+          intervalTimerState.phaseTotalSec = cfg.restSec;
+          intervalTimerState.phaseEndTimestamp += cfg.restSec * 1000;
+          playIntervalSound('rest_start', cfg.sound);
+        }
+      } else if (intervalTimerState.phase === 'rest') {
+        intervalTimerState.currentRound++;
+        intervalTimerState.phase = 'work';
+        intervalTimerState.phaseTotalSec = cfg.workSec;
+        intervalTimerState.phaseEndTimestamp += cfg.workSec * 1000;
+        playIntervalSound('work_start', cfg.sound);
+      }
+    }
+
+    if (intervalTimerState.running && intervalTimerState.phaseEndTimestamp) {
+      intervalTimerState.secLeft = Math.max(0, Math.ceil((intervalTimerState.phaseEndTimestamp - Date.now()) / 1000));
+      updateIntervalTimerUI();
+    }
+  }
+
+  // Auto-reactivate WakeLock and catch up time on tab focus or screen unlock
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      if (intervalTimerState.running) {
+        acquireIntervalWakeLock();
+        catchUpIntervalTimer();
+      }
+    }
+  });
 
   function pauseIntervalTimer() {
     intervalTimerState.running = false;
@@ -3403,6 +3613,9 @@
       clearInterval(intervalTimerState.timerId);
       intervalTimerState.timerId = null;
     }
+    intervalTimerState.phaseEndTimestamp = null;
+    releaseIntervalWakeLock();
+    stopIntervalAudioKeepAlive();
     updateIntervalTimerUI();
   }
 
@@ -3437,6 +3650,10 @@
     intervalTimerState.currentRound = 1;
     intervalTimerState.secLeft = cfg.workSec;
     intervalTimerState.phaseTotalSec = cfg.workSec;
+    intervalTimerState.phaseEndTimestamp = null;
+    intervalTimerState.lastWarningSec = null;
+    releaseIntervalWakeLock();
+    stopIntervalAudioKeepAlive();
     updateIntervalTimerUI();
     showActionToast('🔄 Timer intervalli azzerato');
   }
